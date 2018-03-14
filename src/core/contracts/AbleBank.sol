@@ -19,8 +19,7 @@ contract Token {
 }
 
 
-contract AbleBank is Ownable, Authorizable
-{
+contract AbleBank is Ownable, Authorizable {
     using SafeMath for uint;
     
     // ABLE user
@@ -36,8 +35,7 @@ contract AbleBank is Ownable, Authorizable
     address[] private ableUserList;
 
     // ABLE free account
-    struct ableAccount
-    {
+    struct ableAccount {
         uint ableAccountListPointer; // needed to delete a "ableAccount"
         address ableUserKey; // ableAccount has exactly one "ableUser"    
 
@@ -62,8 +60,7 @@ contract AbleBank is Ownable, Authorizable
     /**
     * @dev Function to contruct AbleBank
     */
-    function AbleBank() public
-    {
+    function AbleBank() public {
         totalBankAccounts = 0; 
     }
 
@@ -88,8 +85,7 @@ contract AbleBank is Ownable, Authorizable
     * @dev Function to get the number of AbleUser
     * @return uint ableUserCount.
     */
-    function getAbleUserCount() onlyOwner onlyAuthorized public view returns(uint ableUserCount) 
-    {
+    function getAbleUserCount() onlyOwner onlyAuthorized public view returns(uint ableUserCount) {
         return ableUserList.length;
     }
     
@@ -97,8 +93,7 @@ contract AbleBank is Ownable, Authorizable
     * @dev Function to get the number of AbleAccount
     * @return uint ableAccountCount.
     */
-    function getAbleAccountCount() onlyOwner onlyAuthorized public view returns(uint ableAccountCount)
-    {
+    function getAbleAccountCount() onlyOwner onlyAuthorized public view returns(uint ableAccountCount) {
         return ableAccountList.length;
     }
     
@@ -107,8 +102,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _userAddress the address to check if it exist.
     * @return boolean flag if _userAddress exist.
     */
-    function isAbleUser(address _userAddress) onlyOwner onlyAuthorized public view returns(bool isIndeed) 
-    {
+    function isAbleUser(address _userAddress) onlyOwner onlyAuthorized public view returns(bool isIndeed) {
         if(ableUserList.length==0) return false;
         return ableUserList[ableUsers[_userAddress].ableUserListPointer]==_userAddress;
     }
@@ -118,8 +112,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _accountNumber the bytes32 to check if it exist.
     * @return boolean flag if _accountNumber exist.
     */
-    function isAbleAccount(bytes32 _accountNumber) onlyOwner onlyAuthorized public view returns(bool isIndeed) 
-    {
+    function isAbleAccount(bytes32 _accountNumber) onlyOwner onlyAuthorized public view returns(bool isIndeed) {
         if(ableAccountList.length==0) return false;
         return ableAccountList[ableAccounts[_accountNumber].ableAccountListPointer]==_accountNumber;
     }
@@ -129,8 +122,7 @@ contract AbleBank is Ownable, Authorizable
     * @param row the row to get _userAddress.
     * @return address the _userAddress.
     */
-    function getAbleUserAtIndex(uint row) onlyOwner onlyAuthorized public view returns(address _userAddress) 
-    {
+    function getAbleUserAtIndex(uint row) onlyOwner onlyAuthorized public view returns(address _userAddress) {
         if(ableUserList.length==0) throw;
         return ableUserList[row];
     }
@@ -140,8 +132,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _userAddress the address to find the number of ableAccount which depend on _userAddress.
     * @return uint the number of ableAccount which depend on _userAddress.
     */
-    function getAbleUserAbleAccountCount(address _userAddress) onlyOwner onlyAuthorized public view returns(uint ableAccountCount) 
-    {
+    function getAbleUserAbleAccountCount(address _userAddress) onlyOwner onlyAuthorized public view returns(uint ableAccountCount) {
         if(!isAbleUser(_userAddress)) throw;
         return ableUsers[_userAddress].ableAccountKeys.length;
     }
@@ -152,8 +143,7 @@ contract AbleBank is Ownable, Authorizable
     * @param row the row to get _accountNumber.
     * @return bytes32 the _accountNumber.
     */
-    function getAbleUserAbleAccountAtIndex(address _userAddress, uint row) onlyOwner onlyAuthorized public view returns(bytes32 _accountNumber) 
-    {
+    function getAbleUserAbleAccountAtIndex(address _userAddress, uint row) onlyOwner onlyAuthorized public view returns(bytes32 _accountNumber) {
         if(!isAbleUser(_userAddress)) throw;
         return ableUsers[_userAddress].ableAccountKeys[row];
     }
@@ -163,8 +153,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _accountNumber the bytes32 to get ableAccount properties.
     * @return address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_.
     */
-    function getAbleAccount(bytes32 _accountNumber) onlyOwner onlyAuthorized public view returns(address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_) 
-    {
+    function getAbleAccount(bytes32 _accountNumber) onlyOwner onlyAuthorized public view returns(address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_) {
         if(!isAbleAccount(_accountNumber)) throw;
         
         address owner = ableAccounts[_accountNumber].ableUserKey;
@@ -181,8 +170,7 @@ contract AbleBank is Ownable, Authorizable
     * @param row the row to get _accountNumber.
     * @return bytes32 _accountNumber_, address _tokenName_, uint _balance_.
     */
-    function getAbleAccountTokenBalance(bytes32 _accountNumber, uint row) onlyOwner onlyAuthorized public view returns(bytes32 _accountNumber_, address _tokenName_, uint _balance_) 
-    {
+    function getAbleAccountTokenBalance(bytes32 _accountNumber, uint row) onlyOwner onlyAuthorized public view returns(bytes32 _accountNumber_, address _tokenName_, uint _balance_) {
         if(!isAbleAccount(_accountNumber)) throw;
         
         address _token = ableAccounts[_accountNumber].tokenList[row];
@@ -199,8 +187,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _userName the bytes32 to insert userName.
     * @return boolean flag if register success.
     */
-    function registerAbleUser(bytes32 _userName) public returns (bool isIndeed) 
-    {
+    function registerAbleUser(bytes32 _userName) public returns (bool isIndeed) {
         if(isAbleUser(msg.sender)) throw; // duplicate user prohibited
         ableUsers[msg.sender].ableUserListPointer = ableUserList.push(msg.sender)-1;
         ableUsers[msg.sender].userName = _userName;
@@ -215,8 +202,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _password the bytes32 to set password.
     * @return boolean flag if open success.
     */
-    function openAbleAccount(bytes32 _accountNumber, bytes32 _password) public returns (bool isIndeed) 
-    {
+    function openAbleAccount(bytes32 _accountNumber, bytes32 _password) public returns (bool isIndeed) {
         if(!isAbleUser(msg.sender)) throw; // require ableUser
         if(isAbleAccount(_accountNumber)) throw; // duplicate account prohibited
         
@@ -241,8 +227,7 @@ contract AbleBank is Ownable, Authorizable
     * @param _accountNumber the bytes32 to get balance.
     * @return address _token_, uint _balance_.
     */
-    function balanceOf(address _token, bytes32 _accountNumber) public view returns(address _token_, uint _balance_) 
-    {
+    function balanceOf(address _token, bytes32 _accountNumber) public view returns(address _token_, uint _balance_) {
         if(!isAbleUser(msg.sender)) throw;
         if(!isAbleAccount(_accountNumber)) throw;
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) throw;
@@ -367,13 +352,15 @@ contract AbleBank is Ownable, Authorizable
 
     /* -------- Matching functions -------- */
 
+
+
+    /* -------- DEX functions -------- */
     
 
 
     /* -------- Default function -------- */
 
-    function() 
-    {    
+    function() {    
         
     }
 } 
