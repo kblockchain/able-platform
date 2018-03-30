@@ -129,6 +129,20 @@ contract AbleBank is Ownable, Authorizable {
   event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
   event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
   event AbleDexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
+
+  // Matching
+
+
+  // DEX
+  // Creation of Buy / Sell Limit Orders
+  event LimitBuyOrderCreated(string _tokenName, bytes32 _accountNumber, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  event LimitSellOrderCreated(string _tokenName, bytes32 _accountNumber, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  // Fulfillment of Buy / Sell Order
+  event BuyOrderFulfilled(string _tokenName, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  event SellOrderFulfilled(string _tokenName, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  // Cancellation of Buy / Sell Order
+  event BuyOrderCanceled(string _tokenName, uint _priceInWei, uint _orderKey);
+  event SellOrderCanceled(string _tokenName, uint _priceInWei, uint _orderKey);
   
 
   /* -------- Modifiers -------- */
@@ -643,7 +657,7 @@ contract AbleBank is Ownable, Authorizable {
     addBuyOffer(_token, _priceInWei, _amountOfTokensNecessary, _accountNumber);
  
     // Emit Event.
-    LimitBuyOrderCreated(_token, _accountNumber, amountOfTokensNecessary, _priceInWei, dexTokens[_token].buyBook[_priceInWei].offers_length);
+    LimitBuyOrderCreated(Token(_token).name, _accountNumber, amountOfTokensNecessary, _priceInWei, dexTokens[_token].buyBook[_priceInWei].offers_length);
   }
 
   ///////////////////////////
@@ -1013,4 +1027,4 @@ contract AbleBank is Ownable, Authorizable {
       
   }
 
-} 
+}
