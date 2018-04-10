@@ -62,9 +62,41 @@ contract AbleBank is Ownable, Authorizable {
   uint private totalBankAccounts;
   
   // Matching
-  mapping (bytes32 => mapping (bytes32 => bool)) public matchOders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
-  mapping (bytes32 => mapping (bytes32 => uint)) public matchOrderFills; //mapping of user accounts to mapping of order hashes to uints (amount of order that has been filled)
+  struct matOffer {
+    uint amountTokens;
+    bytes32 accountNumber;
+  }
 
+  struct matOrderBook {
+    uint higherPrice;
+    uint lowerPrice;
+    
+    // All Keys are Initialised by Default in Solidity
+    mapping (uint => dexOffer) offers;
+    
+    // Store in `offers_key` where we are in the Linked List
+    uint offers_key;
+
+    // Store amount of offers that we have
+    uint offers_length;
+  }
+
+  struct matToken {
+    // Note: Solidity Mappings have initialised state by default
+    // (i.e. offers_length is initially 0)
+    mapping (uint => dexOrderBook) buyBook;
+
+    uint curBuyPrice;
+    uint lowestBuyPrice;
+    uint buy_length;
+
+    mapping (uint => dexOrderBook) sellBook;
+
+    uint curSellPrice;
+    uint highestSellPrice;
+    uint sell_length;
+  }
+  
   // DEX
   struct dexOffer {
     uint amountTokens;
@@ -131,7 +163,15 @@ contract AbleBank is Ownable, Authorizable {
   event AbleDexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
   // Matching
-
+  // Creation of Loan / Borrow Orders
+  event LoanOrderCreated(string _tokenName, bytes32 _accountNumber, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  event BorrowOrderCreated(string _tokenName, bytes32 _accountNumber, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  // Fulfillment of Loan / Borrow Order
+  event LoanOrderFulfilled(string _tokenName, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  event BorrowOrderFulfilled(string _tokenName, uint _amountTokens, uint _priceInWei, uint _orderKey);
+  // Cancellation of Loan / Borrow Order
+  event LoanOrderCanceled(string _tokenName, uint _priceInWei, uint _orderKey);
+  event BorrowOrderCanceled(string _tokenName, uint _priceInWei, uint _orderKey);
 
   // DEX
   // Creation of Buy / Sell Limit Orders
