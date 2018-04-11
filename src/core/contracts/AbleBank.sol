@@ -30,6 +30,10 @@ contract Token {
 contract AbleBank is Ownable, Authorizable {
   using SafeMath for uint;
 
+  // ABLE token and ABLE dollar token address
+  address ableAddress = 0x00;
+  address ableDollarAddress = 0x00;
+
   // ABLE user
   struct ableUser {
     uint ableUserListPointer; // needed to delete a "ableUser"
@@ -63,6 +67,7 @@ contract AbleBank is Ownable, Authorizable {
   
   // Matching
   struct matOffer {
+    uint amountAbleDollar;
     uint amountTokens;
     bytes32 accountNumber;
   }
@@ -84,18 +89,21 @@ contract AbleBank is Ownable, Authorizable {
   struct matToken {
     // Note: Solidity Mappings have initialised state by default
     // (i.e. offers_length is initially 0)
-    mapping (uint => dexOrderBook) buyBook;
+    mapping (uint => dexOrderBook) LoanBook;
 
-    uint curBuyPrice;
-    uint lowestBuyPrice;
-    uint buy_length;
+    uint curLoanPrice;
+    uint lowestLoanPrice;
+    uint loan_length;
 
-    mapping (uint => dexOrderBook) sellBook;
+    mapping (uint => dexOrderBook) borrowBook;
 
-    uint curSellPrice;
-    uint highestSellPrice;
-    uint sell_length;
+    uint curBorrowPrice;
+    uint highestBorrwoPrice;
+    uint borrow_length;
   }
+
+  // Matching token list
+  mapping (address => Token) matTokens;
   
   // DEX
   struct dexOffer {
@@ -323,6 +331,12 @@ contract AbleBank is Ownable, Authorizable {
     //Ethereum is default 0
     ableAccounts[_accountNumber].token[address(0)] = 0;
     ableAccounts[_accountNumber].tokenList.push(address(0));
+    //ABLE is default 1
+    ableAccounts[_accountNumber].token[ableAddress] = 0;
+    ableAccounts[_accountNumber].tokenList.push(ableAddress);
+    //ABLE dollar is default 2
+    ableAccounts[_accountNumber].token[ableDollarAddress] = 0;
+    ableAccounts[_accountNumber].tokenList.push(ableDollarAddress);
 
     // We also maintain a list of "ableAccount" that refer to the "ableUser", so ... 
     ableUsers[msg.sender].ableAccountKeyPointers[_accountNumber] = ableUsers[msg.sender].ableAccountKeys.push(_accountNumber)-1;
