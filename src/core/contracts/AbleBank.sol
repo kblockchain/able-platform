@@ -46,6 +46,12 @@ contract AbleBank is Ownable, Authorizable {
   mapping(address => ableUser) private ableUsers;
   address[] private ableUserList;
 
+  // DEX offer structure
+  struct dexOrder {
+    mapping(uint => uint) amountOrder;
+    uint[] amountOrderList;
+  }
+
   // ABLE free account
   struct ableAccount {
     uint ableAccountListPointer; // needed to delete a "ableAccount"
@@ -59,6 +65,12 @@ contract AbleBank is Ownable, Authorizable {
     address[] tokenList;
 
     //TODO get matching and dex list.
+    
+    //DEX
+    mapping(address => dexOrder) dexBuyOrders; 
+    address[] dexBuyOrdersList;
+    mapping(address => dexOrder) dexSellOrders; 
+    address[] dexSellOrderList;
   }
     
   mapping(bytes32 => ableAccount) private ableAccounts;
@@ -791,6 +803,11 @@ contract AbleBank is Ownable, Authorizable {
         }
       }
     }
+
+    //DEX account buy order list
+    //TODO add pointer to delete dexBuyOrders
+    ableAccounts[_accountNumber].dexBuyOrders[_token].amountOrder[_priceInWei] += _amount;
+    ableAccounts[_accountNumber].dexBuyOrders[_token].amountOrderList.push(_priceInWei);
   }
 
   /////////////////////////////////
