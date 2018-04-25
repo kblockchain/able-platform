@@ -46,10 +46,17 @@ contract AbleBank is Ownable, Authorizable {
   mapping(address => ableUser) private ableUsers;
   address[] private ableUserList;
 
-  // DEX offer structure
+  // DEX order structure
+  struct dexAmount {
+    bool type;
+    uint amount;
+    uint amountPointer;
+  }
+  
   struct dexOrder {
-    mapping(uint => uint) amountOrder;
-    uint[] amountOrderList;
+    mapping(uint => dexAmount) dexAmounts;
+    uint[] dexAmountList;
+  	uint isExist;
   }
 
   // ABLE free account
@@ -67,10 +74,8 @@ contract AbleBank is Ownable, Authorizable {
     //TODO get matching and dex list.
     
     //DEX
-    mapping(address => dexOrder) dexBuyOrders; 
-    address[] dexBuyOrdersList;
-    mapping(address => dexOrder) dexSellOrders; 
-    address[] dexSellOrderList;
+    mapping(address => dexOrder) dexOrders;
+  	address[] dexOrderList;
   }
     
   mapping(bytes32 => ableAccount) private ableAccounts;
@@ -806,8 +811,14 @@ contract AbleBank is Ownable, Authorizable {
 
     //DEX account buy order list
     //TODO add pointer to delete dexBuyOrders
-    ableAccounts[_accountNumber].dexBuyOrders[_token].amountOrder[_priceInWei] += _amount;
-    ableAccounts[_accountNumber].dexBuyOrders[_token].amountOrderList.push(_priceInWei);
+    if (ableAccounts[_accountNumber].dexOrders[_token].isExist == 0)
+    {
+      ableAccounts[_accountNumber].dexOderList.push(_token);
+      ableAccounts[_accountNumber].dexOrders[_token].isExist = 1;
+    }
+    ableAccounts[_accountNumber].dexOrders[_token].dexAmounts[_priceInWei].type = true;
+    ableAccounts[_accountNumber].dexOrders[_token].dexAmounts[_priceInWei].amount += _amount;
+    ableAccounts[_accountNumber].dexOrders[_token].dexAmounts[_priceInWei].amountPointer = ableAccounts[_accountNumber].dexOrders[_token].dexAmountList.push(_priceInWei)-1;
   }
 
   /////////////////////////////////
@@ -1052,6 +1063,16 @@ contract AbleBank is Ownable, Authorizable {
         }
       }
     }
+    //DEX account sell order list
+    //TODO add pointer to delete dexBuyOrders
+    if (ableAccounts[_accountNumber].dexOrders[_token].isExist == 0)
+    {
+      ableAccounts[_accountNumber].dexOderList.push(_token);
+      ableAccounts[_accountNumber].dexOrders[_token].isExist = 1;
+    }
+    ableAccounts[_accountNumber].dexOrders[_token].dexAmounts[_priceInWei].type = false;
+    ableAccounts[_accountNumber].dexOrders[_token].dexAmounts[_priceInWei].amount += _amount;
+    ableAccounts[_accountNumber].dexOrders[_token].dexAmounts[_priceInWei].amountPointer = ableAccounts[_accountNumber].dexOrders[_token].dexAmountList.push(_priceInWei)-1;
   }
 
   ////////////////////////////////
