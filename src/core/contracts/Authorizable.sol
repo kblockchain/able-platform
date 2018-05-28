@@ -1,3 +1,7 @@
+pragma solidity ^0.4.23;
+
+import "./Ownable.sol";
+
 /**
  * @title Authorizable
  * @dev Allows to authorize access to certain function calls
@@ -18,7 +22,7 @@ contract Authorizable is Ownable {
   /**
    * @dev Contructor that authorizes the msg.sender. 
    */
-  function Authorizable() {
+  constructor() {
     authorizers.length = 2;
     authorizers[1] = msg.sender;
     authorizerIndex[msg.sender] = 1;

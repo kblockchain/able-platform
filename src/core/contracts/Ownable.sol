@@ -1,3 +1,5 @@
+pragma solidity ^0.4.23;
+
 /**
  * @title Ownable
  * @dev The Ownable contract has an owner address, and provides basic authorization control 
@@ -10,7 +12,7 @@ contract Ownable {
 	 * @dev The Ownable constructor sets the original `owner` of the contract to the sender
 	 * account.
 	 */
-	function Ownable() {
+	constructor() public {
 		owner = msg.sender;
 	}
 

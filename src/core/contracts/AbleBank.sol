@@ -1,25 +1,31 @@
+pragma solidity ^0.4.23;
+
+import "./Ownable.sol";
+import "./Authorizable.sol";
+import "./SafeMath.sol";
+
 /**
  * @title Token
  * @dev General ERC20 token model
  */
 contract Token {
-  string public name;
-  string public symbol;
-  uint8 public decimals;
-  uint256 public totalSupply; 
-    
-  mapping (address => uint256) public balanceOf;
-  mapping (address => mapping (address => uint256)) public allowance;
-    
-  function totalSupply() public constant returns (uint);
-  function balanceOf(address tokenOwner) public constant returns (uint balance);
-  function allowance(address tokenOwner, address spender) public constant returns (uint remaining);
-  function transfer(address to, uint tokens) public returns (bool success);
-  function approve(address spender, uint tokens) public returns (bool success);
-  function transferFrom(address from, address to, uint tokens) public returns (bool success);
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+    uint256 public totalSupply; 
+      
+    mapping (address => uint256) public balanceOf;
+    mapping (address => mapping (address => uint256)) public allowance;
+      
+    function totalSupply() public constant returns (uint);
+    function balanceOf(address tokenOwner) public constant returns (uint balance);
+    function allowance(address tokenOwner, address spender) public constant returns (uint remaining);
+    function transfer(address to, uint tokens) public returns (bool success);
+    function approve(address spender, uint tokens) public returns (bool success);
+    function transferFrom(address from, address to, uint tokens) public returns (bool success);
 
-  event Transfer(address indexed from, address indexed to, uint tokens);
-  event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+    event Transfer(address indexed from, address indexed to, uint tokens);
+    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
 }
 
 
@@ -48,7 +54,7 @@ contract AbleBank is Ownable, Authorizable {
 
   // DEX order structure
   struct dexAmount {
-    bool type;
+    bool orderType;     //true: buy, false: sell.
     uint amount;
     uint amountPointer;
   }
@@ -422,63 +428,7 @@ contract AbleBank is Ownable, Authorizable {
   
 
   /* -------- Withdrawal / transfer functions -------- */
-
-  /**
-   * @dev Function to withdraw ethereum from _accountNumber
-   * @param _accountNumber the bytes32 to deposit.
-   * @param _amount the uint to set amount.
-   * @return boolean flag if open success.
-   */
-  function withdraw(bytes32 _accountNumber, uint _amount) public returns (bool isIndeed) {
-    if(!isAbleUser(msg.sender)) throw;
-    if(!isAbleAccount(_accountNumber)) throw;
-    if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) throw;
-    
-    if(ableAccounts[_accountNumber].token[address(0)]<_amount) throw;
-    ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].safeSub(_amount);
-    if (!msg.sender.call.value(_amount)()) throw;
-    AbleWithdraw(address(0), msg.sender, _amount, ableAccounts[_accountNumber].token[address(0)]);
-    
-    return true;
-  }
-  
-  /**
-   * @dev Function to withdraw token from _accountNumber
-   * @param _accountNumber the bytes32 to withdraw.
-   * @param _token the address to set token address.
-   * @param _amount the uint to set amount.
-   * @return boolean flag if open success.
-   */
-  function withdrawToken(bytes32 _accountNumber, address _token, uint _amount) public returns (bool isIndeed) {
-    if(!isAbleUser(msg.sender)) throw;
-    if(!isAbleAccount(_accountNumber)) throw;
-    if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) throw;
-    
-    if(ableAccounts[_accountNumber].token[_token]<_amount) throw;
-    ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].safeSub(_amount);
-    if(!Token(_token).transfer(msg.sender, _amount)) throw;
-    AbleWithdraw(_token, msg.sender, _amount, ableAccounts[_accountNumber].token[_token]);
-    
-    return true;
-  }
-
-  /**
-   * @dev Function to transfer ethereum/token from _from to _to
-   * @param _from the bytes32 from.
-   * @param _to the bytes32 to.
-   * @param _token the address to set token address.
-   * @param _amount the uint to set amount.
-   * @return boolean flag if open success.
-   */
-  function transferFrom(bytes32 _from, bytes32 _to, address _token, uint _amount) public returns (bool isIndeed) {
-    if(!isAbleUser(msg.sender)) throw;
-    if(!isAbleAccount(_from)&&!isAbleAccount(_to)) throw;
-    if(ableAccounts[_from].ableUserKey!=msg.sender) throw;
-    if(ableAccounts[_from].token[_token]<_amount) throw;
-    
-    if(ableAccounts[_to].token[_token]==0) ableAccounts[_to].tokenList.push(_token);
-    if(_token==address(0)) {
-      ableAccounts[_from].token[address(0)] = ableAccounts[_from].token[address(0)].safeSub(_amount);
+oken[address(0)] = ableAccounts[_from].token[address(0)].safeSub(_amount);
       ableAccounts[_to].token[address(0)] = ableAccounts[_to].token[address(0)].safeAdd(_amount);
     } else {
       ableAccounts[_from].token[_token] = ableAccounts[_from].token[_token].safeSub(_amount);
@@ -575,7 +525,63 @@ contract AbleBank is Ownable, Authorizable {
           sellVolumeAtPrice = sellVolumeAtPrice.safeAdd(dexTokens[_token].sellBook[sellWhilePrice].offers[sellOffersKey].amountdexTokens);
           sellOffersKey++;
         }
-        arrVolumesSell[sellCounter] = sellVolumeAtPrice;
+        arrVolumesSell[sellCounter] = sellVolumeA
+  /**
+   * @dev Function to withdraw ethereum from _accountNumber
+   * @param _accountNumber the bytes32 to deposit.
+   * @param _amount the uint to set amount.
+   * @return boolean flag if open success.
+   */
+  function withdraw(bytes32 _accountNumber, uint _amount) public returns (bool isIndeed) {
+    if(!isAbleUser(msg.sender)) throw;
+    if(!isAbleAccount(_accountNumber)) throw;
+    if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) throw;
+    
+    if(ableAccounts[_accountNumber].token[address(0)]<_amount) throw;
+    ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].safeSub(_amount);
+    if (!msg.sender.call.value(_amount)()) throw;
+    AbleWithdraw(address(0), msg.sender, _amount, ableAccounts[_accountNumber].token[address(0)]);
+    
+    return true;
+  }
+  
+  /**
+   * @dev Function to withdraw token from _accountNumber
+   * @param _accountNumber the bytes32 to withdraw.
+   * @param _token the address to set token address.
+   * @param _amount the uint to set amount.
+   * @return boolean flag if open success.
+   */
+  function withdrawToken(bytes32 _accountNumber, address _token, uint _amount) public returns (bool isIndeed) {
+    if(!isAbleUser(msg.sender)) throw;
+    if(!isAbleAccount(_accountNumber)) throw;
+    if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) throw;
+    
+    if(ableAccounts[_accountNumber].token[_token]<_amount) throw;
+    ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].safeSub(_amount);
+    if(!Token(_token).transfer(msg.sender, _amount)) throw;
+    AbleWithdraw(_token, msg.sender, _amount, ableAccounts[_accountNumber].token[_token]);
+    
+    return true;
+  }
+
+  /**
+   * @dev Function to transfer ethereum/token from _from to _to
+   * @param _from the bytes32 from.
+   * @param _to the bytes32 to.
+   * @param _token the address to set token address.
+   * @param _amount the uint to set amount.
+   * @return boolean flag if open success.
+   */
+  function transferFrom(bytes32 _from, bytes32 _to, address _token, uint _amount) public returns (bool isIndeed) {
+    if(!isAbleUser(msg.sender)) throw;
+    if(!isAbleAccount(_from)&&!isAbleAccount(_to)) throw;
+    if(ableAccounts[_from].ableUserKey!=msg.sender) throw;
+    if(ableAccounts[_from].token[_token]<_amount) throw;
+    
+    if(ableAccounts[_to].token[_token]==0) ableAccounts[_to].tokenList.push(_token);
+    if(_token==address(0)) {
+      ableAccounts[_from].ttPrice;
         if (dexTokens[_token].sellBook[sellWhilePrice].higherPrice == 0) {
           break;
         }
