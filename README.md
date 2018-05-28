@@ -1,4 +1,6 @@
 # ABLE Project
+Crytocurrency based financial platform 'ABLE' 
+
 ## Introduction
 The ABLE project will create a solution to problems with traditionalmbank lending-deposit spreads, and nontransparent and centralized cryptocurrency banking services, basing the solution on the transparency and reliability of a blockchain system. The ABLE project is the first cryptocurrency-specific banking solution that provides cryptocurrency financial products through person-to-person loan matching systems and decentralized exchanges. The ABLE project will create a platform that enables cryptocurrency based banking activities to center around the ABLE account, emanating from the fact that banking activities are carried out primarily through bank accounts. Users propose deposit and loan interest rates through a matching system, eliminating the lending-deposit spread by directly connecting users on a peer-to-peer basis. The ABLE project supports decentralized exchanges and provides decentralized cryptocurrency wealth management services through smart contracts. Ultimately the project aims to evolve into the ABLE Ecosystem through ßits integration with external systems, including simple payments.
 
@@ -12,16 +14,16 @@ Decentralized exchange which cryptocurrency assets can be traded is needed  in o
 
 ## ABLE Technical Roadmap
 ### 2018 Q2
-ABLE bank account and basic banking services would be implemented in Q2 `18. P2P matching engine and dex will be strucutred on ABLE accounts. Most of data will be handled on Ethereum part, which will be optimized later in Q3.
+ABLE platform account and basic banking services would be implemented in Q2 `18. P2P matching engine and dex will be strucutred on ABLE accounts. Most of data will be handled on Ethereum part, which will be optimized later in Q3.
 
 ### 2018 Q3
-Alpha version of ABLE Bank will be launched in Q3 '18. Database integration with ethereum network would be taken into consideration. Initial high gas consumption and low performance will be optimized with DB integrations. Ethereum code will focus on verification process.
+Alpha version of ABLE platform will be launched in Q3 '18. Database integration with ethereum network would be taken into consideration. Initial high gas consumption and low performance will be optimized with DB integrations. Ethereum code will focus on verification process.
 
 ### 2018 Q4
-Beta version of ABLE Bank will be launched in Q4 '18. Mutual funds will be added on ABLE DEX. Paycheck service will be available and will be utilized as source of a credit score.
+Beta version of ABLE platform will be launched in Q4 '18. Mutual funds will be added on ABLE DEX. Paycheck service will be available and will be utilized as source of a credit score.
 
 ### 2019 Q1
-ABLE Bank will be available to beta-tester. Quality engineering will be reinforced.
+ABLE platform will be available to beta-tester. Quality engineering will be reinforced.
 
 ### 2019 Q2
 Development of ABLE main network will begin in Q2 `19.
