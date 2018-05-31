@@ -52,19 +52,6 @@ contract AbleBank is Ownable, Authorizable {
     mapping(address => ableUser) private ableUsers;
     address[] private ableUserList;
 
-    // DEX order structure
-    struct dexAmount {
-        bool orderType;     //true: buy, false: sell
-        uint amount;
-        uint amountPointer;
-    }
-    
-    struct dexOrder {
-        mapping(uint => dexAmount) dexAmounts;
-        uint[] dexAmountList;
-        uint isExist;
-    }
-
     // ABLE free account
     struct ableAccount {
         uint ableAccountListPointer; // needed to delete a "ableAccount"
@@ -80,16 +67,17 @@ contract AbleBank is Ownable, Authorizable {
         //TODO get matching and dex list.
         
         //DEX
-        mapping(address => dexOrder) dexOrders;
-        address[] dexOrderList;
+        //mapping(address => dexOrder) dexOrders;
+        //address[] dexOrderList;
     }
         
     mapping(bytes32 => ableAccount) private ableAccounts;
     bytes32[] private ableAccountList;
     uint private totalBankAccounts;
-    
-    // Matching
 
+    // Matching
+    mapping (address => mapping (bytes32 => bool)) public matchOrders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
+    mapping (address => mapping (bytes32 => uint)) public matchOrderFills; //mapping of user accounts to mapping of order hashes to uints (amount of order that has been filled)
 
     /*
     struct matOffer {
@@ -133,8 +121,23 @@ contract AbleBank is Ownable, Authorizable {
     */
 
     // DEX
-    mapping (address => mapping (bytes32 => bool)) public orders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
-    mapping (address => mapping (bytes32 => uint)) public orderFills; //mapping of user accounts to mapping of order hashes to uints (amount of order that has been filled)
+    mapping (address => mapping (bytes32 => bool)) public dexOrders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
+    mapping (address => mapping (bytes32 => uint)) public dexOrderFills; //mapping of user accounts to mapping of order hashes to uints (amount of order that has been filled)
+
+    // DEX order structure
+    /*
+    struct dexAmount {
+        bool orderType;     //true: buy, false: sell
+        uint amount;
+        uint amountPointer;
+    }
+    
+    struct dexOrder {
+        mapping(uint => dexAmount) dexAmounts;
+        uint[] dexAmountList;
+        uint isExist;
+    }
+    */
 
     /*
     struct dexOffer {
@@ -516,6 +519,7 @@ contract AbleBank is Ownable, Authorizable {
 
 
     /* -------- Matching functions -------- */
+
     /**
     * @dev Function to transfer ethereum/token from _from to _to
     * @param _from the bytes32 from.
@@ -524,10 +528,10 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function matchOder(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce) public {
-        bytes32 hash = sha256(this, _tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce);
-        orders[_tokenGet][hash] = true;
-        AbleDexOrder(_tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce, msg.sender);
+    function matchOder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce) public {
+        bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
+        matchOrders[tokenGet][hash] = true;
+        AbleDexOrder(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender);
     }
 
     /**
@@ -541,13 +545,13 @@ contract AbleBank is Ownable, Authorizable {
     function matchTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s, uint amount) {
         //amount is in amountGet terms
         bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
-        if (!((orders[user][hash] 
+        if (!((matchOrderFills[user][hash] 
             || ecrecover(sha3("\x19Ethereum Signed Message:\n32", hash),v,r,s) == user) 
             && block.number <= expires 
-            && orderFills[user][hash].safeAdd(amount) <= amountGet)) 
+            && matchOrderFills[user][hash].safeAdd(amount) <= amountGet)) 
             revert();
         tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
-        orderFills[user][hash] = safeAdd(orderFills[user][hash], amount);
+        matchOrderFills[user][hash] = safeAdd(matchOrderFills[user][hash], amount);
         Trade(tokenGet, amount, tokenGive, amountGive * amount / amountGet, user, msg.sender);
     }
 
@@ -583,7 +587,7 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function matchTestTrade(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, address _user, uint8 _v, bytes32 _r, bytes32 _s, uint _amount, address _sender) constant returns(bool) {
+    function matchTestTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s, uint _amount, address sender) constant returns(bool) {
     if (!(tokens[tokenGet][sender] >= amount 
         && availableVolume(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s) >= amount)) 
         return false;
@@ -598,12 +602,12 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function matchAvailableVolume(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, address _user, uint8 _v, bytes32 _r, bytes32 _s) view returns(uint) {
-        bytes32 hash = sha256(this, _tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce);
-        if (!((orders[user][hash] 
-            || ecrecover(sha3(("\x19Ethereum Signed Message:\n32", hash),_v,_r,_s) == _user) && block.number <= expires))) 
+    function matchAvailableVolume(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s) view returns(uint) {
+        bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
+        if (!((matchOrders[user][hash] 
+            || ecrecover(sha3(("\x19Ethereum Signed Message:\n32", hash),v,r,s) == _user) && block.number <= expires))) 
             return 0;
-        uint available1 = safeSub(amountGet, orderFills[user][hash]);
+        uint available1 = safeSub(amountGet, matchOrderFills[user][hash]);
         uint available2 = safeMul(tokens[tokenGive][user], amountGet) / amountGive;
         if (available1<available2) return available1;
         return available2;
@@ -617,9 +621,9 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function matchAmountFilled(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, address _user, uint8 _v, bytes32 _r, bytes32 _s) view returns(uint) {
+    function matchAmountFilled(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s) view returns(uint) {
         bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
-        return orderFills[user][hash];
+        return matchOrderFills[user][hash];
     }
 
     /**
@@ -630,17 +634,18 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function matchCancelOrder(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, uint8 _v, bytes32 _r, bytes32 _s) {
+    function matchCancelOrder(address _tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, uint8 v, bytes32 r, bytes32 s) {
         bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
-        if (!(orders[msg.sender][hash] 
-            || ecrecover(sha3("\x19Ethereum Signed Message:\n32", hash),_v,_r,_s) == msg.sender)) 
+        if (!(matchOrders[msg.sender][hash] 
+            || ecrecover(sha3("\x19Ethereum Signed Message:\n32", hash),v,r,s) == msg.sender)) 
             revert();
-        orderFills[msg.sender][hash] = amountGet;
+        matchOrderFills[msg.sender][hash] = amountGet;
         AbleDexCancel(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender, v, r, s);
     }
 
 
     /* -------- DEX functions -------- */
+
     /**
     * @dev Function to transfer ethereum/token from _from to _to
     * @param _from the bytes32 from.
@@ -649,10 +654,10 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function dexOrder(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce) public {
-        bytes32 hash = sha256(this, _tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce);
-        orders[_tokenGet][hash] = true;
-        AbleDexOrder(_tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce, msg.sender);
+    function dexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce) public {
+        bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
+        dexOrders[tokenGet][hash] = true;
+        AbleDexOrder(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender);
     }
 
     /**
@@ -666,13 +671,13 @@ contract AbleBank is Ownable, Authorizable {
     function dexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s, uint amount) {
         //amount is in amountGet terms
         bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
-        if (!((orders[user][hash] 
+        if (!((dexOrders[user][hash] 
             || ecrecover(sha3("\x19Ethereum Signed Message:\n32", hash),v,r,s) == user) 
             && block.number <= expires 
-            && orderFills[user][hash].safeAdd(amount) <= amountGet)) 
+            && dexOrderFills[user][hash].safeAdd(amount) <= amountGet)) 
             revert();
         tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
-        orderFills[user][hash] = safeAdd(orderFills[user][hash], amount);
+        dexOrderFills[user][hash] = safeAdd(dexOrderFills[user][hash], amount);
         Trade(tokenGet, amount, tokenGive, amountGive * amount / amountGet, user, msg.sender);
     }
 
@@ -708,7 +713,7 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function dexTestTrade(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, address _user, uint8 _v, bytes32 _r, bytes32 _s, uint _amount, address _sender) constant returns(bool) {
+    function dexTestTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s, uint _amount, address sender) constant returns(bool) {
     if (!(tokens[tokenGet][sender] >= amount 
         && availableVolume(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s) >= amount)) 
         return false;
@@ -723,12 +728,12 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function dexAvailableVolume(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, address _user, uint8 _v, bytes32 _r, bytes32 _s) view returns(uint) {
-        bytes32 hash = sha256(this, _tokenGet, _amountGet, _tokenGive, _amountGive, _expires, _nonce);
-        if (!((orders[user][hash] 
-            || ecrecover(sha3(("\x19Ethereum Signed Message:\n32", hash),_v,_r,_s) == _user) && block.number <= expires))) 
+    function dexAvailableVolume(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s) view returns(uint) {
+        bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
+        if (!((dexOrders[user][hash] 
+            || ecrecover(sha3(("\x19Ethereum Signed Message:\n32", hash),v,r,s) == _user) && block.number <= expires))) 
             return 0;
-        uint available1 = safeSub(amountGet, orderFills[user][hash]);
+        uint available1 = safeSub(amountGet, dexOrderFills[user][hash]);
         uint available2 = safeMul(tokens[tokenGive][user], amountGet) / amountGive;
         if (available1<available2) return available1;
         return available2;
@@ -742,9 +747,9 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */    
-    function dexAmountFilled(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, address _user, uint8 _v, bytes32 _r, bytes32 _s) view returns(uint) {
+    function dexAmountFilled(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s) view returns(uint) {
         bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
-        return orderFills[user][hash];
+        return dexOrderFills[user][hash];
     }
 
     /**
@@ -755,12 +760,12 @@ contract AbleBank is Ownable, Authorizable {
     * @param _amount the uint to set amount.
     * @return boolean flag if open success.
     */
-    function dexCancelOrder(address _tokenGet, uint _amountGet, address _tokenGive, uint _amountGive, uint _expires, uint _nonce, uint8 _v, bytes32 _r, bytes32 _s) {
+    function dexCancelOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, uint8 v, bytes32 r, bytes32 s) {
         bytes32 hash = sha256(this, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
-        if (!(orders[msg.sender][hash] 
-            || ecrecover(sha3("\x19Ethereum Signed Message:\n32", hash),_v,_r,_s) == msg.sender)) 
+        if (!(dexOrders[msg.sender][hash] 
+            || ecrecover(sha3("\x19Ethereum Signed Message:\n32", hash),v,r,s) == msg.sender)) 
             revert();
-        orderFills[msg.sender][hash] = amountGet;
+        dexOrderFills[msg.sender][hash] = amountGet;
         AbleDexCancel(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, msg.sender, v, r, s);
     }
 
