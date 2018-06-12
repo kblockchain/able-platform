@@ -464,7 +464,7 @@ contract AbleBank is Ownable, Authorizable {
         
         if(ableAccounts[_accountNumber].token[address(0)]<_amount) revert();
         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].safeSub(_amount);
-        if (!msg.sender.transfer(_amount)()) revert();
+        if (!msg.sender.send(_amount)()) revert();
         
         AbleWithdraw(address(0), msg.sender, _amount, ableAccounts[_accountNumber].token[address(0)]);
         return true;
@@ -550,9 +550,9 @@ contract AbleBank is Ownable, Authorizable {
             && block.number <= expires 
             && matchOrderFills[user][hash].safeAdd(amount) <= amountGet)) 
             revert();
-        tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
+        matchTradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
         matchOrderFills[user][hash] = safeAdd(matchOrderFills[user][hash], amount);
-        Trade(tokenGet, amount, tokenGive, amountGive * amount / amountGet, user, msg.sender);
+        AbleMatchTrade(tokenGet, amount, tokenGive, amountGive * amount / amountGet, user, msg.sender);
     }
 
     /**
@@ -564,17 +564,8 @@ contract AbleBank is Ownable, Authorizable {
     * @return boolean flag if open success.
     */
     function matchTradeBalances(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address user, uint amount) private {
-        uint feeMakeXfer = safeMul(amount, feeMake) / (1 ether);
-        uint feeTakeXfer = safeMul(amount, feeTake) / (1 ether);
-        uint feeRebateXfer = 0;
-        if (accountLevelsAddr != 0x0) {
-        uint accountLevel = AccountLevels(accountLevelsAddr).accountLevel(user);
-        if (accountLevel==1) feeRebateXfer = safeMul(amount, feeRebate) / (1 ether);
-        if (accountLevel==2) feeRebateXfer = feeTakeXfer;
-        }
         tokens[tokenGet][msg.sender] = tokens[tokenGet][msg.sender].safeSub(amount.safeAdd(feeTakeXfer));
         tokens[tokenGet][user] = safeAdd(tokens[tokenGet][user], safeSub(safeAdd(amount, feeRebateXfer), feeMakeXfer));
-        tokens[tokenGet][feeAccount] = safeAdd(tokens[tokenGet][feeAccount], safeSub(safeAdd(feeMakeXfer, feeTakeXfer), feeRebateXfer));
         tokens[tokenGive][user] = safeSub(tokens[tokenGive][user], safeMul(amountGive, amount) / amountGet);
         tokens[tokenGive][msg.sender] = safeAdd(tokens[tokenGive][msg.sender], safeMul(amountGive, amount) / amountGet);
     }
@@ -588,10 +579,10 @@ contract AbleBank is Ownable, Authorizable {
     * @return boolean flag if open success.
     */
     function matchTestTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address _user, uint8 v, bytes32 r, bytes32 s, uint _amount, address sender) constant returns(bool) {
-    if (!(tokens[tokenGet][sender] >= amount 
-        && availableVolume(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s) >= amount)) 
-        return false;
-    return true;
+        if (!(tokens[tokenGet][sender] >= amount 
+            && availableVolume(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s) >= amount)) 
+            return false;
+        return true;
     }
 
     /**
