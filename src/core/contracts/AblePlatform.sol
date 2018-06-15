@@ -30,10 +30,10 @@ contract Token {
 
 
 /**
- * @title AbleBank
- * @dev ABLE bank contract. Decentralized Cryptocurrency bank.
+ * @title AblePlatform
+ * @dev ABLE platform contract. Decentralized Cryptocurrency banking platform.
  */
-contract AbleBank is Ownable, Authorizable {
+contract AblePlatform is Ownable, Authorizable {
     using SafeMath for uint;
 
     // ABLE token and ABLE dollar token address
