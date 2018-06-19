@@ -30,7 +30,7 @@
 </div>
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">간편 송금</h1>
+    <h1 class="display-4">월급 지불</h1>
 </div>
 
 
@@ -39,12 +39,12 @@
         <div class="col-sm-6">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Send ABLE and Token</h4>
+                    <h4 class="my-0 font-weight-normal">Make Salary Contract</h4>
                 </div>
                 <div class="card-body">
 
                     <div class="mb-3">
-                        <label for="address">To ABEL User Address</label>
+                        <label for="address">Employee Address</label>
                         <input type="text" class="form-control" id="address" placeholder="" required>
                         <div class="invalid-feedback">
                             Please enter eth address.
@@ -52,15 +52,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="amount">Address Nickname(Optional)</label>
-                        <input type="text" class="form-control" id="amount" placeholder="" >
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="amount">Amount to send</label>
+                        <label for="amount">Employer Nickname</label>
                         <input type="text" class="form-control" id="amount" placeholder="" >
                         <div class="invalid-feedback">
                             Please enter your shipping address.
@@ -68,22 +60,42 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                        <div class="mb-3">
-                            <label for="amount">Gas Limit</label>
-                            <input type="text" class="form-control" id="amount" placeholder="" >
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
+                    <div class="mb-3">
+                        <label for="amount">Amount </label>
+                        <input type="text" class="form-control" id="amount" placeholder="" >
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
                         </div>
+                    </div>
                         </div>
                         <div class="col-sm-6">
-                        <div class="mb-3">
-                            <label for="amount">Gas Price</label>
-                            <input type="text" class="form-control" id="amount" placeholder="" >
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
+                            <div class="mb-3">
+                                <label for="amount">Payment Date </label>
+                                <input type="text" class="form-control" id="amount" placeholder="" >
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="amount">Gas Limit</label>
+                                <input type="text" class="form-control" id="amount" placeholder="" >
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="amount">Gas Price</label>
+                                <input type="text" class="form-control" id="amount" placeholder="" >
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -150,36 +162,36 @@
         </div>
     </div>
 
-    </div>
+</div>
 
-    <!-- Footer 기능 -->
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            <div class="col-12 col-md">
-                <img class="mb-2" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
-                <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Features</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Cool stuff</a></li>
-                    <li><a class="text-muted" href="#">Random feature</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Resources</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Resource</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>About</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Team</a></li>
-                </ul>
-            </div>
+<!-- Footer 기능 -->
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+        <div class="col-12 col-md">
+            <img class="mb-2" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
         </div>
-    </footer>
+        <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Cool stuff</a></li>
+                <li><a class="text-muted" href="#">Random feature</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Resource</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
 </div>
 
 
@@ -187,7 +199,7 @@
 
 <!-- web3.js 파일 cdn에서 불러오기 (메타마스크 사용자는 설치할 필요가 없으나, 일단은 포함 시켜 놓음) -->
 <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
-<script src="js/login_check.js"></script>
+<script src="../js/login_check.js"></script>
 <script>
     Holder.addTheme('thumb', {
         bg: '#55595c',
