@@ -50,8 +50,8 @@
             <div class="card-body">
 
                     <div class="mb-3">
-                        <label for="address">받는 사람 주소 (To Address)</label>
-                        <input type="text" class="form-control" id="address" placeholder="0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D" required>
+                        <label for="input_receiveraddress">받는 사람 주소 (To Address)</label>
+                        <input type="text" class="form-control" id="input_receiveraddress" placeholder="0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D" required>
                         <div class="invalid-feedback">
                             Please enter eth address.
                         </div>
@@ -74,6 +74,39 @@
                 </div>
 
                 <button id="btn_sendtransaction" type="button" class="btn btn-lg btn-block btn-outline-primary">send transaction</button>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <h5>회원가입</h5>
+    <br>
+    <!-- 송금 기능-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Send ABLE and Token</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label for="input_address">계좌번호</label>
+                    <input type="text" class="form-control" id="input_address" placeholder="0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D" required>
+                    <div class="invalid-feedback">
+                        Please enter eth address.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="input_password">비밀번호</label>
+                    <input type="text" class="form-control" id="input_password" placeholder="Amount" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <button id="btn_register_account" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
             </div>
         </div>
     </div>

@@ -872,17 +872,25 @@ btn_login.addEventListener('click', function() {
     if (typeof web3 !== 'undefined') {
         // 메타마스크가 설치 되어 있는 경우
         // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
-        window.web3 = new Web3(web3.currentProvider);
+        window.web3 = new Web3(web3.currentProvider); // 현재 브라우저에서 연결된 네트워크로 연
+
+        // let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io')); // ropsten 네트워크로 연결
+
         console.log("metamask 설치가 되어있습니다.");
 
         user_address = web3.eth.accounts[0];
         console.log("user address : " + user_address);
 
 
+        // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
+        if(isNaN(user_address)) {
+            toast("You have to login metamast.");
+        }
+
     }
 
     else {
-        // 메타마스크가 설치 되어 있지 않은 경우 (예외처리 해주기)
+        // todo 메타마스크가 설치 되어 있지 않은 경우 (예외처리 해주기)
         console.log("metamask 설치가 되어있지 않습니다");
     }
 
@@ -891,6 +899,9 @@ btn_login.addEventListener('click', function() {
 
 });
 
+/**
+ * @dev Function to make connection of metamask.
+ */
 function startApp() {
 
     // web3 이용해서 스마트 컨트랙트 접근하기
@@ -903,60 +914,104 @@ function startApp() {
         web3.eth.getBalance(address, function(e, balances) {
 
             document.getElementById('accountAddr2').innerHTML = "<input type='button' id='account_address' onclick='copy(this.value)' value='" + address + "' readonly />";
+
             // web3.fromWei() 메소드는 wei 숫자를 다른 단위로 변환하기 위해 사용 (wei -> ether)
             // web3.toWei() 메소드는 다른 단위를 wei 단위로 변환하기 위해 사 (ether -> wei)
             document.getElementById('accountAddr1').innerHTML += "<span id='account_balances'>" + Number(web3.fromWei(Number(balances), 'ether')).toFixed(2) + "&nbsp;ETH</span>";
         });
 
-        // 이더리움 송금 함수
-       web3.ethsend.Transaction(e, function (e, address) {
-
-        });
-
     });
 }
 
+
+/**
+ * @dev EventListener to send ethereum & token
+ * @input receiver address
+ * @input eth amount
+ * @input gas limit
+ */
 var btn_sendtransaction = document.getElementById('btn_sendtransaction');
 btn_sendtransaction.addEventListener('click', function() {
 
+    if(isNaN(user_address)) {
+        toast("You need to metamask login.");
+    }
 
-    var input_ethamount = document.getElementById("input_ethamount").value;
-    var input_ethamount_float = parseFloat(input_ethamount);
+    var input_ethamount = document.getElementById("input_ethamount").value; // 유저가 입력한 보내고자 하는 이더리움 수량
+    var input_receiveraddress = document.getElementById("input_receiveraddress").value; // 이더리움을 보내고자 하는 상대방 주소
+    var input_ethamount_float = parseFloat(input_ethamount); // parseFloat() 내장함수
 
-    console.log(input_ethamount);
+    console.log("보내고자 하는 이더리움 수량 : "+input_ethamount); // 보내고자 하는 이더리움 수량 체크
 
-
-    console.log("user address : " + user_address);
-
-    var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
+    // var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
 
     // 만약, 보내고자 하는 수량을 입력하지 않은 경우 입력 유도
     if(isNaN(input_ethamount_float)) {
         toast("Set the amount you want to send.");
-
-        console.log("Set the amount you want to send.");
         return;
     }
 
-    web3.eth.sendTransaction({
-        to: receiver_address, // 받는 사람의 주소
-        from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
-        value: web3.toWei(input_ethamount_float, 'ether') // 보내고자 하는 수량
-    }, function (err, transactionHash) {
-        // 오류 발생시
-        if (err) {
-            console.log("Metamask error!");
-/*            return toast('Metamask error!');*/
-        }
+        // 이더리움을 보내는 함수
+        web3.eth.sendTransaction({
+            to: input_receiveraddress, // 받는 사람의 주소
+            from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
+            value: web3.toWei(input_ethamount_float, 'ether') // 보내고자 하는 수량
+        }, function (err, transactionHash) {
+            // 오류 발생시
+            if (err) {
+                return toast('Metamask error!');
+            }
 
-        console.log(transactionHash);
+            console.log(transactionHash);
 
-    });
+        });
+});
+
+/**
+ * @dev EventListener to send ethereum & token
+ * @input receiver address
+ * @input eth amount
+ * @input gas limit
+ */
+var btn_register_account = document.getElementById('btn_register_account');
+btn_register_account.addEventListener('click', function() {
+
+    if(isNaN(user_address)) {
+        toast("You need to metamask login.");
+    }
+
+    var input_ethamount = document.getElementById("input_ethamount").value; // 유저가 입력한 보내고자 하는 이더리움 수량
+    var input_receiveraddress = document.getElementById("input_receiveraddress").value; // 이더리움을 보내고자 하는 상대방 주소
+    var input_ethamount_float = parseFloat(input_ethamount); // parseFloat() 내장함수
+
+    console.log("보내고자 하는 이더리움 수량 : "+input_ethamount); // 보내고자 하는 이더리움 수량 체크
+
+    // var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
+
+    // 만약, 보내고자 하는 수량을 입력하지 않은 경우 입력 유도
+    if(isNaN(input_ethamount_float)) {
+        toast("Set the amount you want to send.");
+        return;
+    }
+
+    // 버전 확인 함수
+    var version = web3.version.api;
+    console.log(version); // "0.2.0"
+
+
+    // 1. An ASCII string to be converted to HEX
+    // 2. The number of bytes the returned HEX string should have.
+    var str2 = web3.fromAscii('1111', 32);
+    console.log("fromAscii : " + str2); // "0x657468657265756d000000000000000000000000000000000000000000000000"
+    // "0xa5b9d60f32436310afebcfda832817a68921beb782fabf7915cc0460b443116a"
+
 });
 
 
+
 /**
- * 토스트 메세지 띄우는 함수 (오류 파악 쉽게 하기 위해)
+ * @dev Function to make toast message
+ * making easier to see the err message
  */
 var $toast;
 function toast(message) {
