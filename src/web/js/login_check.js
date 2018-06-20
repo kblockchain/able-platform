@@ -863,17 +863,23 @@ var abi=[
 
 var simpleStorageContract; // 컨트랙트 변수
 var contractInstance;
+var user_address; // 메타마스크에 로그인한 유저의 ethereum address
 
 // 메타마스크 불러오기 확인
 // 브라우저에서 로딩이 다 되면 실행된다.
-var login = document.getElementById('target');
-login.addEventListener('click', function() {
+var btn_login = document.getElementById('btn_login');
+btn_login.addEventListener('click', function() {
     // 메타마스크 또는 미스트가 설치되어 있는지 확인한다.
     if (typeof web3 !== 'undefined') {
         // 메타마스크가 설치 되어 있는 경우
         // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
         window.web3 = new Web3(web3.currentProvider);
         console.log("metamask 설치가 되어있습니다.");
+
+        user_address = web3.eth.accounts[0];
+        console.log("user address : " + user_address);
+
+
     }
 
     else {
@@ -892,15 +898,6 @@ function startApp() {
     simpleStorageContract = web3.eth.contract(abi);
     contractInstance = simpleStorageContract.at(contractAddress);
 
-    contractInstance.getAbleAccount(ad , function () {
-
-    });
-
-
-    transactionObj.able= {
-
-    };
-
     // getCoinbase 함수를 이용해서 메타마스크 계좌 정보 가져오기
     // 도큐먼트 참고 주소 https://web3js.readthedocs.io/en/1.0/web3-eth.html?highlight=balance#getbalance
     web3.eth.getCoinbase(function(e, address) {
@@ -918,4 +915,74 @@ function startApp() {
         });
 
     });
+}
+
+var btn_sendtransaction = document.getElementById('btn_sendtransaction');
+btn_sendtransaction.addEventListener('click', function() {
+
+
+    var input_ethamount = document.getElementById("input_ethamount").value;
+    var input_ethamount_float = parseFloat(input_ethamount);
+
+    console.log(input_ethamount);
+
+
+    console.log("user address : " + user_address);
+
+    var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
+
+    // 만약, 보내고자 하는 수량을 입력하지 않은 경우 입력 유도
+    if(isNaN(input_ethamount_float)) {
+        toast("Set the amount you want to send.");
+
+        console.log("Set the amount you want to send.");
+        return;
+    }
+
+    web3.eth.sendTransaction({
+        to: receiver_address, // 받는 사람의 주소
+        from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
+        value: web3.toWei(input_ethamount_float, 'ether') // 보내고자 하는 수량
+    }, function (err, transactionHash) {
+        // 오류 발생시
+        if (err) {
+            console.log("Metamask error!");
+/*            return toast('Metamask error!');*/
+        }
+
+        console.log(transactionHash);
+
+    });
+});
+
+
+
+var $toast;
+function toast(message) {
+
+    $(".toast").remove();
+
+    $toast = $('<div class="toast"><h3>' + message + '</h3></div>');
+
+    $toast.css({
+        display: 'block',
+        background: '#fff',
+        opacity: 0.90,
+        position: 'fixed',
+        padding: '7px',
+        'text-align': 'center',
+        width: '270px',
+        left: ($(window).width() - 284) / 2,
+        top: $(window).height() / 2 - 20
+    });
+
+    var removeToast = function(){
+        $(".toast").remove();
+    };
+
+    $toast.click(removeToast);
+
+    $('body').append($toast);
+
+    setInterval(removeToast, 2000);
 }
