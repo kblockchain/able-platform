@@ -860,7 +860,6 @@ var abi=[
     }
 ];
 
-
 var simpleStorageContract; // 컨트랙트 변수
 var contractInstance;
 var user_address; // 메타마스크에 로그인한 유저의 ethereum address
@@ -956,7 +955,9 @@ btn_sendtransaction.addEventListener('click', function() {
 });
 
 
-
+/**
+ * 토스트 메세지 띄우는 함수 (오류 파악 쉽게 하기 위해)
+ */
 var $toast;
 function toast(message) {
 
