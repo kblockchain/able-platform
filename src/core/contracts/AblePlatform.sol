@@ -198,12 +198,6 @@ contract AblePlatform is Ownable, Authorizable {
     event AbleDeposit(address token, address userAddress, uint amount, uint balance);
     event AbleWithdraw(address token, address userAddress, uint amount, uint balance);
     event AbleTransfer(address token, bytes32 from, bytes32 to, uint amount, uint balance);
-    event AbleMatchOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
-    event AbleMatchCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
-    event AbleMatchTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
-    event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
-    event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
-    event AbleDexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
     /*
     // Matching
@@ -230,10 +224,13 @@ contract AblePlatform is Ownable, Authorizable {
     */
 
     // Matching
+    event AbleMatchOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
+    event AbleMatchCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
+    event AbleMatchTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
     // DEX
-    event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user);
-    event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s);
+    event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
+    event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
     event AbleDexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
 
@@ -464,7 +461,7 @@ contract AblePlatform is Ownable, Authorizable {
         
         if(ableAccounts[_accountNumber].token[address(0)]<_amount) revert();
         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].safeSub(_amount);
-        if (!msg.sender.send(_amount)()) revert();
+        if (!msg.sender.send(_amount)) revert();
         
         AbleWithdraw(address(0), msg.sender, _amount, ableAccounts[_accountNumber].token[address(0)]);
         return true;
