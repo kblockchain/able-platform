@@ -37,8 +37,8 @@ contract AblePlatform is Ownable, Authorizable {
     using SafeMath for uint;
 
     // ABLE token and ABLE dollar token address
-    address ableAddress = 0x00;
-    address ableDollarAddress = 0x00;
+    address ableAddress;
+    address ableDollarAddress;
 
     // ABLE user
     struct ableUser {
@@ -73,7 +73,6 @@ contract AblePlatform is Ownable, Authorizable {
         
     mapping(bytes32 => ableAccount) private ableAccounts;
     bytes32[] private ableAccountList;
-    uint private totalBankAccounts;
 
     // Matching
     mapping (address => mapping (bytes32 => bool)) public matchOrders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
@@ -183,10 +182,11 @@ contract AblePlatform is Ownable, Authorizable {
     /* -------- Constructor -------- */
 
     /**
-    * @dev Function to contruct AbleBank
+    * @dev Function to contruct ABLE Platform
     */
-    function AbleBank() public {
-        totalBankAccounts = 0;
+    function AblePlatform() public {
+        ableAddress = 0x00;
+        ableDollarAddress = 0x00;
     }
 
 
@@ -338,7 +338,7 @@ contract AblePlatform is Ownable, Authorizable {
     }
     
 
-    /* -------- General bank account functions -------- */
+    /* -------- General banking account functions -------- */
 
     /**
     * @dev Function to register ableUser
@@ -381,6 +381,7 @@ contract AblePlatform is Ownable, Authorizable {
 
         // We also maintain a list of "ableAccount" that refer to the "ableUser", so ... 
         ableUsers[msg.sender].ableAccountKeyPointers[_accountNumber] = ableUsers[msg.sender].ableAccountKeys.push(_accountNumber)-1;
+        totalBankingAccounts.safeAdd(1);
 
         AbleAccountOpened_Successful(msg.sender, _accountNumber, "Free");
         return true;
