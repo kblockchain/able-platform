@@ -1,6 +1,5 @@
 // 스마트 컨트랙트 주소
-//var contractAddress = '0xde856446a16a7c24a9819767be3d05583aa3063d'; // for test
-var contractAddress = '0xe1585E1656868182924D1cDEbbE30F0ED2fd5539'; // real contract address
+var contractAddress = '0x02e4Ec83cF8918E48Be5776847E05bCA4a0f30ba'; // real contract address
 
 // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스 (추후 변경 예정)
 // for test
@@ -13,46 +12,32 @@ var abi=[
         "inputs": [
             {
                 "indexed": false,
-                "name": "tokenGet",
+                "name": "token",
                 "type": "address"
             },
             {
                 "indexed": false,
-                "name": "amountGet",
+                "name": "from",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "to",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "amount",
                 "type": "uint256"
             },
             {
                 "indexed": false,
-                "name": "tokenGive",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amountGive",
+                "name": "balance",
                 "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "get",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "give",
-                "type": "address"
             }
         ],
-        "name": "AbleDexTrade",
+        "name": "AbleTransfer",
         "type": "event"
-    },
-    {
-        "constant": false,
-        "inputs": [],
-        "name": "AbleBank",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "constant": false,
@@ -216,6 +201,29 @@ var abi=[
         "type": "function"
     },
     {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_accountNumber",
+                "type": "bytes32"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [
+            {
+                "name": "isIndeed",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "anonymous": false,
         "inputs": [
             {
@@ -309,163 +317,10 @@ var abi=[
         "type": "event"
     },
     {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "tokenGet",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amountGet",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "tokenGive",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amountGive",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "expires",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "nonce",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "user",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "v",
-                "type": "uint8"
-            },
-            {
-                "indexed": false,
-                "name": "r",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "s",
-                "type": "bytes32"
-            }
-        ],
-        "name": "AbleDexCancel",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "tokenGet",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amountGet",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "tokenGive",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amountGive",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "expires",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "nonce",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "user",
-                "type": "address"
-            }
-        ],
-        "name": "AbleDexOrder",
-        "type": "event"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [
-            {
-                "name": "isIndeed",
-                "type": "bool"
-            }
-        ],
+        "inputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "from",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "to",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "balance",
-                "type": "uint256"
-            }
-        ],
-        "name": "AbleTransfer",
-        "type": "event"
-    },
-    {
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "fallback"
+        "type": "constructor"
     },
     {
         "constant": false,
@@ -515,52 +370,6 @@ var abi=[
             {
                 "name": "_balance_",
                 "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "address"
-            },
-            {
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "name": "dexOrderFills",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "address"
-            },
-            {
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "name": "dexOrders",
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool"
             }
         ],
         "payable": false,
@@ -800,52 +609,6 @@ var abi=[
     },
     {
         "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "address"
-            },
-            {
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "name": "matchOrderFills",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "address"
-            },
-            {
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "name": "matchOrders",
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
         "inputs": [],
         "name": "owner",
         "outputs": [
@@ -859,7 +622,6 @@ var abi=[
         "type": "function"
     }
 ];
-
 var simpleStorageContract; // 컨트랙트 변수
 var contractInstance;
 var user_address; // 메타마스크에 로그인한 유저의 ethereum address
@@ -990,7 +752,8 @@ btn_register_account.addEventListener('click', function() {
 
     // 1. An ASCII string to be converted to HEX
     // 2. The number of bytes the returned HEX string should have.
-    var bytes32_nickname = web3.fromAscii(input_nickname, 32);
+    // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
+    var bytes32_nickname = web3.fromAscii("1111", 32);
     console.log("fromAscii (input_nickname) : " + bytes32_nickname);
 
     // 1111
@@ -1002,10 +765,43 @@ btn_register_account.addEventListener('click', function() {
     // ethereum
     // 0x657468657265756d000000000000000000000000000000000000000000000000
 
-    contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
-        console.log("err : " + err);
-        console.log("result : " + result);
+
+    contractInstance.registerAbleUser("0x31313131",user_address, function (err, result) {
+        console.log("registerAbleUser err : " + err);
+        console.log("registerAbleUser result : " + result);
     });
+
+
+    // smartcontract isAbleUser() 함수를 통해서 ableUser인지 아닌지 체크
+/*    contractInstance.isAbleUser.call(user_address, function (err, result) {
+
+        if(err) {
+            console.log("err : " + err);
+            return;
+        };
+
+            console.log("result : " + result);
+
+            // ableUser인 경우
+            if(result==true) {
+                // todo 계좌 페이지 or 메인 페이지 띄우기
+
+            }
+
+            // ableUser가 아닌 경우
+            else if(result==false) {
+
+                // todo modal로 회원가입 화면 띄워주기
+                // 닉네임 입력받고 해당 닉네임으로 회원가입 진행하기
+                // contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
+
+                contractInstance.registerAbleUser("0x31313131",user_address, function (err, result) {
+                    console.log("registerAbleUser err : " + err);
+                    console.log("registerAbleUser result : " + result);
+                });
+            }
+
+    });*/
 
 
 
