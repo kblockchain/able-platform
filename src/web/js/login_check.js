@@ -887,6 +887,14 @@ btn_login.addEventListener('click', function() {
             toast("You have to login metamast.");
         }
 
+
+        var str2 = web3.fromAscii('2222', 32);
+        console.log("fromAscii : " + str2); // "0x657468657265756d000000000000000000000000000000000000000000000000" (string: ethereum)
+        //1111
+        //0x31313131
+
+        //2222
+        //0x32323232
     }
 
     else {
@@ -981,29 +989,16 @@ btn_register_account.addEventListener('click', function() {
     }
 
     var input_ethamount = document.getElementById("input_ethamount").value; // 유저가 입력한 보내고자 하는 이더리움 수량
-    var input_receiveraddress = document.getElementById("input_receiveraddress").value; // 이더리움을 보내고자 하는 상대방 주소
-    var input_ethamount_float = parseFloat(input_ethamount); // parseFloat() 내장함수
-
     console.log("보내고자 하는 이더리움 수량 : "+input_ethamount); // 보내고자 하는 이더리움 수량 체크
 
     // var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
-
-    // 만약, 보내고자 하는 수량을 입력하지 않은 경우 입력 유도
-    if(isNaN(input_ethamount_float)) {
-        toast("Set the amount you want to send.");
-        return;
-    }
 
     // 버전 확인 함수
     var version = web3.version.api;
     console.log(version); // "0.2.0"
 
-
     // 1. An ASCII string to be converted to HEX
     // 2. The number of bytes the returned HEX string should have.
-    var str2 = web3.fromAscii('1111', 32);
-    console.log("fromAscii : " + str2); // "0x657468657265756d000000000000000000000000000000000000000000000000"
-    // "0xa5b9d60f32436310afebcfda832817a68921beb782fabf7915cc0460b443116a"
 
 });
 
