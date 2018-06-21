@@ -884,17 +884,9 @@ btn_login.addEventListener('click', function() {
 
         // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
         if(isNaN(user_address)) {
-            toast("You have to login metamast.");
+            toast("You have to login metamask.");
         }
 
-
-        var str2 = web3.fromAscii('2222', 32);
-        console.log("fromAscii : " + str2); // "0x657468657265756d000000000000000000000000000000000000000000000000" (string: ethereum)
-        //1111
-        //0x31313131
-
-        //2222
-        //0x32323232
     }
 
     else {
@@ -976,7 +968,8 @@ btn_sendtransaction.addEventListener('click', function() {
 });
 
 /**
- * @dev EventListener to send ethereum & token
+ * @dev EventListener to register user info through blockchain network
+ * @smartcontract registerAbleUser
  * @input receiver address
  * @input eth amount
  * @input gas limit
@@ -988,17 +981,33 @@ btn_register_account.addEventListener('click', function() {
         toast("You need to metamask login.");
     }
 
-    var input_ethamount = document.getElementById("input_ethamount").value; // 유저가 입력한 보내고자 하는 이더리움 수량
-    console.log("보내고자 하는 이더리움 수량 : "+input_ethamount); // 보내고자 하는 이더리움 수량 체크
-
-    // var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
+    var input_nickname = document.getElementById("input_nickname").value; // 유저가 입력한 보내고자 하는 이더리움 수량
+    console.log("가입하고자 하는 닉네임: "+input_nickname); // 보내고자 하는 이더리움 수량 체크
 
     // 버전 확인 함수
     var version = web3.version.api;
-    console.log(version); // "0.2.0"
+    console.log(version); // "0.20.3"
 
     // 1. An ASCII string to be converted to HEX
     // 2. The number of bytes the returned HEX string should have.
+    var bytes32_nickname = web3.fromAscii(input_nickname, 32);
+    console.log("fromAscii (input_nickname) : " + bytes32_nickname);
+
+    // 1111
+    // 0x31313131
+
+    // 2222
+    // 0x32323232
+
+    // ethereum
+    // 0x657468657265756d000000000000000000000000000000000000000000000000
+
+    contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
+        console.log("err : " + err);
+        console.log("result : " + result);
+    });
+
+
 
 });
 
