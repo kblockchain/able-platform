@@ -37,8 +37,8 @@ contract AblePlatform is Ownable, Authorizable {
     using SafeMath for uint;
 
     // ABLE token and ABLE dollar token address
-    address ableAddress = 0x00;
-    address ableDollarAddress = 0x00;
+    address ableAddress;
+    address ableDollarAddress;
 
     // ABLE user
     struct ableUser {
@@ -73,7 +73,6 @@ contract AblePlatform is Ownable, Authorizable {
         
     mapping(bytes32 => ableAccount) private ableAccounts;
     bytes32[] private ableAccountList;
-    uint private totalBankAccounts;
 
     // Matching
     mapping (address => mapping (bytes32 => bool)) public matchOrders; //mapping of user accounts to mapping of order hashes to booleans (true = submitted by user, equivalent to offchain signature)
@@ -183,10 +182,11 @@ contract AblePlatform is Ownable, Authorizable {
     /* -------- Constructor -------- */
 
     /**
-    * @dev Function to contruct AbleBank
+    * @dev Function to contruct ABLE Platform
     */
-    function AbleBank() public {
-        totalBankAccounts = 0;
+    function AblePlatform() public {
+        ableAddress = 0x00;
+        ableDollarAddress = 0x00;
     }
 
 
@@ -198,12 +198,6 @@ contract AblePlatform is Ownable, Authorizable {
     event AbleDeposit(address token, address userAddress, uint amount, uint balance);
     event AbleWithdraw(address token, address userAddress, uint amount, uint balance);
     event AbleTransfer(address token, bytes32 from, bytes32 to, uint amount, uint balance);
-    event AbleMatchOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
-    event AbleMatchCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
-    event AbleMatchTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
-    event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
-    event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
-    event AbleDexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
     /*
     // Matching
@@ -230,10 +224,13 @@ contract AblePlatform is Ownable, Authorizable {
     */
 
     // Matching
+    event AbleMatchOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
+    event AbleMatchCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
+    event AbleMatchTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
     // DEX
-    event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user);
-    event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s);
+    event AbleDexOrder(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber);
+    event AbleDexCancel(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, bytes32 accountNumber, uint8 v, bytes32 r, bytes32 s);
     event AbleDexTrade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address get, address give);
 
 
@@ -341,7 +338,7 @@ contract AblePlatform is Ownable, Authorizable {
     }
     
 
-    /* -------- General bank account functions -------- */
+    /* -------- General banking account functions -------- */
 
     /**
     * @dev Function to register ableUser
@@ -384,6 +381,7 @@ contract AblePlatform is Ownable, Authorizable {
 
         // We also maintain a list of "ableAccount" that refer to the "ableUser", so ... 
         ableUsers[msg.sender].ableAccountKeyPointers[_accountNumber] = ableUsers[msg.sender].ableAccountKeys.push(_accountNumber)-1;
+        totalBankingAccounts.safeAdd(1);
 
         AbleAccountOpened_Successful(msg.sender, _accountNumber, "Free");
         return true;
@@ -464,7 +462,7 @@ contract AblePlatform is Ownable, Authorizable {
         
         if(ableAccounts[_accountNumber].token[address(0)]<_amount) revert();
         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].safeSub(_amount);
-        if (!msg.sender.send(_amount)()) revert();
+        if (!msg.sender.send(_amount)) revert();
         
         AbleWithdraw(address(0), msg.sender, _amount, ableAccounts[_accountNumber].token[address(0)]);
         return true;
