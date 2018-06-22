@@ -632,9 +632,58 @@ var btn_login = document.getElementById('btn_login');
 btn_login.addEventListener('click', function() {
     // 메타마스크 또는 미스트가 설치되어 있는지 확인한다.
     if (typeof web3 !== 'undefined') {
+
+
+
+
+
+        // 만약, 메타마스크의 계정을 변경한 경우 처리해줘야할 로직. 1초에 한번씩 아이디를 체크하는 것 같음.
+        // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-metamask-as-a-light-client
+/*        var account = web3.eth.accounts[0];
+        var accountInterval = setInterval(function() {
+            if (web3.eth.accounts[0] !== account) {
+                account = web3.eth.accounts[0];
+                updateInterface();
+            }
+        }, 100);*/
+
+
+
+
+
+
         // 메타마스크가 설치 되어 있는 경우
         // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
         window.web3 = new Web3(web3.currentProvider); // 현재 브라우저에서 연결된 네트워크로 연
+
+        // 메타마스크가 어떤 네트워크에 속해있는지 체크
+        web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+                case "1":
+                    console.log('This is mainnet')
+                    break
+
+                case "2":
+                    console.log('This is the deprecated Morden test network.')
+                    break
+
+                case "3":
+                    console.log('This is the ropsten test network.')
+                    break
+
+                case "4":
+                    console.log('This is the Rinkeby test network.')
+                    break
+
+                case "42":
+                    console.log('This is the Kovan test network.')
+                    break
+
+                default:
+                    console.log('This is an unknown network.')
+
+            }
+        });
 
         // let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io')); // ropsten 네트워크로 연결
 
@@ -736,15 +785,15 @@ btn_sendtransaction.addEventListener('click', function() {
  * @input eth amount
  * @input gas limit
  */
-var btn_register_account = document.getElementById('btn_register_account');
-btn_register_account.addEventListener('click', function() {
+var btn_register_user = document.getElementById('btn_register_user');
+btn_register_user.addEventListener('click', function() {
 
     if(isNaN(user_address)) {
         toast("You need to metamask login.");
     }
 
-    var input_nickname = document.getElementById("input_nickname").value; // 유저가 입력한 보내고자 하는 이더리움 수량
-    console.log("가입하고자 하는 닉네임: "+input_nickname); // 보내고자 하는 이더리움 수량 체크
+    var input_username = document.getElementById("input_username").value;
+    console.log("가입하고자 하는 닉네임: "+input_username);
 
     // 버전 확인 함수
     var version = web3.version.api;
@@ -753,8 +802,8 @@ btn_register_account.addEventListener('click', function() {
     // 1. An ASCII string to be converted to HEX
     // 2. The number of bytes the returned HEX string should have.
     // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
-    var bytes32_nickname = web3.fromAscii("1111", 32);
-    console.log("fromAscii (input_nickname) : " + bytes32_nickname);
+    var bytes32_username = web3.fromAscii("1111", 32);
+    console.log("fromAscii (input_username) : " + bytes32_username);
 
     // 1111
     // 0x31313131
@@ -766,9 +815,21 @@ btn_register_account.addEventListener('click', function() {
     // 0x657468657265756d000000000000000000000000000000000000000000000000
 
 
-    contractInstance.registerAbleUser("0x31313131",user_address, function (err, result) {
-        console.log("registerAbleUser err : " + err);
-        console.log("registerAbleUser result : " + result);
+    contractInstance.registerAbleUser("0x32323232", function (err, result) {
+
+
+        // if there is an error => return;
+        if(err) {
+            console.log("registerAbleUser error:" + err);
+            return;
+        };
+
+        // check result value
+        if(typeof result !== 'undefined') {
+
+            console.log("registerAbleUser result : " + result);
+
+        }
     });
 
 
@@ -807,7 +868,78 @@ btn_register_account.addEventListener('click', function() {
 
 });
 
+/**
+ * @dev Function to open free ableAccount
+ * @param _accountNumber the bytes32 to add new ableAccount.
+ * @param _password the bytes32 to set password.
+ * @return boolean flag if open success.
+ */
+var btn_register_account = document.getElementById('btn_register_account');
+btn_register_account.addEventListener('click', function () {
+    if(isNaN(user_address)) {
+        toast("You need to metamask login.");
+        return;
+    }
 
+    var input_account_number = document.getElementById("input_account_number").value; // 유저가 입력한 보내고자 하는 이더리움 수량
+    var input_account_password = document.getElementById("input_account_password").value; // 이더리움을 보내고자 하는 상대방 주소
+
+    var bytes32_account_number = web3.fromAscii(input_account_number, 32);
+    console.log("fromAscii (input_account_number) : " + bytes32_account_number);
+
+
+    var bytes32_account_password = web3.fromAscii(input_account_password, 32);
+    console.log("fromAscii (input_account_password) : " + bytes32_account_password);
+
+   contractInstance.openAbleAccount(bytes32_account_number, bytes32_account_password, function (err, result) {
+       console.log("openAbleAccount err : " + err);
+       console.log("openAbleAccount result : " + result);
+
+       contractInstance.AbleAccountOpened_Successful.watch(function (err, result) {
+          if(err) {
+              console.log("event watch : " + err)
+              return;
+          }
+
+           console.log("event result : " + result)
+
+           document.getElementById('accountAddr2').innerHTML = "<input type='button' id='account_address' onclick='copy(this.value)' value='" + address + "' readonly />";
+
+
+
+       });
+
+/*       web3.eth.getTransaction(result, function (err, result) {
+           console.log("openAbleAccount err : " + err);
+           console.log("openAbleAccount result : " + result);
+       });*/
+   });
+
+
+
+
+/*    contractInstance.deployed().then(function(i) {i.openAbleAccount(bytes32_account_number, bytes32_account_password).then(function(f) {console.log("depoly : " + f)})});*/
+
+
+});
+
+/**
+ * @dev Function to open free ableAccount
+ * @param _accountNumber the bytes32 to add new ableAccount.
+ * @param _password the bytes32 to set password.
+ * @return boolean flag if open success.
+ */
+var btn_check_account = document.getElementById('btn_check_account');
+btn_check_account.addEventListener('click', function () {
+
+    contractInstance.getAbleAccount.call("0x3535353500000000000000000000000000000000000000000000000000000000", function (err, result) {
+        console.log("getAbleAccount err : " + err);
+        console.log("getAbleAccount result : " + result);
+
+        result.
+    });
+
+});
 
 /**
  * @dev Function to make toast message
