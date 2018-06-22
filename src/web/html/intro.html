@@ -33,6 +33,14 @@
                 show: true
             });
         }
+        function error(){
+            $('#errorModal').modal('show').css({
+                'margin-top': function(){
+                     return 200; //($(this).height()/2) // 작동안함;;
+                }
+            });
+
+        }
     </script>
 </head>
 
@@ -43,7 +51,7 @@
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
                 <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: blue;"> Regist ABLE</span>
-                <button type="button"  data-dismiss="modal"><img style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
                 <label style="color:gray;" class="form-label" for="Metamask">Metamask Address</label>
@@ -68,6 +76,39 @@
         </div>
     </div>
 </div>
+
+
+<!-- error Modal -->
+<div class="modal fade" id="errorModal" role="dialog" >
+    <div class="modal-dialog " style="max-width: 500px">
+        <div class="modal-content" style="  border-radius: 30px; ">
+            <div class="modal-header" style="border-bottom: none; ">
+                <p class="font-weight-bold"></p>
+                <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: red;"> Error occurred</span>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img style="background: transparent; height: 30px;" src="../img/btn_close_black@3x.png"></button>
+            </div>
+            <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
+
+                <div style="text-align: center;">
+                <img style="text-align: center; height: 100px" src="../img/modal_img_metamask@3x.png">
+                </div>
+                <br>
+                <div style="text-align: center">Cannot connect to metamask.<br>
+                    Please make sure you have metamask installed</div>
+                <br>
+                <div style="text-align: center;">
+                    <p></p>
+                    <button class="text-center" type="button"  style="box-shadow: 0 2px 8px 0 #4c6ce9;  width: 70%; height: 30px;
+                    text-align: center; font-family: AppleSDGothicNeo ; background-color: blue; color:white;
+                    border-radius: 30px;">Metamask homepage <img style=" padding-right: 5px; float: right; height: 20px" src="../img/btn_next_white@3x.png"></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 
 <body class="horizontal-navigation">
@@ -113,6 +154,11 @@
                                target="_blank" >
                                 <img style="height: 30px;" src="../img/navi_img_metamask@3x.png">
                                 Connect to Metamask
+                            </a>
+                            <a class="btn btn-nav btn-rounded btn-inline" href="javascript:error();"
+                               target="_blank" >
+
+                                Open error Modal
                             </a>
                         </ul>
                     </div>
