@@ -34,8 +34,51 @@
             console.log("ready");
 
         });
+
+        function welcome(){
+            $('#welcomeModal').modal('show').css({
+                'margin-top': function(){
+                    return 200; //($(this).height()/2) // 작동안함;;
+                }
+            });
+
+        }
     </script>
 </head>
+
+
+<!-- welcome Modal -->
+<div class="modal fade" id="welcomeModal" role="dialog" >
+    <div class="modal-dialog " style="max-width: 500px">
+        <div class="modal-content" style="  border-radius: 30px; ">
+            <div class="modal-header" style="border-bottom: none; ">
+                <p class="font-weight-bold"></p>
+                <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: #4c6ce9;"> Wellcome to ABLE! </span>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
+
+                <div style="text-align: center;">
+                    <img style="text-align: center; height: 200px" src="../img/bg_deco.png">
+                </div>
+                <br>
+                <div style="text-align: center">에이블에 온 것을 축하합니다!<br>
+                    계좌 생성 이후에 에이블을 이용하실 수 있습니다. </div>
+                <br>
+                <div style="text-align: center;">
+                    <p></p>
+                    <button class="text-center" type="button"  style=" border : none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 70%; height: 30px;
+                    text-align: center; font-family: AppleSDGothicNeo ; background-color: #4c6ce9; color:white;
+                    border-radius: 30px;"> Okay! </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 
 <body class="horizontal-navigation">
 
@@ -86,6 +129,11 @@
                                target="_blank">
                                 Metamask에 연결하기
                             </a>
+                            <a class="btn btn-nav btn-rounded btn-inline" href="javascript:welcome();"
+                               target="_blank" >
+
+                                Open welcome Modal
+                            </a>
                         </ul>
                     </div>
                 </div><!--.site-header-shown-->
@@ -128,10 +176,10 @@
 <br><br><br><br><br><br><br><br><br>
 <h2 style="text-align: center" class="intro-title">계좌관리</h2><br><br>
 <div class="container" style="width: 600px;">
-    <div class="box-typical box-typical-padding" style="  box-shadow: 0 2px 8px 0 #bec6cc;  ">
+    <div class="box-typical box-typical-padding" style=" border-radius: 9px; box-shadow: 0 2px 8px 0 #bec6cc;  ">
         <div style="margin-left: 10px;">
             <div class="row">
-                <div class="col-sm-3"><img style=" margin-top: 10px; height: 30px;"
+                <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
                                            src="../img/logo_able_black_horizontal.png"></div>
                 <div class="col-sm-6"></div>
                 <div class="col-sm-3" style="color:#919fa9; font-size: 13px; text-align: right">
@@ -171,33 +219,90 @@
 
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="card"
-                         style="margin-right: 15px; width: 70px; background-color: #f6f8fc; text-align: center;  min-width: 0px; border-radius: 12px; border: none;">
-                        <div style="margin-top: 5px; text-align:center;"><img
-                                style=" text-align:center; width: 30px;  height: 30px;"
-                                src="../img/side_logo_bitcoin_on.png"></div>
-                        BTC
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card"
+                                 style=" width: 63px; height: 63px; background-color: #f6f8fc; text-align: center;  min-width: 0px; border-radius: 12px; border: none;">
+                                <div style="margin-top: 5px; text-align:center;">
+                                    <img style=" text-align:center; width: 30px;  height: 30px;"
+                                         src="../img/side_logo_bitcoin_on.png">
+                                    <p>BTC
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9" style="padding-top: 20px">
+                            334.32994823 BTC
+                        </div>
+
                     </div>
-                    334.32994823 BTC
-                    <div class="col-sm-6">
-                        <img style="margin-right: 15px; height: 30px;" src="../img/side_logo_ethereum_on.png">124.36924102
-                        ETH
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card"
+                                 style=" width: 63px; height: 63px; background-color: #f6f8fc; text-align: center;  min-width: 0px; border-radius: 12px; border: none;">
+                                <div style="margin-top: 5px; text-align:center;">
+                                    <img style=" text-align:center; width: 30px;  height: 30px;"
+                                         src="../img/side_logo_ethereum_on.png">
+                                    <p>ETH
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9" style="padding-top: 20px">
+                            124.36924102
+                            ETH
+                        </div>
+
                     </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <br>
+    <div class="box-typical box-typical-padding" style=" background-color: transparent; border-radius: 9px; border-width: 2px; border-style: dashed ">
+        <div style="margin-left: 10px;">
+            <div class="row">
+                <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
+                                           src="../img/logo_able_gray_horizontal.png"></div>
+                <div class="col-sm-6" style="color:#6b7a85; font-size: 23px; text-align: center"> Account Regist</div>
+                <div class="col-sm-3" style="color:#919fa9; font-size: 13px; text-align: right">
                 </div>
                 <br>
             </div>
+            <br><br>
+            <div class="row">
+                <div style="font-size: 14px" class="col-sm-12">
+                    <font style="color: #b9c4d1"> Address Nickname </font><br>
+                    <div style="margin-top: 5px">
+                        <input type="text" class="form-control" id="inputPassword" placeholder="Ex) MyABLE">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" style="width:100%" class="btn btn-inline">Add Account</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <style type="text/css">
+    </div><br><br><br>
+</div>
 
-        .centerbox {
-            background-color: #bec6cc;
-            height: 35px;
-            text-align: center;
-            font-size: 2px;
-        }
-    </style>
+<style type="text/css">
+
+    .centerbox {
+        background-color: #bec6cc;
+        height: 35px;
+        text-align: center;
+        font-size: 2px;
+    }
+</style>
 
 
 </body>
