@@ -630,83 +630,88 @@ var user_accountNumber; // 에이블 간편 계좌 번호
 // 메타마스크 불러오기 확인
 // 브라우저에서 로딩이 다 되면 실행된다.
 var btn_login = document.getElementById('btn_login');
-btn_login.addEventListener('click', function() {
-    // 메타마스크 또는 미스트가 설치되어 있는지 확인한다.
-    if (typeof web3 !== 'undefined') {
+btn_login.addEventListener('click', function metakmask_check() {
 
-        // 만약, 메타마스크의 계정을 변경한 경우 처리해줘야할 로직. 1초에 한번씩 아이디를 체크하는 것 같음.
-        // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-metamask-as-a-light-client
-/*        var account = web3.eth.accounts[0];
-        var accountInterval = setInterval(function() {
-            if (web3.eth.accounts[0] !== account) {
-                account = web3.eth.accounts[0];
-                updateInterface();
+
+    // 3초에 한번씩 메타마스크 네트워크 및 아이디 변경 여부 체크
+    var metamask = setInterval(function () {
+        if (typeof web3 !== 'undefined') {
+
+            // 만약, 메타마스크의 계정을 변경하는 경우 1초에 한번씩 아이디를 체크하는 것 같음.
+
+            // 메타마스크가 설치 되어 있는 경우
+            // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
+            // let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io')); // ropsten 네트워크로 연결
+            window.web3 = new Web3(web3.currentProvider); // 현재 브라우저에서 연결된 네트워크로 연결
+            user_address = web3.eth.accounts[0];
+            console.log("user address : " + user_address);
+
+            // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
+            if(isNaN(user_address)) {
+                toast("You have to login metamask.");
+                return;
             }
-        }, 100);*/
 
-        // 메타마스크가 설치 되어 있는 경우
-        // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
-        window.web3 = new Web3(web3.currentProvider); // 현재 브라우저에서 연결된 네트워크로 연
+            // todo 여기 로직 체크 필요. 로그인 버튼을 계속 클릭하게 할 것인지, 다른 네트워크 일 경우 버튼 이벤트 안먹히게 할 것인지.
+            // 메타마스크가 어떤 네트워크에 속해있는지 체크 후, Rinkeby가 아닐 경우 로그인 막음.
+            web3.version.getNetwork((err, netId) => {
 
-        // 메타마스크가 어떤 네트워크에 속해있는지 체크
-        web3.version.getNetwork((err, netId) => {
-            switch (netId) {
-                case "1":
+                if(netId == "1") {
                     console.log('This is mainnet')
-                    break
+                    clearInterval(metamask)
+                    return;
+                }
 
-                case "2":
-                    console.log('This is the deprecated Morden test network.')
-                    break
+                else if(netId == "2"){
+                    console.log('This is the deprecated Modern test network.')
+                    clearInterval(metamask)
+                    return;
+                }
 
-                case "3":
-                    console.log('This is the ropsten test network.')
-                    break
+                else if(netId == "2"){
+                    console.log('This is the Ropsten test network.')
+                    clearInterval(metamask)
+                    return;
+                }
 
-                case "4":
+                else if(netId == "3"){
                     console.log('This is the Rinkeby test network.')
-                    break
+                    clearInterval(metamask)
+                    return;
+                }
 
-                case "42":
+                else if(netId == "4"){
+                    console.log('This is the Rinkeby test network.')
+                    // 메인 함수 시작 (web3를 통해서 스마트 컨트랙트에 접근 가능해짐)
+                    // startApp();
+                    startApp()
+                }
+
+                else if(netId == "42"){
                     console.log('This is the Kovan test network.')
-                    break
+                    clearInterval(metamask)
+                    return;
+                }
 
-                default:
+                else {
                     console.log('This is an unknown network.')
+                    clearInterval(metamask)
+                    return;
+                }
 
-            }
-        });
-
-        // let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io')); // ropsten 네트워크로 연결
-
-        console.log("metamask 설치가 되어있습니다.");
-
-        user_address = web3.eth.accounts[0];
-        console.log("user address : " + user_address);
-
-
-        // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
-        if(isNaN(user_address)) {
-            toast("You have to login metamask.");
+            });
         }
 
-    }
 
-    else {
-        // todo 메타마스크가 설치 되어 있지 않은 경우 (예외처리 해주기)
-        console.log("metamask 설치가 되어있지 않습니다");
-    }
-
-    // 메인 함수 시작 (web3를 통해서 스마트 컨트랙트에 접근 가능해짐)
-    startApp();
-
+    },3000);
 });
+
+
 
 /**
  * @dev Function to make connection of metamask.
  */
 function startApp() {
-
     // web3 이용해서 스마트 컨트랙트 접근하기
     simpleStorageContract = web3.eth.contract(abi);
     contractInstance = simpleStorageContract.at(contractAddress);
@@ -716,14 +721,17 @@ function startApp() {
     web3.eth.getCoinbase(function(e, address) {
         web3.eth.getBalance(address, function(e, balances) {
 
-            document.getElementById('accountAddr2').innerHTML = "<input type='button' id='account_address' onclick='copy(this.value)' value='" + address + "' readonly />";
+
+            // 메타마스크 주소
+            document.getElementById('output_address').innerHTML = address;
 
             // web3.fromWei() 메소드는 wei 숫자를 다른 단위로 변환하기 위해 사용 (wei -> ether)
             // web3.toWei() 메소드는 다른 단위를 wei 단위로 변환하기 위해 사 (ether -> wei)
-            document.getElementById('accountAddr1').innerHTML += "<span id='account_balances'>" + Number(web3.fromWei(Number(balances), 'ether')).toFixed(2) + "&nbsp;ETH</span>";
+            document.getElementById('output_ethamount').innerHTML = Number(web3.fromWei(Number(balances), 'ether')).toFixed(2);
         });
 
     });
+
 }
 
 /**************************************************************************************************************************************/
