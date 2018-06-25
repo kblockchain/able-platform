@@ -42,7 +42,28 @@
 <div class="container">
 
     <br>
-    <h5>회원가입</h5>
+    <h5>0.유저확인</h5>
+    <br>
+    <!-- 에이블 유저인지 아닌지 체크-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Is Able User</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label for="output_check_ableuser">able 유저가 맞습니까?</label>
+                    <span id="output_check_ableuser"></span>
+                </div>
+
+                <button id="btn_check_ableuser" type="button" class="btn btn-lg btn-block btn-outline-primary">check</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <h5>1.회원가입</h5>
     <br>
     <!-- 에이블 유저 이름 등록-->
     <div class="card-deck mb-1 text-left">
@@ -67,7 +88,7 @@
 
 
     <br>
-    <h5>계좌등록</h5>
+    <h5>2.계좌등록</h5>
     <br>
     <!-- 에이블 계좌 등록-->
     <div class="card-deck mb-1 text-left">
@@ -93,38 +114,60 @@
                     </div>
                 </div>
 
-                <button id="btn_register_account" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
+                <div class="mb-3">
+                    <label for="output_check_ableuser">계좌 생성 여부</label>
+                    <br>
+                    <span id="output_check_ableaccount_status"></span>
+                    <br>
+                    <span id="output_check_accountNumber"></span>
+                </div>
+
+                <button id="btn_open_account" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
             </div>
         </div>
     </div>
 
     <br>
-    <h5>계좌확인<h5>
+    <h5>3.계좌정보 불러오기<h5>
     <br>
     <!-- 에이블 계좌 확인-->
     <div class="card-deck mb-1 text-left">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Able Open Account</h4>
+                <h4 class="my-0 font-weight-normal">Able Account Check</h4>
             </div>
             <div class="card-body">
 
                 <div class="mb-3">
-                    <label for="output_account_number">계좌번호</label>
-                    <span id="output_account_number"></span>
+                    <label for="output_userAddress">메타마스크 주소</label>
+                    <br>
+                    <span id="output_userAddress"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="output_account_type">계좌타입</label>
-                    <span id="output_account_type"></span>
+                    <label for="output_accountNumber">간편송금 계좌 번호</label>
+                    <br>
+                    <span id="output_accountNumber"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="output_accountInfo">계좌 정보</label>
+                    <br>
+                    <span id="output_accountInfo"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="output_account_token">토큰 갯수</label>
-                    <span id="output_account_token"></span>
+                    <label for="output_accountType">계좌 타입</label>
+                    <br>
+                    <span id="output_accountType"></span>
                 </div>
 
-                <button id="btn_check_account" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
+                <div class="mb-3">
+                    <label for="output_numToken">토큰 갯수</label>
+                    <br>
+                    <span id="output_numToken"></span>
+                </div>
+
+                <button id="btn_check_account" type="button" class="btn btn-lg btn-block btn-outline-primary">check</button>
             </div>
         </div>
     </div>

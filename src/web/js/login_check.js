@@ -625,6 +625,7 @@ var abi=[
 var simpleStorageContract; // 컨트랙트 변수
 var contractInstance;
 var user_address; // 메타마스크에 로그인한 유저의 ethereum address
+var user_accountNumber; // 에이블 간편 계좌 번호
 
 // 메타마스크 불러오기 확인
 // 브라우저에서 로딩이 다 되면 실행된다.
@@ -632,10 +633,6 @@ var btn_login = document.getElementById('btn_login');
 btn_login.addEventListener('click', function() {
     // 메타마스크 또는 미스트가 설치되어 있는지 확인한다.
     if (typeof web3 !== 'undefined') {
-
-
-
-
 
         // 만약, 메타마스크의 계정을 변경한 경우 처리해줘야할 로직. 1초에 한번씩 아이디를 체크하는 것 같음.
         // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#dizzy-all-async---think-of-metamask-as-a-light-client
@@ -646,11 +643,6 @@ btn_login.addEventListener('click', function() {
                 updateInterface();
             }
         }, 100);*/
-
-
-
-
-
 
         // 메타마스크가 설치 되어 있는 경우
         // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
@@ -734,6 +726,219 @@ function startApp() {
     });
 }
 
+/**************************************************************************************************************************************/
+
+/**
+ * @dev Function to open free ableAccount
+ * @param _accountNumber the bytes32 to add new ableAccount.
+ * @param _password the bytes32 to set password.
+ * @return boolean flag if open success.
+ */
+var btn_check_ableuser = document.getElementById('btn_check_ableuser');
+btn_check_ableuser.addEventListener('click', function () {
+    // smartcontract isAbleUser() 함수를 통해서 ableUser인지 아닌지 체크
+        contractInstance.isAbleUser.call(user_address, function (err, result) {
+
+            if(err) {
+                console.log("err : " + err);
+                return;
+            };
+
+                console.log("result : " + result);
+
+                // ableUser인 경우
+                if(result==true) {
+                    // todo 계좌 페이지 or 메인 페이지 띄우기
+
+                    console.log("able 유저입니다.");
+                    document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
+
+
+                }
+
+                // ableUser가 아닌 경우
+                else if(result==false) {
+
+                    console.log("able 유저가 아닙니다.");
+                    document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
+
+                    // todo modal로 회원가입 화면 띄워주기
+                    // 닉네임 입력받고 해당 닉네임으로 회원가입 진행하기
+                    // contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
+
+
+
+/*                    contractInstance.registerAbleUser("0x31313131", user_address, function (err, result) {
+                        console.log("registerAbleUser err : " + err);
+                        console.log("registerAbleUser result : " + result);
+                    });*/
+                }
+
+        });
+});
+
+
+
+/**************************************************************************************************************************************/
+
+/**
+ * @dev Function to register ableUser
+ * @param _userName the bytes32 to insert userName.
+ * @return boolean flag if register success.
+ */
+var btn_register_user = document.getElementById('btn_register_user');
+btn_register_user.addEventListener('click', function() {
+
+    if(isNaN(user_address)) {
+        toast("You need to metamask login.");
+    }
+
+    var input_username = document.getElementById("input_username").value;
+    console.log("가입하고자 하는 닉네임: "+input_username);
+
+    // 버전 확인 함수
+    var version = web3.version.api;
+    console.log(version); // "0.20.3"
+
+    // 1. An ASCII string to be converted to HEX
+    // 2. The number of bytes the returned HEX string should have.
+    // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
+    var bytes32_username = web3.fromAscii(input_username, 32);
+    console.log("fromAscii (input_username) : " + bytes32_username);
+
+    // todo 유저 생성하는 부분. 스마트 컨트랙트 가스 문제로 디버깅 필요. 트랜잭션이 발생하지 않음.
+    contractInstance.registerAbleUser(bytes32_username, function (err, result) {
+
+
+        // if there is an error => return;
+        if(err) {
+            console.log("registerAbleUser error:" + err);
+            return;
+        };
+
+        // check result value
+        if(typeof result !== 'undefined') {
+
+            console.log("registerAbleUser result : " + result);
+
+        }
+    });
+});
+
+
+
+/**************************************************************************************************************************************/
+
+/**
+ * @dev Function to open free ableAccount
+ * @param _accountNumber the bytes32 to add new ableAccount.
+ * @param _password the bytes32 to set password.
+ * @return boolean flag if open success.
+ * @comments only ableuser can open account.
+ */
+var btn_open_account = document.getElementById('btn_open_account');
+btn_open_account.addEventListener('click', function () {
+    if(isNaN(user_address)) {
+        toast("You need to metamask login.");
+        return;
+    }
+
+    var input_account_number = document.getElementById("input_account_number").value; // 유저가 입력한 보내고자 하는 이더리움 수량
+    var input_account_password = document.getElementById("input_account_password").value; // 이더리움을 보내고자 하는 상대방 주소
+
+    var bytes32_account_number = web3.fromAscii(input_account_number, 32);
+    console.log("fromAscii (input_account_number) : " + bytes32_account_number);
+
+
+    var bytes32_account_password = web3.fromAscii(input_account_password, 32);
+    console.log("fromAscii (input_account_password) : " + bytes32_account_password);
+
+   contractInstance.openAbleAccount(bytes32_account_number, bytes32_account_password, function (err, result) {
+
+       if(err) {
+           console.log("openAbleAccount err : " + err);
+           return
+       }
+
+       else {
+
+           // event listener
+           // check AbleOpenAccount success or fail
+           contractInstance.AbleAccountOpened_Successful ().watch( (err, result) => {
+
+               // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
+               // if openaccount fail
+               if(err) {
+                   document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 실패";
+
+               }
+
+               // todo 계좌가 생성될 때 까지는 사용자에게 계좌를 생성 중임을 알려야한다.
+               // success, get info
+               else {
+
+                   console.log("openAbleAccount result accountNumber: " + result.args.accountNumber);
+
+                   user_accountNumber = result.args.accountNumber;
+
+                   document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 성공";
+                   document.getElementById('output_check_accountNumber').innerHTML = "간평송금 계좌 번호\n" +result.args.accountNumber;
+
+
+               }
+
+           });
+       }
+   });
+
+});
+
+
+/**************************************************************************************************************************************/
+
+/**
+ * @dev Function to get ableAccount properties using _accountNumber
+ * @param _accountNumber the bytes32 to get ableAccount properties.
+ * @return address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_.
+ */
+var btn_check_account = document.getElementById('btn_check_account');
+btn_check_account.addEventListener('click', function () {
+
+
+    contractInstance.getAbleAccount.call("0x3839300000000000000000000000000000000000000000000000000000000000", function (err, result) {
+
+        if(err) {
+
+            console.log("getAbleAccount err : " + err);
+            return;
+        }
+
+        else {
+
+            var account_info = result.toString().split(',');
+
+            console.log("account info user address: " + account_info[0]); // 0x0466965159aa9972e3b3f236cd2df93f26f629c9 (user address)
+            document.getElementById('output_userAddress').innerHTML = account_info[0];
+
+            console.log("account info account number: " + account_info[1]); // 0x3131363100000000000000000000000000000000000000000000000000000000 (account number)
+            document.getElementById('output_accountNumber').innerHTML = account_info[1];
+
+            console.log("account info accountInfo: " + account_info[2]); // Default free ABLE account (accountInfo)
+            document.getElementById('output_accountInfo').innerHTML = account_info[2];
+
+            console.log("account info accountType: " + account_info[3]); // Free (accountType)
+            document.getElementById('output_accountType').innerHTML = account_info[3];
+
+            console.log("account info numToken: " + account_info[4]); // 3 (numToken)
+            document.getElementById('output_numToken').innerHTML = account_info[4];
+
+        }
+
+
+    })
+});
+
+/**************************************************************************************************************************************/
 
 /**
  * @dev EventListener to send ethereum & token
@@ -762,184 +967,23 @@ btn_sendtransaction.addEventListener('click', function() {
         return;
     }
 
-        // 이더리움을 보내는 함수
-        web3.eth.sendTransaction({
-            to: input_receiveraddress, // 받는 사람의 주소
-            from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
-            value: web3.toWei(input_ethamount_float, 'ether') // 보내고자 하는 수량
-        }, function (err, transactionHash) {
-            // 오류 발생시
-            if (err) {
-                return toast('Metamask error!');
-            }
-
-            console.log(transactionHash);
-
-        });
-});
-
-/**
- * @dev EventListener to register user info through blockchain network
- * @smartcontract registerAbleUser
- * @input receiver address
- * @input eth amount
- * @input gas limit
- */
-var btn_register_user = document.getElementById('btn_register_user');
-btn_register_user.addEventListener('click', function() {
-
-    if(isNaN(user_address)) {
-        toast("You need to metamask login.");
-    }
-
-    var input_username = document.getElementById("input_username").value;
-    console.log("가입하고자 하는 닉네임: "+input_username);
-
-    // 버전 확인 함수
-    var version = web3.version.api;
-    console.log(version); // "0.20.3"
-
-    // 1. An ASCII string to be converted to HEX
-    // 2. The number of bytes the returned HEX string should have.
-    // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
-    var bytes32_username = web3.fromAscii("1111", 32);
-    console.log("fromAscii (input_username) : " + bytes32_username);
-
-    // 1111
-    // 0x31313131
-
-    // 2222
-    // 0x32323232
-
-    // ethereum
-    // 0x657468657265756d000000000000000000000000000000000000000000000000
-
-
-    contractInstance.registerAbleUser("0x32323232", function (err, result) {
-
-
-        // if there is an error => return;
-        if(err) {
-            console.log("registerAbleUser error:" + err);
-            return;
-        };
-
-        // check result value
-        if(typeof result !== 'undefined') {
-
-            console.log("registerAbleUser result : " + result);
-
+    // 이더리움을 보내는 함수
+    web3.eth.sendTransaction({
+        to: input_receiveraddress, // 받는 사람의 주소
+        from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
+        value: web3.toWei(input_ethamount_float, 'ether') // 보내고자 하는 수량
+    }, function (err, transactionHash) {
+        // 오류 발생시
+        if (err) {
+            return toast('Metamask error!');
         }
+
+        console.log(transactionHash);
+
     });
-
-
-    // smartcontract isAbleUser() 함수를 통해서 ableUser인지 아닌지 체크
-/*    contractInstance.isAbleUser.call(user_address, function (err, result) {
-
-        if(err) {
-            console.log("err : " + err);
-            return;
-        };
-
-            console.log("result : " + result);
-
-            // ableUser인 경우
-            if(result==true) {
-                // todo 계좌 페이지 or 메인 페이지 띄우기
-
-            }
-
-            // ableUser가 아닌 경우
-            else if(result==false) {
-
-                // todo modal로 회원가입 화면 띄워주기
-                // 닉네임 입력받고 해당 닉네임으로 회원가입 진행하기
-                // contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
-
-                contractInstance.registerAbleUser("0x31313131",user_address, function (err, result) {
-                    console.log("registerAbleUser err : " + err);
-                    console.log("registerAbleUser result : " + result);
-                });
-            }
-
-    });*/
-
-
-
 });
 
-/**
- * @dev Function to open free ableAccount
- * @param _accountNumber the bytes32 to add new ableAccount.
- * @param _password the bytes32 to set password.
- * @return boolean flag if open success.
- */
-var btn_register_account = document.getElementById('btn_register_account');
-btn_register_account.addEventListener('click', function () {
-    if(isNaN(user_address)) {
-        toast("You need to metamask login.");
-        return;
-    }
-
-    var input_account_number = document.getElementById("input_account_number").value; // 유저가 입력한 보내고자 하는 이더리움 수량
-    var input_account_password = document.getElementById("input_account_password").value; // 이더리움을 보내고자 하는 상대방 주소
-
-    var bytes32_account_number = web3.fromAscii(input_account_number, 32);
-    console.log("fromAscii (input_account_number) : " + bytes32_account_number);
-
-
-    var bytes32_account_password = web3.fromAscii(input_account_password, 32);
-    console.log("fromAscii (input_account_password) : " + bytes32_account_password);
-
-   contractInstance.openAbleAccount(bytes32_account_number, bytes32_account_password, function (err, result) {
-       console.log("openAbleAccount err : " + err);
-       console.log("openAbleAccount result : " + result);
-
-       contractInstance.AbleAccountOpened_Successful.watch(function (err, result) {
-          if(err) {
-              console.log("event watch : " + err)
-              return;
-          }
-
-           console.log("event result : " + result)
-
-           document.getElementById('accountAddr2').innerHTML = "<input type='button' id='account_address' onclick='copy(this.value)' value='" + address + "' readonly />";
-
-
-
-       });
-
-/*       web3.eth.getTransaction(result, function (err, result) {
-           console.log("openAbleAccount err : " + err);
-           console.log("openAbleAccount result : " + result);
-       });*/
-   });
-
-
-
-
-/*    contractInstance.deployed().then(function(i) {i.openAbleAccount(bytes32_account_number, bytes32_account_password).then(function(f) {console.log("depoly : " + f)})});*/
-
-
-});
-
-/**
- * @dev Function to open free ableAccount
- * @param _accountNumber the bytes32 to add new ableAccount.
- * @param _password the bytes32 to set password.
- * @return boolean flag if open success.
- */
-var btn_check_account = document.getElementById('btn_check_account');
-btn_check_account.addEventListener('click', function () {
-
-    contractInstance.getAbleAccount.call("0x3535353500000000000000000000000000000000000000000000000000000000", function (err, result) {
-        console.log("getAbleAccount err : " + err);
-        console.log("getAbleAccount result : " + result);
-
-        result.
-    });
-
-});
+/**************************************************************************************************************************************/
 
 /**
  * @dev Function to make toast message
