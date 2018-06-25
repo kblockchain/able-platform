@@ -28,15 +28,16 @@
 
         });
 
-        function login(){
+        function login() {
             $('#myModal').modal({
                 show: true
             });
         }
-        function error(){
+
+        function error() {
             $('#errorModal').modal('show').css({
-                'margin-top': function(){
-                     return 200; //($(this).height()/2) // 작동안함;;
+                'margin-top': function () {
+                    return 200; //($(this).height()/2) // 작동안함;;
                 }
             });
 
@@ -45,17 +46,20 @@
 </head>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog" >
+<div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog " style="max-width: 600px">
         <div class="modal-content" style="  border-radius: 30px; ">
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
-                <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: blue;"> Regist ABLE</span>
-                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
+                <span class="font-weight-bold"
+                      style=" text-align:center;  font-size:20px; color: blue;"> Regist ABLE</span>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img
+                        style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
                 <label style="color:gray;" class="form-label" for="Metamask">Metamask Address</label>
-                <input style="border: none; padding-top: 0" type="text" class="form-control" id="Metamask" placeholder="EX) marsuki" value="0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC">
+                <input style="border: none; padding-top: 0" type="text" class="form-control" id="Metamask"
+                       placeholder="EX) marsuki" value="0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC">
 
                 <label style="color:gray;" class="form-label" for="inputAdress">ABLE User Name</label>
                 <input type="text" class="form-control" id="inputAdress" placeholder="EX) marsuki">
@@ -63,12 +67,15 @@
                 <br>
                 <label style="color:gray;" class="form-label" for="inputAdress">Terms and Confitions</label>
                 <textarea style="margin-bottom: 10px;" rows="15" class="form-control" disabled placeholder="Textarea">Yesterday All my troubles seemed so far away Now it looks as though they're here to stay Oh, I believe in yesterday Suddenly I'm not half the man I used to be There's a shadow hanging over me Oh, yesterday came suddenly Why she had to go, I don't know She wouldn't say I said something wrong Now I long for yesterday Yesterday Love was such an easy game to play Now I need a place to hide away Oh, I believe in yesterday Why she had to go, I don't know She wouldn't say I said something wrong Now I long for yesterday Yesterday Love was such an easy game to play Now I need a place to hide away Oh, I believe in yesterday Yesterday All my troubles seemed so far away Now it looks as though they're here to stay Oh, I believe in yesterday Suddenly I'm not half the man I used to be There's a shadow hanging over me Oh, yesterday came suddenly Why she had to go, I don't know She wouldn't say I said something wrong Now I long for yesterday Yesterday Love was such an easy game to play Now I need a place to hide away Oh, I believe in yesterday Why she had to go, I don't know She wouldn't say I said something wrong Now I long for yesterday Yesterday Love was such an easy game to play Now I need a place to hide away Oh, I believe in yesterday</textarea>
-                    <label><input  type="checkbox" value="">  Accept <a style="color:blue">Terms and Conditions</a> to get started</label>
+                <label><input type="checkbox" value=""> Accept <a style="color:blue">Terms and Conditions</a> to get
+                    started</label>
                 <br>
                 <div style="text-align: center;">
                     <p></p>
-                    <button class="text-center" type="button"  style="box-shadow: 0 2px 8px 0 #4c6ce9;  width: 50%; height: 30px;
-                    text-align: center; font-family: AppleSDGothicNeo ; background-color: blue; color:white;  border-radius: 30px;">START ABLE</button>
+                    <button class="text-center" type="button" style="border: none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 50%; height: 30px;
+                    text-align: center; font-family: AppleSDGothicNeo ; background-color: blue; color:white;  border-radius: 30px;">
+                        START ABLE
+                    </button>
                 </div>
 
             </div>
@@ -79,28 +86,32 @@
 
 
 <!-- error Modal -->
-<div class="modal fade" id="errorModal" role="dialog" >
+<div class="modal fade" id="errorModal" role="dialog">
     <div class="modal-dialog " style="max-width: 500px">
         <div class="modal-content" style="  border-radius: 30px; ">
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
-                <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: red;"> Error occurred</span>
-                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img style="background: transparent; height: 30px;" src="../img/btn_close_black@3x.png"></button>
+                <span class="font-weight-bold"
+                      style=" text-align:center;  font-size:20px; color: red;"> Error occurred</span>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img
+                        style="background: transparent; height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
 
                 <div style="text-align: center;">
-                <img style="text-align: center; height: 100px" src="../img/modal_img_metamask@3x.png">
+                    <img style="text-align: center; height: 100px" src="../img/modal_img_metamask@3x.png">
                 </div>
                 <br>
                 <div style="text-align: center">Cannot connect to metamask.<br>
-                    Please make sure you have metamask installed</div>
+                    Please make sure you have metamask installed
+                </div>
                 <br>
                 <div style="text-align: center;">
                     <p></p>
-                    <button class="text-center" type="button"  style="box-shadow: 0 2px 8px 0 #4c6ce9;  width: 70%; height: 30px;
+                    <button class="text-center" type="button" style="border: none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 70%; height: 30px;
                     text-align: center; font-family: AppleSDGothicNeo ; background-color: blue; color:white;
-                    border-radius: 30px;">Metamask homepage <img style=" padding-right: 5px; float: right; height: 20px" src="../img/btn_next_white@3x.png"></button>
+                    border-radius: 30px;">Metamask homepage <img style=" padding-right: 5px; float: right; height: 20px"
+                                                                 src="../img/btn_next_white@3x.png"></button>
                 </div>
 
             </div>
@@ -110,17 +121,13 @@
 </div>
 
 
-
-<body class="horizontal-navigation">
-
-<header class="site-header" style="background-color: #00a1f3">
+<header class="site-header" style="background-color: blue">
     <div class="container-fluid">
         <a href="#" class="site-logo">
             <img class="hidden-md-down" src="../img/logo-3.png" alt="">
             <img class="hidden-lg-down" src="../img/logo-2-mob.png" alt="">
         </a>
         <div class="site-header-content">
-
             <div class="site-header-content-in">
                 <!--<button id="show-hide-sidebar-toggle" class="show-hide-sidebar">-->
                 <!--<span>toggle menu</span>-->
@@ -134,30 +141,28 @@
                 </div>
                 <style type="text/css">
                     a:hover {
-                        color:white;
+                        color: white;
                     }
                 </style>
-
                 <div class="site-header-shown">
                     <div style="float: right">
                         <ul class="nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#" >공지사항</a>
+                                <a class="nav-link" href="#">공지사항</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" >회사소개</a>
+                                <a class="nav-link" href="#">회사소개</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" >뱅크서비스</a>
+                                <a class="nav-link" href="#">뱅크서비스</a>
                             </li>
                             <a class="btn btn-nav btn-rounded btn-inline" href="javascript:login();"
-                               target="_blank" >
+                               target="_blank">
                                 <img style="height: 30px;" src="../img/navi_img_metamask@3x.png">
                                 Connect to Metamask
                             </a>
                             <a class="btn btn-nav btn-rounded btn-inline" href="javascript:error();"
-                               target="_blank" >
-
+                               target="_blank">
                                 Open error Modal
                             </a>
                         </ul>
@@ -167,11 +172,182 @@
         </div><!--.site-header-content-->
     </div><!--.container-fluid-->
 </header><!--.site-header-->
+
+<body>
 <div class="mobile-menu-left-overlay"></div>
-<div class="col-md-12" style=" max-height:100%">
+<div class="row">
+    <div class="col-md-12">
+        <div style=" text-align: center; width:100%;  background-color: blue">
+            <br><br><br><br><br><br>
+            <img src="../img/logo-3.png">
+            <h1 style="
+  height: 96px;
+  font-family: HelveticaNeue;
+  font-size: 40px;
+  font-weight: 200;
+  letter-spacing: -1.1px;
+  ;
+  color: #ffffff;">Redefining<br>
+                the Fourth Industrial Revolution</h1>
+            <br><br><br><br><br>
+
+            <div>
+                <button style="width: 300px;
+  height: 50px;
+  font-family: HelveticaNeue;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  text-align: center;
+  color: white;
+  background-color: rgba( 255, 255, 255, 0.5 );
+  border-radius: 2px;
+">
+                <span style="color: white; opacity: 1.0;">
+                    Connect to Metamask
+                </span>
+
+                </button>
+            </div>
+            <br><br><br><br><br><br><br>
+            <div style="font-size: 50px; "><span style=" color:white;" class="glyphicon glyphicon-menu-down"></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row" style="background-color: white">
+    <div class="col-md-6" style="margin-left: 45px; margin-top: 50px;">
+        <div style="width: 569px;
+  height: 60px;
+  font-family: HelveticaNeue;
+  font-size: 50px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.6px;
+  color: #2d2d2d;
+">P2P Matching Engine
+        </div>
+        <hr style="font-color: black; font-weight: 40px;  width: 30%"/>
+        투자/대출 매칭 엔진이 대부분의 투자/대출을 담당하지만, 발생하는 다양한 금융 업무 수요는 금융 스마트컨트렉트를 통해 진행됩니다. 장기 대출, 고액 대출, P2P 대출, 담보 대출, 신용 기반 대출이
+        해당 됩니다.<br>
+        ABLE 외부 정보를 기반으로 하는 담보 대출과 신용 대출은 ABLE 메인네트워크 개발 이후 다양한 연동을 통해 진행될 예정입니다.<br>
+        초기 금융 스마트컨트렉트는 ABLE 에서 제작을 하고, 점차 금융 스마트컨트렉트 프레임워크를 기반으로 다양한 금융 상품 개발자가 금융 스마트컨트렉트를 제작할 수 있는 환경을 제공
+        <br><br>
+        <div>
+            <button style="width: 242px;
+  height: 40px;
+  font-family: AppleSDGothicNeo;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  background-color: blue;
+  color: white;
+  box-shadow: 5px 5px 0px #b3d7ff;
+">
+                Start P2P Matching Engine
+
+            </button>
+
+        </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+    <br><br><br><br><br>
+</div>
+</div>
+
+<div class="row" style="background-color: black">
+    <div class="col-sm-12" style="text-align: center"><br><br><br><br>
+        <div style="
+  height: 60px;
+  font-family: HelveticaNeue;
+  font-size: 50px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.6px;
+  color: white;
+">Decentralized Exchange
+        </div>
+        <div>
+            <hr style="color: white;  width: 200px; font-weight: 40px; display:table; margin-left: auto; margin-right: auto;"/>
+        </div>
+        <div style="  color: white; font-family : AppleSDGothicNeo; font-size: 17px; text-align: center;">
+            <div class="col-sm-12" style="text-align: center; display:table; margin-left: auto; margin-right: auto;">
+                ABLE Ecosystem 은 크게 ABLE 계좌(Account)를 중심으로 금융, 자산 관리, 마이크로 페이먼트(Micro <br>Payment)를 포함한 3rd 파티 지원으로 구성
+                됩니다.
+                다양한 암호화폐 기반의 스마트컨트렉트를 저장하기 위해<br>서 DEX(Decentralized Exchange : 탈중앙화 분산거래소) 기능을 추가합니다. DEX 를 기반으로 자산 관리
+                및 <br>금융
+                스마트컨트렉트 제작이 가능한 프레임워크를 배포하여, 다양한 상품개발자가 금융 상품을 개발할
+                <br>수 있는 환경을 제공합니다. 이를 기반으로 이용자들은 다양한 금융 상품을 사용할 수 있고, ABLE project
+                <br>는 암호화폐 금융 플랫폼으로 진화하고, 마이크로 페이먼트를 포함한 외부 소통을 위한 API 개발을 통해 에코시
+            </div>
+        </div>
+        <br><br>
+        <button style="width: 242px;
+  height: 40px;
+  font-family: AppleSDGothicNeo;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  background-color: blue;
+  color: white;
+  border : none;
+">
+            Decentralized Exchange
+
+        </button>
+        <br><br><br><br><br><br><br><br>
+    </div>
+    <br><br><br><br><br>
+</div>
+
 
 </div>
 
 
+<div class="row" style="background-color: blue">
+    <div class="col-sm-6" style="text-align: center; padding-left: 100px; padding-right: 100px; margin-top: 90px;">
+        <div style="
+  height: 60px;
+  font-family: AppleSDGothicNeo;
+  font-size: 50px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-align: center;
+  color: #ffffff;
+">Easy Transfer
+        </div>
+        <hr style="color: white;  width: 200px; font-weight: 40px; display:table; margin-left: auto; margin-right: auto;"/>
+        <div style="  color: white; font-family : AppleSDGothicNeo; font-size: 17px; text-align: center;">
+            암호화폐의 주소 길이는 해시충돌과 해킹을 대비하기 위해, 비트코인-34글자 , 이더리움-65글자 의 길이를 갖고 있습니다. 긴 주소를 중심으로 송금 서비스를 이용하는 것은 사용자에게 번거로운
+            일입니다. 암호화폐 송금이 대중들에게 이용되기 위해서는 간편화된 주소를 도입하는 것이 필요합니다. 웹어플리케이션을 이용할 때IP주소대신기억하기쉬운도메인주소를이용하는것과유사한원리입니다.
+        </div>
+        <br><br><br>
+        <div style="background-color: white; border-radius: 7px;"><br><br><br><br><br><br><br><br><br><br><br><br></div>
+    </div>
+    <div class="col-sm-6" style="text-align: center; padding-left: 100px;  padding-right: 100px;margin-top: 90px;">
+        <div style="
+  height: 60px;
+  font-family: AppleSDGothicNeo;
+  font-size: 50px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-align: center;
+  color: #ffffff;
+">Salary Payment
+        </div>
+        <hr style="color: white;  width: 200px; font-weight: 40px; display:table; margin-left: auto; margin-right: auto;"/>
+        <div style="  color: white; font-family : AppleSDGothicNeo; font-size: 17px; text-align: center;">
+            암호화폐의 주소 길이는 해시충돌과 해킹을 대비하기 위해, 비트코인-34글자 , 이더리움-65글자 의 길이를 갖고 있습니다. 긴 주소를 중심으로 송금 서비스를 이용하는 것은 사용자에게 번거로운
+            일입니다. 암호화폐 송금이 대중들에게 이용되기 위해서는 간편화된 주소를 도입하는 것이 필요합니다. 웹어플리케이션을 이용할 때IP주소대신기억하기쉬운도메인주소를이용하는것과유사한원리입니다.
+        </div>
+        <br><br><br>
+        <div style="background-color: white; border-radius: 7px;"><br><br><br><br><br><br><br><br><br><br><br><br></div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
 </body>
 </html>

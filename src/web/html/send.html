@@ -1,199 +1,410 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>able-dex</title>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>able</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <![endif]-->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/tags_editor.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/tether.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins.js"></script>
+
+    <script src="../js/jquery.caret.min.js"></script>
+    <script src="../js/jquery.tag-editor.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/select2.full.min.js"></script>
+
+    <script src="../js/app.js"></script>
 
 
+    <script>
+        $(document).ready(function () {
+            console.log("ready");
+
+        });
+
+        function send() {
+            $('#myModal').modal('show').css({
+                'margin-top': function () {
+                    return 200; //($(this).height()/2) // 작동안함;;
+                }
+            });
+
+        }
+    </script>
 </head>
 
-<body>
-
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">ABLE DEX</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">Features</a>
-        <a class="p-2 text-dark" href="#">Enterprise</a>
-        <a class="p-2 text-dark" href="#">Support</a>
-        <a class="p-2 text-dark" href="#">Pricing</a>
-    </nav>
-    <a id="target" class="btn btn-outline-primary" href="#">Login</a>
-
-</div>
-
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">간편 송금</h1>
-</div>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Send ABLE and Token</h4>
-                </div>
-                <div class="card-body">
-
-                    <div class="mb-3">
-                        <label for="address">To ABEL User Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Please enter eth address.
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="amount">Address Nickname(Optional)</label>
-                        <input type="text" class="form-control" id="amount" placeholder="" >
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="amount">Amount to send</label>
-                        <input type="text" class="form-control" id="amount" placeholder="" >
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                        <div class="mb-3">
-                            <label for="amount">Gas Limit</label>
-                            <input type="text" class="form-control" id="amount" placeholder="" >
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-sm-6">
-                        <div class="mb-3">
-                            <label for="amount">Gas Price</label>
-                            <input type="text" class="form-control" id="amount" placeholder="" >
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">SEND TRANSACTION</button>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog " style="max-width: 600px">
+        <div class="modal-content" style="  border-radius: 30px; ">
+            <div class="modal-header" style="border-bottom: none; ">
+                <p class="font-weight-bold"></p>
+                <span class="font-weight-bold"
+                      style=" text-align:center;  font-size:22px; color: #4c6ce9;"> Confirm </span>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"><img
+                        style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
-        </div>
+            <div class="modal-body" style="margin-left: 50px; margin-right: 50px; text-align: center;">
+                <label style="color:#bec6cc; font-weight: 800; font-size: 14px;" class="form-label" >To ABLE User Address</label>
+                0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC
+                <br><br>
+                <label style="color:#bec6cc; font-weight: 800; font-size: 14px;" class="form-label" >Address Nickname</label>
+                N/N
+                <br><br>
+                <label style="color:#bec6cc; font-weight: 800; font-size: 14px;" class="form-label" >Amount to send</label>
+                1.000000000000 ETH
+                <br><br>
+                <label style="color:#bec6cc; font-weight: 800; font-size: 14px;" class="form-label" >Gas Limit</label>
+                20
 
-        <div class="col-sm-6">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Send ABLE and Token</h4>
+
+                <br><br>
+                <div style="text-align: center;">
+                    <p></p>
+                    <button class="text-center" type="button" style="border: none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 50%; height: 30px;
+                    text-align: center; font-family: AppleSDGothicNeo ; background-color: #4c6ce9; color:white;  border-radius: 30px;">
+                        SEND
+                    </button>
                 </div>
-                <div class="card-body">
-                    ABEL User
-                    <div class="mb-3">
-                        <label for="address"> Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Please enter eth address.
-                        </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="amount">Name</label>
-                        <input type="text" class="form-control" id="amount" placeholder="" >
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="amount">ABLE Account</label>
-                        <input type="text" class="form-control" id="amount" placeholder="Free account1" >
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-                    Free Account
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label for="amount">ABLE</label>
-                                <input type="text" class="form-control" id="amount" placeholder="" >
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label for="amount">ETH</label>
-                                <input type="text" class="form-control" id="amount" placeholder="" >
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
+
         </div>
     </div>
-
-    </div>
-
-    <!-- Footer 기능 -->
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            <div class="col-12 col-md">
-                <img class="mb-2" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
-                <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Features</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Cool stuff</a></li>
-                    <li><a class="text-muted" href="#">Random feature</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Resources</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Resource</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>About</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Team</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
 </div>
 
 
+<!-- welcome Modal -->
+<div class="modal fade" id="welcomeModal" role="dialog">
+    <div class="modal-dialog " style="max-width: 500px">
+        <div class="modal-content" style="  border-radius: 30px; ">
+            <div class="modal-header" style="border-bottom: none; ">
+                <p class="font-weight-bold"></p>
+                <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: #4c6ce9;"> Wellcome to ABLE! </span>
+                <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
+
+                <div style="text-align: center;">
+                    <img style="text-align: center; height: 200px" src="../img/bg_deco.png">
+                </div>
+                <br>
+                <div style="text-align: center">에이블에 온 것을 축하합니다!<br>
+                    계좌 생성 이후에 에이블을 이용하실 수 있습니다.
+                </div>
+                <br>
+                <div style="text-align: center;">
+                    <p></p>
+                    <button class="text-center" type="button" style=" border : none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 70%; height: 30px;
+                    text-align: center; font-family: AppleSDGothicNeo ; background-color: #4c6ce9; color:white;
+                    border-radius: 30px;"> Okay!
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
-<!-- web3.js 파일 cdn에서 불러오기 (메타마스크 사용자는 설치할 필요가 없으나, 일단은 포함 시켜 놓음) -->
-<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
-<script src="../js/login_check.js"></script>
-<script>
-    Holder.addTheme('thumb', {
-        bg: '#55595c',
-        fg: '#eceeef',
-        text: 'Thumbnail'
-    });
-</script>
+<body class="horizontal-navigation">
+
+<header class="site-header" style="background-color: #00a1f3">
+    <div class="container-fluid">
+        <a href="#" class="site-logo">
+            <img class="hidden-md-down" src="../img/logo-3.png" alt="">
+            <img class="hidden-lg-down" src="../img/logo-2-mob.png" alt="">
+        </a>
+        <div class="site-header-content">
+
+            <div class="site-header-content-in">
+                <!--<button id="show-hide-sidebar-toggle" class="show-hide-sidebar">-->
+                <!--<span>toggle menu</span>-->
+                <!--</button>-->
+                <!--<button class="hamburger hamburger&#45;&#45;htla">-->
+                <!--<span>toggle menu</span>-->
+                <!--</button>토글 숨김-->
+                <div class="site-header-collapsed">
+                </div><!--.site-header-collapsed-->
+                <div class="mobile-menu-right-overlay">
+                </div>
+                <style type="text/css">
+                    a:hover {
+                        color: white;
+                    }
+                </style>
+
+                <div class="site-header-shown">
+                    <div style="float: right">
+                        <ul class="nav ">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">공지사항</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">회사소개</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">뱅크서비스</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">유저등록</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">월급 지불</a>
+                            </li>
+                            <a class="btn btn-nav btn-rounded btn-inline btn-danger-outline" href="https://metamask.io/"
+                               target="_blank">
+                                Metamask에 연결하기
+                            </a>
+                            <a class="btn btn-nav btn-rounded btn-inline" href="javascript:welcome();"
+                               target="_blank">
+
+                                Open welcome Modal
+                            </a>
+                        </ul>
+                    </div>
+                </div><!--.site-header-shown-->
+            </div><!--site-header-content-in-->
+        </div><!--.site-header-content-->
+    </div><!--.container-fluid-->
+</header><!--.site-header-->
+<div class="mobile-menu-left-overlay"></div>
+<div class="row" style="background-color: white">
+    <ul class="main-nav nav " style="  width : 100%; z-index: 8; box-shadow: 1px 1px 3px #ccc;">
+        <li class="nav-item">
+            <a class="nav-link" href="#">P2P Mathching Engine</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">ABLE DEX</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">간편송금</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">간편송금 확인</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">월급 지불</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">월급 지불 상세</a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="#">
+                <button type="button" style="margin-bottom: 3px" class="btn btn-inline">
+                    <img style="height: 12px;" src="../img/subnvi_ic_account.png">
+                    계좌관리
+                </button>
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+<div style="background-color: white">
+    <br><br><br><br><br><br><br><br><br>
+    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Send ABLE and Token</h2><br><br>
+    <div class="row" style="border-bottom: 1px; background-color: white">
+
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="form-group" style=" align-self: center">
+                <label class="form-label" style="color: #b9c4d1; padding-left: 4px">To ABLE User Address</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control"
+                           id="inputPassword" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
+                <label class="form-label" style="color: #b9c4d1; padding-left: 4px">Address NickName(Optional)</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control"
+                           id="inputPassword" placeholder="Ex) My Able"></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" style="color: #b9c4d1; padding-left: 4px">Coin Select</label>
+                        <select class="form-control" id="select_coin">
+                            <option style="background-image:url(../img/side_logo_ethereum_on.png);" >ethereum</option>
+                            <option><span class="glyphicon glyphicon-ok
+"style="margin-right: 3px;"></span> bitcoin</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label" style="color: #b9c4d1; padding-left: 4px">Amount to send</label>
+                        <p class="form-control-static">
+                            <input type="text" class="form-control"
+                                   id="inputPassword" placeholder="1.00000000000 ETH">
+                        </p>
+
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label class="form-label" style="color: #b9c4d1; padding-left: 4px">Gas Limit</label>
+                        <p class="form-control-static">
+                            <input type="text" class="form-control"
+                                   id="inputPassword" placeholder="20">
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+
+
+                    </div>
+                    <br><br><br><br><br>
+                    <div class="col-sm-12">
+                        <button type="button" onclick="javascript:send()" style="width:100%" class="btn btn-inline">Send Transaction</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box-typical box-typical-padding"
+                 style=" margin-right: 10px; background-color: #fafafa; font-family: AppleSDGothicNeo; color:#6b7a85; border-radius: 9px; box-shadow: 0 2px 8px 0 #bec6cc;  ">
+                <b style="font-size:25px;  font-weight: 900">My ABLE Token</b>
+                <br><br>
+                <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
+                <div>
+                    <span style="font-size: 12px; color:#bec6cc; ">Address</spans><br>
+                        <span style="font-size: 14px; color:black; ">#ewqer2342!#rds2332424rsd23214</span><br><br>
+                        <span style="font-size: 12px; color:#bec6cc; ">Name</spans><br>
+                        <span style="font-size: 14px; color:black; ">Kooseongbeom</span><br><br>
+                            <span style="font-size: 12px; color:#bec6cc; ">ABLE Account</spans><br>
+                        <span style="font-size: 14px; color:black; ">Free Account</span><br><br>
+                                <span style="font-size: 12px; color:#bec6cc; ">ABLE</spans><br>
+                        <span style="font-size: 14px; color:black; ">45326.3235346464</span><br><br>
+                                    <span style="font-size: 12px; color:#bec6cc; ">ETH</spans><br>
+                        <span style="font-size: 14px; color:black; ">56.0000000000</span><br><br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br><br><br><br><br>
+
+    </div>
+    <hr>
+    <div class="row" style="text-align: center; border-color: gray; border-top: 1px; background-color: white">
+        <div class="col-md-12">
+        <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
+            <br><br><br>
+        </div>
+        <div class="row" style="width: 100%">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <style type="text/css">
+
+                    select#select_coin option[value="ethereum"]   { background-image:url(../img/side_logo_ethereum_on.png);   }
+                    select#select_coin option[value="female"] { background-image:url(female.png); }
+                    select#select_coin option[value="others"] { background-image:url(others.png); }
+
+
+                    .transaction_history tbody td{
+                        background-color: #fafafa;
+                        border-radius: 5px;
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                        font-size: 12px;
+                        padding: 15px 20px;
+                        border: 20px;
+                        border-color: white;
+
+                    }
+                    .spacer{
+                        height: 15px;
+                        background: transparent;
+                    }
+                    .fail{
+                        text-align: left;
+                        color: #ce3447;
+                    }
+                    .proceeding{
+                        text-align: left;
+                        color: #1aa568;
+                    }
+                    .complete{
+                        text-align: left;
+                        color: #4c6ce9;
+                    }
+
+                </style>
+                <table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">
+                    <thead style="font-size: 12px; font-weight: 800; color: #919fa9">
+                    <tr>
+                        <td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>
+                    </tr>
+                    </thead>
+
+                    <tbody  >
+                    <tr class="spacer"></tr>
+                    <tr >
+                        <td>10 minutes ago</td><td>Exchange. DAI > ETH</td><td>1 DAI = 0.001897 ETH</td><td>110019.000 DAI - 2.086 ETH</td><td class="proceeding"> <span class="glyphicon glyphicon-log-in
+"style="margin-right: 3px;"></span> Proceeding</td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr >
+                        <td>10 minutes ago</td><td>Exchange. DAI > ETH</td><td>1 DAI = 0.001897 ETH</td><td>110019.000 DAI - 2.086 ETH</td><td class="complete"> <span class="glyphicon glyphicon-ok
+"style="margin-right: 3px;"></span> Complete</td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr >
+                        <td>10 minutes ago</td><td>Exchange. DAI > ETH</td><td>1 DAI = 0.001897 ETH</td><td>110019.000 DAI - 2.086 ETH</td><td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail</td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr >
+                        <td>10 minutes ago</td><td>Exchange. DAI > ETH</td><td>1 DAI = 0.001897 ETH</td><td>110019.000 DAI - 2.086 ETH</td><td class="complete"> <span class="glyphicon glyphicon-ok
+"style="margin-right: 3px;"></span> Complete</td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr >
+                        <td>10 minutes ago</td><td>Exchange. DAI > ETH</td><td>1 DAI = 0.001897 ETH</td><td>110019.000 DAI - 2.086 ETH</td><td class="complete"> <span class="glyphicon glyphicon-ok
+"style="margin-right: 3px;"></span> Complete</td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr >
+                        <td>10 minutes ago</td><td>Exchange. DAI > ETH</td><td>1 DAI = 0.001897 ETH</td><td>110019.000 DAI - 2.086 ETH</td><td class="complete"> <span class="glyphicon glyphicon-ok
+"style="margin-right: 3px;"></span> Complete</td>
+                    </tr>
+                    </tbody>
+
+                </table><br><br><br><br><br><br>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <br><br><br><br><br><br>
+    </div>
+</div>
+<style type="text/css">
+
+    .centerbox {
+        background-color: #bec6cc;
+        height: 35px;
+        text-align: center;
+        font-size: 2px;
+    }
+</style>
+
+
 </body>
 </html>
