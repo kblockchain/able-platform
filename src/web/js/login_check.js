@@ -633,6 +633,7 @@ var btn_login = document.getElementById('btn_login');
 btn_login.addEventListener('click', function metakmask_check() {
 
 
+    // setInterval() 함수 - 일정 시간 간격으로 함수 반복 실행
     // 3초에 한번씩 메타마스크 네트워크 및 아이디 변경 여부 체크
     var metamask = setInterval(function () {
         if (typeof web3 !== 'undefined') {
@@ -658,6 +659,8 @@ btn_login.addEventListener('click', function metakmask_check() {
 
                 if(netId == "1") {
                     console.log('This is mainnet')
+
+                    // clearInterval() - 실행되고 있는 interval을 중지
                     clearInterval(metamask)
                     return;
                 }
@@ -731,6 +734,9 @@ function startApp() {
         });
 
     });
+
+    // todo isAbleUser() 코드가 들어가는 부분
+    // 만약, 메타마스크의 아이디를 변경해준 경우에도 isAbleUser()인지 아닌지 체크 필요 or 데이터 베이스 거치는 작업 필요.
 
 }
 
@@ -868,35 +874,33 @@ btn_open_account.addEventListener('click', function () {
            return
        }
 
-       else {
 
-           // event listener
-           // check AbleOpenAccount success or fail
-           contractInstance.AbleAccountOpened_Successful ().watch( (err, result) => {
+        // event listener
+       // check AbleOpenAccount success or fail
+       contractInstance.AbleAccountOpened_Successful ().watch( (err, result) => {
 
-               // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
-               // if openaccount fail
-               if(err) {
-                   document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 실패";
+           // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
+           // if openaccount fail
+           if(err) {
+               document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 실패";
 
-               }
+           }
 
-               // todo 계좌가 생성될 때 까지는 사용자에게 계좌를 생성 중임을 알려야한다.
-               // success, get info
-               else {
+           // todo 계좌가 생성될 때 까지는 사용자에게 계좌를 생성 중임을 알려야한다.
+           // success, get info
+           else {
 
-                   console.log("openAbleAccount result accountNumber: " + result.args.accountNumber);
+               // 유저
+               console.log("openAbleAccount result accountNumber: " + result.args.accountNumber);
+               user_accountNumber = result.args.accountNumber;
 
-                   user_accountNumber = result.args.accountNumber;
-
-                   document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 성공";
-                   document.getElementById('output_check_accountNumber').innerHTML = "간평송금 계좌 번호\n" +result.args.accountNumber;
+               document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 성공";
+               document.getElementById('output_check_accountNumber').innerHTML = "간평송금 계좌 번호\n" +result.args.accountNumber;
 
 
                }
 
            });
-       }
    });
 
 });
