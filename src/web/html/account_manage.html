@@ -6,29 +6,28 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>able</title>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <link rel="stylesheet" href="../css/jquery-ui.min.css">
-    <link rel="stylesheet" href="../css/widgets.min.css">
-
+    <link rel="stylesheet" href="../css/tags_editor.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" href="../css/daterangepicker.min.css">
     <link rel="stylesheet" href="../css/main.css">
 
     <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/jquery-ui.min.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/tether.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/plugins.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/flatpickr.min.js"></script>
+    <script src="../js/daterangepicker.js"></script>
+    <script src="../js/jquery.caret.min.js"></script>
+    <script src="../js/jquery.tag-editor.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/select2.full.min.js"></script>
     <script src="../js/app.js"></script>
-    <script type="text/javascript" src="../js/lobipanel.min.js"></script>
-    <script type="text/javascript" src="../js/jquery.matchHeight.min.js"></script>
-    <script type="text/javascript" src="../js/loader.js"></script>
-
     <script>
         $(document).ready(function () {
             console.log("ready");
@@ -46,94 +45,80 @@
     </script>
 </head>
 
-
 <!-- welcome Modal -->
-<div class="modal fade" id="welcomeModal" role="dialog" >
+<div class="modal fade" id="welcomeModal" role="dialog">
     <div class="modal-dialog " style="max-width: 500px">
         <div class="modal-content" style="  border-radius: 30px; ">
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
-                <span class="font-weight-bold" style=" text-align:center;  font-size:20px; color: #4c6ce9;"> Wellcome to ABLE! </span>
+                <span class="font-weight-bold" > Wellcome to ABLE! </span>
                 <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
-
                 <div style="text-align: center;">
                     <img style="text-align: center; height: 200px" src="../img/bg_deco.png">
                 </div>
                 <br>
                 <div style="text-align: center">에이블에 온 것을 축하합니다!<br>
-                    계좌 생성 이후에 에이블을 이용하실 수 있습니다. </div>
+                    계좌 생성 이후에 에이블을 이용하실 수 있습니다.
+                </div>
                 <br>
                 <div style="text-align: center;">
                     <p></p>
-                    <button class="text-center" type="button"  style=" border : none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 70%; height: 30px;
-                    text-align: center; font-family: AppleSDGothicNeo ; background-color: #4c6ce9; color:white;
-                    border-radius: 30px;"> Okay! </button>
+                    <button class="modal-btn" type="button" > Okay!
+                    </button>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
 
-
-
-<body class="horizontal-navigation">
-
-<header class="site-header" style="background-color: #00a1f3">
+<!--site header-->
+<body class="horizontal-navigation chrome-browser menu-left-opened">
+<header class="site-header" >
     <div class="container-fluid">
         <a href="#" class="site-logo">
             <img class="hidden-md-down" src="../img/logo-3.png" alt="">
             <img class="hidden-lg-down" src="../img/logo-2-mob.png" alt="">
         </a>
+        <button style="margin-left: 20px; " id="show-hide-sidebar-toggle" class="show-hide-sidebar">
+            <span>toggle menu</span>
+        </button>
+        <button class="hamburger hamburger--htla">
+            <span>toggle menu</span>
+        </button>
         <div class="site-header-content">
-
             <div class="site-header-content-in">
                 <!--<button id="show-hide-sidebar-toggle" class="show-hide-sidebar">-->
                 <!--<span>toggle menu</span>-->
                 <!--</button>-->
                 <!--<button class="hamburger hamburger&#45;&#45;htla">-->
                 <!--<span>toggle menu</span>-->
-                <!--</button>토글 숨김-->
+                <!--</button>hide toggle-->
                 <div class="site-header-collapsed">
                 </div><!--.site-header-collapsed-->
                 <div class="mobile-menu-right-overlay">
                 </div>
-                <style type="text/css">
-                    a:hover {
-                        color: white;
-                    }
-                </style>
-
                 <div class="site-header-shown">
                     <div style="float: right">
                         <ul class="nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">공지사항</a>
+                                <a class="nav-link" href="#"><span class="current">ㅇ</span>공지사항</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">회사소개</a>
+                                <a class="nav-link" href="#"><span class="current">ㅇ</span>회사소개</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">뱅크서비스</a>
+                                <a class="nav-link active" href="#"><span class="current">ㅇ</span> 뱅크서비스</a>
+                            </li>
+                            <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
+                                <a class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
+                                    <span>0xB89E26….06fD9AC23</span>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">유저등록</a>
+                                <a class="nav-link" active href="#"><span class="glyphicon glyphicon-share"></span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">월급 지불</a>
-                            </li>
-                            <a class="btn btn-nav btn-rounded btn-inline btn-danger-outline" href="https://metamask.io/"
-                               target="_blank">
-                                Metamask에 연결하기
-                            </a>
-                            <a class="btn btn-nav btn-rounded btn-inline" href="javascript:welcome();"
-                               target="_blank" >
-
-                                Open welcome Modal
-                            </a>
                         </ul>
                     </div>
                 </div><!--.site-header-shown-->
@@ -141,11 +126,12 @@
         </div><!--.site-header-content-->
     </div><!--.container-fluid-->
 </header><!--.site-header-->
+<!--top menu-->
 <div class="mobile-menu-left-overlay"></div>
-<div class="row">
-    <ul class="main-nav nav " style="  width : 100%; z-index: 8; box-shadow: 1px 1px 3px #ccc;">
+<div class="row" style="background-color: white">
+    <ul class="main-nav nav ">
         <li class="nav-item">
-            <a class="nav-link" href="#">P2P Mathching Engine</a>
+            <a class="nav-link" href="#">P2P Matching Engine</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">ABLE DEX</a>
@@ -154,29 +140,32 @@
             <a class="nav-link" href="#">간편송금</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">간편송금 확인</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">월급 지불</a>
+            <a class="nav-link " href="#">월급 지불</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">월급 지불 상세</a>
         </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="#">
-                <button type="button" style="margin-bottom: 3px" class="btn btn-inline">
-                    <img style="height: 12px;" src="../img/subnvi_ic_account.png">
-                    계좌관리
-                </button>
-            </a>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">계좌 관리</a>
         </li>
+        <!--임시 좌측 정렬 처리-->
+        <!--<li class="nav-item ">-->
+        <!--<a class="nav-link" href="#">-->
+        <!--<button type="button" style="margin-bottom: 3px" class="btn btn-inline">-->
+        <!--<img style="height: 12px;" src="../img/subnvi_ic_account.png">-->
+        <!--계좌관리-->
+        <!--</button>-->
+        <!--</a>-->
+        <!--</li>-->
     </ul>
+</div>
+<!--.top menu-->
 
 </div>
 <br><br><br><br><br><br><br><br><br>
 <h2 style="text-align: center" class="intro-title">계좌관리</h2><br><br>
 <div class="container" style="width: 600px;">
-    <div class="box-typical box-typical-padding" style=" border-radius: 9px; box-shadow: 0 2px 8px 0 #bec6cc;  ">
+    <div class="box-typical box-typical-padding my-account" >
         <div style="margin-left: 10px;">
             <div class="row">
                 <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
@@ -189,11 +178,9 @@
             <br><br>
             <div class="row">
                 <div style="font-size: 14px" class="col-sm-12">
-                    <font style="color: #b9c4d1"> ABLE User Address </font><br>
+                    <label class="form-label input" >ABLE User Address</label>
                     <div style="margin-top: 5px">
-                        0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC <a
-                            style="padding-top: 0px; margin-bottom:0px; padding-bottom: 25px; margin-left: 5px; height: 10px"
-                            class="btn btn-nav btn-rounded btn-inline btn-primary-outline" href="#" target="_blank">
+                        0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC <a class="btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard" href="#" >
                         copy</a>
                     </div>
                 </div>
@@ -201,30 +188,27 @@
             <br>
             <div class="row">
                 <div style="font-size: 14px" class="col-sm-12">
-                    <font style="color: #b9c4d1"> Address Nickname </font><br>
+                    <label class="form-label input" >Address Nickname</label>
                     <div style="margin-top: 5px">
                         MyABLE <a
-                            style="padding-top: 0px; margin-bottom:0px; padding-bottom: 25px; margin-left: 5px; height: 10px"
-                            class="btn btn-nav btn-rounded btn-inline btn-primary-outline" href="#" target="_blank">
+                            class="btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard" href="#" >
                         copy</a>
                     </div>
                 </div>
-                <div style="font-size: 12px; color:gray" class="col-sm-12">
+                <div  class="col-sm-12 contour">
                     <br>
                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -
                     - - - - - - - - - - - - - - - - - - - - - -
                     <br><br><br>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-sm-6">
                     <div class="row">
                         <div class="col-sm-3">
-                            <div class="card"
-                                 style=" width: 63px; height: 63px; background-color: #f6f8fc; text-align: center;  min-width: 0px; border-radius: 12px; border: none;">
-                                <div style="margin-top: 5px; text-align:center;">
-                                    <img style=" text-align:center; width: 30px;  height: 30px;"
+                            <div class="card coinmark">
+                                <div  class="coinmark-sub">
+                                    <img class="coin-image"
                                          src="../img/side_logo_bitcoin_on.png">
                                     <p>BTC
                                 </div>
@@ -233,17 +217,14 @@
                         <div class="col-sm-9" style="padding-top: 20px">
                             334.32994823 BTC
                         </div>
-
                     </div>
-
                 </div>
                 <div class="col-sm-6">
                     <div class="row">
                         <div class="col-sm-3">
-                            <div class="card"
-                                 style=" width: 63px; height: 63px; background-color: #f6f8fc; text-align: center;  min-width: 0px; border-radius: 12px; border: none;">
-                                <div style="margin-top: 5px; text-align:center;">
-                                    <img style=" text-align:center; width: 30px;  height: 30px;"
+                            <div class="card coinmark">
+                                <div class="coinmark-sub">
+                                    <img class="coin-image"
                                          src="../img/side_logo_ethereum_on.png">
                                     <p>ETH
                                 </div>
@@ -253,23 +234,18 @@
                             124.36924102
                             ETH
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
-
         </div>
     </div>
     <br>
-    <div class="box-typical box-typical-padding" style=" background-color: transparent; border-radius: 9px; border-width: 2px; border-style: dashed ">
+    <div class="box-typical box-typical-padding new-account" >
         <div style="margin-left: 10px;">
             <div class="row">
                 <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
                                            src="../img/logo_able_gray_horizontal.png"></div>
-                <div class="col-sm-6" style="color:#6b7a85; font-size: 23px; text-align: center"> Account Regist</div>
+                <div class="col-sm-6 new-account-regist"> Account Regist</div>
                 <div class="col-sm-3" style="color:#919fa9; font-size: 13px; text-align: right">
                 </div>
                 <br>
@@ -277,7 +253,7 @@
             <br><br>
             <div class="row">
                 <div style="font-size: 14px" class="col-sm-12">
-                    <font style="color: #b9c4d1"> Address Nickname </font><br>
+                    <label class="form-label input" >Address Nickname</label>
                     <div style="margin-top: 5px">
                         <input type="text" class="form-control" id="inputPassword" placeholder="Ex) MyABLE">
                     </div>
@@ -286,7 +262,7 @@
             <br>
             <div class="row">
                 <div class="col-sm-12">
-                    <button type="button" style="width:100%" class="btn btn-inline">Add Account</button>
+                    <button type="button"  class="btn btn-inline transaction" onclick="javascript:welcome()">Add Account</button>
                 </div>
             </div>
         </div>

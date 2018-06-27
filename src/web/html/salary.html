@@ -45,32 +45,33 @@
     </script>
 </head>
 
-<!-- Modal -->
+
+<!-- Send Transaction Modal -->
 <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog " style="max-width: 600px">
-        <div class="modal-content" style="border-radius: 30px; ">
-            <div class="modal-header" style="border-bottom: none; ">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <p class="font-weight-bold"></p>
                 <span class="font-weight-bold"> Confirm </span>
                 <button type="button" class="dismiss" data-dismiss="modal"><img
                         style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px; text-align: center;">
-                <label  class="form-label" >To ABLE User Address</label>
+                <label class="form-label">To ABLE User Address</label>
                 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC
                 <br><br>
-                <label  class="form-label" >Address Nickname</label>
+                <label class="form-label">Address Nickname</label>
                 N/N
                 <br><br>
-                <label  class="form-label" >Amount to send</label>
+                <label class="form-label">Amount to send</label>
                 1.000000000000 ETH
                 <br><br>
-                <label class="form-label" >Gas Limit</label>
+                <label class="form-label">Gas Limit</label>
                 20
                 <br><br>
-                <div style="text-align: center;">
+                <div>
                     <p></p>
-                    <button class="text-center modal-btn" type="button" >
+                    <button class="modal-btn" type="button">
                         SEND
                     </button>
                 </div>
@@ -143,10 +144,10 @@
             <a class="nav-link" href="#">ABLE DEX</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="#">간편송금</a>
+            <a class="nav-link" href="#">간편송금</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="#">월급 지불</a>
+            <a class="nav-link active" href="#">월급 지불</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">월급 지불 상세</a>
@@ -169,18 +170,17 @@
 
 <div style="background-color: white">
     <br><br><br><br><br><br><br><br><br>
-    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Send ABLE and Token</h2><br><br>
-    <div class="row" style="width: 100%;  border-bottom: 1px; background-color: white">
-
+    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title">Make Salary Contract</h2><br><br>
+    <div class="row" style="width: 100%; border-bottom: 1px; background-color: white">
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
             <div class="form-group" style=" align-self: center">
-                <label class="form-label input" >To ABLE User Address</label>
+                <label class="form-label input">Employee Address</label>
                 <p class="form-control-static">
                     <input type="text" class="form-control"
                            id="inputPassword" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
-                <label class="form-label input">Address NickName(Optional)</label>
+                <label class="form-label input" >Employee NickName(Optional)</label>
                 <p class="form-control-static">
                     <input type="text" class="form-control"
                            id="inputPassword" placeholder="Ex) My Able"></p>
@@ -188,24 +188,32 @@
                     <div class="col-md-6">
                         <label class="form-label input" >Coin Select</label>
                         <select class="form-control" id="select_coin">
-                            <option style="background-image:url(../img/side_logo_ethereum_on.png);" >ethereum</option>
-                            <option><span class="glyphicon glyphicon-ok
-"style="margin-right: 3px;"></span> bitcoin</option>
+                            <option style="background-image:url(../img/side_logo_ethereum_on.png);">ethereum</option>
+                            <option><span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> bitcoin</option>
                             <option>3</option>
                             <option>4</option>
                         </select>
                     </div>
-
                     <div class="col-md-6">
                         <label class="form-label input" >Amount to send</label>
                         <p class="form-control-static">
-                            <input type="text" class="form-control "
-                                   id="inputPassword" placeholder="1.00000000000 ETH">
+                            <input type="text" class="form-control" id="inputPassword" placeholder="1.00000000000 ETH">
                         </p>
                     </div>
                 </div>
                 <div class="row">
-
+                    <div class="col-md-6">
+                        <label class="form-label input" >Payment Date</label>
+                        <div class="form-group">
+                            <div class="input-group date">
+                                <input id="payment_date" type="text" value="06/26/2018" class="form-control">
+                                <!--data-min-date="today" data-max-date="2036-8-20"-->
+                                <span class="input-group-append">
+										<span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
+									</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <label class="form-label input" >Gas Limit</label>
                         <p class="form-control-static">
@@ -213,11 +221,11 @@
                                    id="inputPassword" placeholder="20">
                         </p>
                     </div>
-                    <div class="col-md-6">
-                    </div>
                     <br><br><br><br><br>
                     <div class="col-sm-12">
-                        <button type="button" onclick="javascript:send()" class="btn btn-inline transaction">Send Transaction</button>
+                        <button type="button " onclick="javascript:send()"
+                                class="btn btn-inline transaction">Send Transaction
+                        </button>
                     </div>
                 </div>
             </div>
@@ -228,16 +236,16 @@
                 <br><br>
                 <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
                 <div>
-                    <span class="my-info-label" >Address</spans><br>
-                    <span class="my-info-content">#ewqer2342!#rds2332424rsd23214</span><br><br>
-                    <span class="my-info-label" >Name</spans><br>
-                    <span class="my-info-content" >Kooseongbeom</span><br><br>
-                    <span class="my-info-label" >ABLE Account</spans><br>
-                    <span class="my-info-content" >Free Account</span><br><br>
-                    <span class="my-info-label" >ABLE</spans><br>
-                    <span class="my-info-content" >45326.3235346464</span><br><br>
-                    <span class="my-info-label" >ETH</spans><br>
-                    <span class="my-info-content" >56.0000000000</span><br><br>
+                    <span class="my-info-label">Address</spans><br>
+                        <span class="my-info-content">#ewqer2342!#rds2332424rsd23214</span><br><br>
+                        <span class="my-info-label">Name</spans><br>
+                        <span class="my-info-content">Kooseongbeom</span><br><br>
+                            <span class="my-info-label">ABLE Account</spans><br>
+                        <span class="my-info-content">Free Account</span><br><br>
+                                <span class="my-info-label">ABLE</spans><br>
+                        <span class="my-info-content">45326.3235346464</span><br><br>
+                                    <span class="my-info-label">ETH</spans><br>
+                        <span class="my-info-content" >56.0000000000</span><br><br>
                 </div>
             </div>
         </div>
@@ -245,22 +253,25 @@
         <br><br><br><br><br>
     </div>
     <hr>
-    <div class="row" style=" width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">
+    <div class="row" style="width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">
         <div class="col-md-12">
-        <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
+            <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray"
+                class="intro-title">Transaction history.</h2>
             <br><br><br>
         </div>
         <div class="row" style="width: 100%">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-
                 <table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">
                     <thead style="font-size: 12px; font-weight: 800; color: #919fa9">
                     <tr>
-                        <td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>
+                        <td>Payment Date</td>
+                        <td>Description</td>
+                        <td>Rate</td>
+                        <td>Amount</td>
+                        <td></td>
                     </tr>
                     </thead>
-
                     <tbody>
                     <tr class="spacer"></tr>
                     <tr>
@@ -319,8 +330,8 @@
                         </td>
                     </tr>
                     </tbody>
-
-                </table><br><br><br><br><br><br>
+                </table>
+                <br><br><br><br><br><br>
             </div>
             <div class="col-md-3"></div>
         </div>

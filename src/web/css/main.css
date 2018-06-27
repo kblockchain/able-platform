@@ -11528,6 +11528,8 @@ body.modal-open {
 .horizontal-navigation .main-nav .nav-link {
     position: relative;
     line-height: 40px;
+    padding-left: 35px;
+    padding-right: 35px;
     color: #999;
     font-weight: 600
 }
@@ -11555,7 +11557,7 @@ body.modal-open {
     .horizontal-navigation .main-nav {
         left: -240px;
         height: 100%;
-        width: 240px;
+        width: 180px;
         padding: 0
     }
 
@@ -15656,7 +15658,6 @@ html {
     position: relative;
     top: 5px;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     width: 30px;
     height: 30px;
@@ -15729,8 +15730,9 @@ html {
 
 @media (max-width: 1056px) {
     .show-hide-sidebar {
-        display: block
+        display: block;
     }
+
 }
 
 body.sidebar-hidden .side-menu {
@@ -15818,4 +15820,227 @@ body.sidebar-hidden .side-menu-addl + .page-content {
         padding-left: 0;
         padding-right: 0
     }
+}
+
+/*최상단 메뉴바 컬러및 호버 액티브 색감 조절*/
+
+.site-header-shown a {
+    color: white;
+    opacity: 0.6;
+    font-weight: 500;
+}
+
+.site-header-shown .active span.current {
+    color: white;
+    opacity: 1.0;
+}
+
+.site-header-shown a:hover {
+    opacity: 1.0;
+}
+
+.site-header-shown .active {
+    opacity: 1.0;
+}
+
+.site-header-shown span.current {
+    position: relative;
+    top: 20px;
+    left: 45px;
+    color: #4c6ce9;
+}
+
+.site-header-shown .site-header-address {
+    background: #5fa7e7;
+    border-color: #5fa7e7;
+}
+
+.box-shadow {
+    box-shadow: 3px 3px 5px #bec6cc;
+}
+
+.modal-dialog {
+    max-width: 600px
+}
+
+.modal-content {
+    border-radius: 30px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.font-weight-bold {
+    text-align: center;
+    font-size: 22px;
+    color: #4c6ce9;
+}
+
+.dismiss {
+    border: none;
+    background: transparent;
+}
+
+.form-label {
+    color: #bec6cc;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.form-label .input {
+    color: #b9c4d1;
+    padding-left: 4px;
+}
+
+.modal-btn {
+    border: none;
+    box-shadow: 0 2px 8px 0 #4c6ce9;
+    width: 50%;
+    height: 30px;
+    text-align: center;
+    font-family: AppleSDGothicNeo;
+    background-color: #4c6ce9;
+    color: white;
+    border-radius: 30px;
+}
+
+.font-weight-bold {
+    text-align: center;
+    font-size: 20px;
+    color: #4c6ce9;
+}
+
+.site-header {
+    background-color: #4c6ce9;
+}
+
+/* 우측 내 계좌 정보 */
+.my-info {
+    width: 300px;
+    margin-right: 10px;
+    background-color: #fafafa;
+    font-family: AppleSDGothicNeo;
+    color: #6b7a85;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px 0 #bec6cc;
+}
+
+.my-info-label {
+    font-size: 12px;
+    font-weight: 900;
+    color: #bec6cc;
+}
+
+.my-info-content {
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+}
+
+select#select_coin option[value="ethereum"] {
+    background-image: url(../img/side_logo_ethereum_on.png);
+}
+
+/* 히스토리 테이블 css 정보 */
+
+.transaction_history tbody td {
+    background-color: #fafafa;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    padding: 15px 20px;
+    border: 20px;
+    border-color: white;
+
+}
+
+.spacer {
+    height: 15px;
+    background: transparent;
+}
+
+.fail {
+    text-align: left;
+    color: #ce3447;
+}
+
+.proceeding {
+    text-align: left;
+    color: #1aa568;
+}
+
+.complete {
+    text-align: left;
+    color: #4c6ce9;
+}
+
+/* 히스토리 테이블 css 정보 끝*/
+
+.centerbox {
+    background-color: #bec6cc;
+    height: 35px;
+    text-align: center;
+    font-size: 2px;
+}
+
+.transaction {
+    width: 100%;
+    background-color: #4c6ce9
+}
+
+/* 내 계좌 정보 */
+
+.my-account {
+    border-radius: 9px;
+    box-shadow: 0 2px 8px 0 #bec6cc;
+}
+
+.my-account-copy-clipboard {
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 25px;
+    margin-left: 5px;
+    height: 10px
+}
+
+.contour {
+    font-size: 12px;
+    color: gray
+}
+
+.coinmark {
+    width: 63px;
+    height: 63px;
+    background-color: #f6f8fc;
+    text-align: center;
+    min-width: 0px;
+    border-radius: 12px;
+    border: none;
+}
+
+.coin-image {
+    text-align: center;
+    width: 30px;
+    height: 30px;
+}
+
+.coinmark-sub {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.new-account {
+    background-color: transparent;
+    border-radius: 9px;
+    border-width: 2px;
+    border-style: dashed
+}
+
+.new-account-regist {
+    color: #6b7a85;
+    font-weight: 700;
+    font-size: 23px;
+    text-align: center
 }
