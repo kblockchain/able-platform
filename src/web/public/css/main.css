@@ -5295,7 +5295,7 @@ a, button {
 }
 
 a, a:focus, a:hover {
-    color: #0082c6;
+    color: #4c6ce9;
     text-decoration: none;
     cursor: pointer;
     outline: 0 !important
@@ -7826,8 +7826,8 @@ hr.margin-4 {
 .btn {
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    border: solid 1px #00a8ff;
-    background: #00a8ff;
+    border: solid 1px #4c6ce9;
+    background: #4c6ce9;
     color: #fff;
     font-weight: 600
 }
@@ -7995,8 +7995,8 @@ hr.margin-4 {
 }
 
 .btn.btn-primary-outline, .btn.btn-primary-outline:focus {
-    color: #00a8ff;
-    border-color: #00a8ff
+    color: #4c6ce9;
+    border-color: #4c6ce9
 }
 
 .btn.btn-primary-outline:focus:hover, .btn.btn-primary-outline:hover {
@@ -11519,10 +11519,10 @@ body.modal-open {
     width: 100%;
     top: 80px;
     left: 0;
-    height: 56px;
+    height: 55px;
     padding: 0 15px;
     background: #fff;
-    border-bottom: solid 1px #c5d6de
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1)
 }
 
 .horizontal-navigation .main-nav .nav-link {
@@ -11531,17 +11531,18 @@ body.modal-open {
     padding-left: 35px;
     padding-right: 35px;
     color: #999;
-    font-weight: 600
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .horizontal-navigation .main-nav .dropdown.open > .nav-link, .horizontal-navigation .main-nav .nav-link.active, .horizontal-navigation .main-nav .nav-link:hover {
-    color: #343434
+    color: #4c6ce9;
 }
 
 .horizontal-navigation .main-nav .dropdown.open:before, .horizontal-navigation .main-nav .nav-link.active:before, .horizontal-navigation .main-nav .nav-link:hover:before {
     content: '';
-    height: 4px;
-    background: #00a8ff;
+    height: 2px;
+    background: #4c6ce9;
     position: absolute;
     bottom: 1px;
     width: 100%;
@@ -15851,8 +15852,8 @@ body.sidebar-hidden .side-menu-addl + .page-content {
 }
 
 .site-header-shown .site-header-address {
-    background: #5fa7e7;
-    border-color: #5fa7e7;
+    background: #00000030;
+    color: #ffffff;
 }
 
 .box-shadow {
@@ -15987,6 +15988,7 @@ select#select_coin option[value="ethereum"] {
 
 .transaction {
     width: 100%;
+    height: 60px;
     background-color: #4c6ce9
 }
 
