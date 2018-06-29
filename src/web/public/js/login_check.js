@@ -630,12 +630,11 @@ var user_accountNumber; // 에이블 간편 계좌 번호
 
 // 메타마스크 불러오기 확인
 // 브라우저에서 로딩이 다 되면 실행된다.
-$("#btn_login").click( function metakmask_check() {
-
+ function metakmask_check() {
 
     // setInterval() 함수 - 일정 시간 간격으로 함수 반복 실행
     // 3초에 한번씩 메타마스크 네트워크 및 아이디 변경 여부 체크
-    var metamask = setInterval(function () {
+ //   var metamask = setInterval(function () {
         if (typeof web3 !== 'undefined') {
 
             // 만약, 메타마스크의 계정을 변경하는 경우 1초에 한번씩 아이디를 체크하는 것 같음.
@@ -647,9 +646,12 @@ $("#btn_login").click( function metakmask_check() {
             user_address = web3.eth.accounts[0];
             console.log("user address : " + user_address);
 
+            $("#metamask_user_address").val(user_address);
+
             // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
             if(isNaN(user_address)) {
                 toast("You have to login metamask.");
+
                 return;
             }
 
@@ -661,24 +663,29 @@ $("#btn_login").click( function metakmask_check() {
                     console.log('This is mainnet')
 
                     // clearInterval() - 실행되고 있는 interval을 중지
+                    openErrorModal('this is mainNet.  Connect to Rinkeby please.');
                     clearInterval(metamask)
+
                     return;
                 }
 
                 else if(netId == "2"){
                     console.log('This is the deprecated Modern test network.')
+                    openErrorModal('This is the deprecated Modern test network.  Connect to Rinkeby please.');
                     clearInterval(metamask)
                     return;
                 }
 
                 else if(netId == "2"){
                     console.log('This is the Ropsten test network.')
+                    openErrorModal('This is the Ropsten test network.  Connect to Rinkeby please.');
                     clearInterval(metamask)
                     return;
                 }
 
                 else if(netId == "3"){
-                    console.log('This is the Rinkeby test network.')
+                    console.log('This is the Kovan test network.')
+                    openErrorModal('This is the Kovan test network.  Connect to Rinkeby please.');
                     clearInterval(metamask)
                     return;
                 }
@@ -692,22 +699,28 @@ $("#btn_login").click( function metakmask_check() {
 
                 else if(netId == "42"){
                     console.log('This is the Kovan test network.')
+                    openErrorModal('This is an unknown network.  Connect to Rinkeby please.');
                     clearInterval(metamask)
                     return;
                 }
 
                 else {
                     console.log('This is an unknown network.')
+                    openErrorModal('This is an unknown network.  Connect to Rinkeby please.');
                     clearInterval(metamask)
                     return;
                 }
 
             });
+        } else{
+            openErrorModal_not_login();
+            clearInterval(metamask);
+
         }
 
 
-    },3000);
-});
+ //   },3000);
+}
 
 
 
@@ -724,20 +737,49 @@ function startApp() {
     web3.eth.getCoinbase(function(e, address) {
         web3.eth.getBalance(address, function(e, balances) {
 
-
             // 메타마스크 주소
-            document.getElementById('output_address').innerHTML = address;
+            //document.getElementById('output_address').innerHTML = address;
 
             // web3.fromWei() 메소드는 wei 숫자를 다른 단위로 변환하기 위해 사용 (wei -> ether)
             // web3.toWei() 메소드는 다른 단위를 wei 단위로 변환하기 위해 사 (ether -> wei)
-            document.getElementById('output_ethamount').innerHTML = Number(web3.fromWei(Number(balances), 'ether')).toFixed(2);
+            //document.getElementById('output_ethamount').innerHTML = Number(web3.fromWei(Number(balances), 'ether')).toFixed(2);
         });
 
     });
 
     // todo isAbleUser() 코드가 들어가는 부분
+    is_ableuser();
     // 만약, 메타마스크의 아이디를 변경해준 경우에도 isAbleUser()인지 아닌지 체크 필요 or 데이터 베이스 거치는 작업 필요.
 
+}
+
+
+
+/**
+ * @dev Function to open modal error message.
+ * @param masage about error.
+ */
+function openErrorModal(err){
+
+    $('#metamask_error_message').text(err);
+    $('#errorModal').modal('show').css({
+        'margin-top': function () {
+            return 200; //($(this).height()/2) // 작동안함;;
+        }
+    });
+}
+
+/**
+ * @dev Function to open modal error message (not logined).
+ * @param masage about error.
+ */
+function openErrorModal_not_login(){
+
+    $('#errorModal_not_logined').modal('show').css({
+        'margin-top': function () {
+            return 200; //($(this).height()/2) // 작동안함;;
+        }
+    });
 }
 
 /**************************************************************************************************************************************/
@@ -748,7 +790,7 @@ function startApp() {
  * @param _password the bytes32 to set password.
  * @return boolean flag if open success.
  */
-$("#btn_check_ableuser").click( function () {
+    function is_ableuser() {
     // smartcontract isAbleUser() 함수를 통해서 ableUser인지 아닌지 체크
         contractInstance.isAbleUser.call(user_address, function (err, result) {
 
@@ -764,7 +806,7 @@ $("#btn_check_ableuser").click( function () {
                     // todo 계좌 페이지 or 메인 페이지 띄우기
 
                     console.log("able 유저입니다.");
-                    document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
+                    //document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
 
 
                 }
@@ -773,8 +815,11 @@ $("#btn_check_ableuser").click( function () {
                 else if(result==false) {
 
                     console.log("able 유저가 아닙니다.");
-                    document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
 
+                    //document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
+
+
+                    regist_to_able();
                     // todo modal로 회원가입 화면 띄워주기
                     // 닉네임 입력받고 해당 닉네임으로 회원가입 진행하기
                     // contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
@@ -788,7 +833,7 @@ $("#btn_check_ableuser").click( function () {
                 }
 
         });
-});
+
 
 
 
@@ -1023,5 +1068,5 @@ function toast(message) {
 
     $('body').append($toast);
 
-    setInterval(removeToast, 2000);
-}
+    //setInterval(removeToast, 2000);
+}}
