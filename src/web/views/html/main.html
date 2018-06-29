@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>able-dex</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">ABLE DEX</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Features</a>
+        <a class="p-2 text-dark" href="#">Enterprise</a>
+        <a class="p-2 text-dark" href="#">Support</a>
+        <a class="p-2 text-dark" href="#">Pricing</a>
+    </nav>
+    <a id="btn_login" class="btn btn-outline-primary" href="#">Login</a>
+
+</div>
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">메인 페이지</h1>
+</div>
+
+<div class="container">
+    메타마스크 정보
+    <ul>
+        <li>이더리움 지갑 주소 : <span id="output_address"></span></li>
+        <li>이더리움 갯수 : <span id="output_ethamount"></span></li>
+    </ul>
+</div>
+
+
+
+
+<div class="container">
+
+    <br>
+    <h5>0.유저확인</h5>
+    <br>
+    <!-- 에이블 유저인지 아닌지 체크-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Is Able User</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label for="output_check_ableuser">able 유저가 맞습니까?</label>
+                    <span id="output_check_ableuser"></span>
+                </div>
+
+                <button id="btn_check_ableuser" type="button" class="btn btn-lg btn-block btn-outline-primary">check</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <h5>1.회원가입</h5>
+    <br>
+    <!-- 에이블 유저 이름 등록-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Register Able User</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label for="input_username">UserName</label>
+                    <input type="text" class="form-control" id="input_username" placeholder="Amount" required>
+                    <div class="invalid-feedback">
+                        Please enter your username.
+                    </div>
+                </div>
+
+                <button id="btn_register_user" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <h5>2.계좌등록</h5>
+    <br>
+    <!-- 에이블 계좌 등록-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Able Open Account</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label for="input_account_number">계좌번호 (간편송금 번호)</label>
+                    <input type="text" class="form-control" id="input_account_number" placeholder="Able Account Number" required>
+                    <div class="invalid-feedback">
+                        Please enter your account number.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="input_account_password">비밀번호</label>
+                    <input type="text" class="form-control" id="input_account_password" placeholder="Password" required>
+                    <div class="invalid-feedback">
+                        Please enter your account password.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="output_check_ableuser">계좌 생성 여부</label>
+                    <br>
+                    <span id="output_check_ableaccount_status"></span>
+                    <br>
+                    <span id="output_check_accountNumber"></span>
+                </div>
+
+                <button id="btn_open_account" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <h5>3.계좌정보 불러오기<h5>
+    <br>
+    <!-- 에이블 계좌 확인-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Able Account Check</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label for="output_userAddress">메타마스크 주소</label>
+                    <br>
+                    <span id="output_userAddress"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="output_accountNumber">간편송금 계좌 번호</label>
+                    <br>
+                    <span id="output_accountNumber"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="output_accountInfo">계좌 정보</label>
+                    <br>
+                    <span id="output_accountInfo"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="output_accountType">계좌 타입</label>
+                    <br>
+                    <span id="output_accountType"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="output_numToken">토큰 갯수</label>
+                    <br>
+                    <span id="output_numToken"></span>
+                </div>
+
+                <button id="btn_check_account" type="button" class="btn btn-lg btn-block btn-outline-primary">check</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <h5>송금 기능</h5>
+    <br>
+    <!-- 송금 기능-->
+    <div class="card-deck mb-1 text-left">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Send ABLE and Token</h4>
+            </div>
+            <div class="card-body">
+
+                    <div class="mb-3">
+                        <label for="input_receiveraddress">받는 사람 주소 (To Address)</label>
+                        <input type="text" class="form-control" id="input_receiveraddress" placeholder="0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D" required>
+                        <div class="invalid-feedback">
+                            Please enter eth address.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="input_ethamount">보낼 이더리움 갯수 (Amount to Send)</label>
+                        <input type="text" class="form-control" id="input_ethamount" placeholder="Amount" required>
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
+                        </div>
+                    </div>
+
+                <div class="mb-3">
+                    <label for="gaslimit">가스 제한 (Gas Limit)</label>
+                    <input type="text" class="form-control" id="gaslimit" placeholder="21000" required>
+                    <div class="invalid-feedback">
+                        Please enter Gas Limit.
+                    </div>
+                </div>
+
+                <button id="btn_sendtransaction" type="button" class="btn btn-lg btn-block btn-outline-primary">send transaction</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<!-- jQuery 적용 -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+<!-- web3.js 파일 cdn에서 불러오기 (메타마스크 사용자는 설치할 필요가 없으나, 일단은 포함 시켜 놓음) -->
+<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+<script src="../../public/js/login_check.js"></script>
+
+</body>
+</html>
