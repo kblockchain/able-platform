@@ -15,7 +15,7 @@ contract Authorizable is Ownable {
     * @dev Throws if called by any account tat is not authorized. 
     */
     modifier onlyAuthorized {
-        require(isAuthorized(msg.sender));
+        require(authorizerIndex[msg.sender] > 0);
         _;
     }
 

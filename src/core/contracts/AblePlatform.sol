@@ -243,7 +243,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @dev Function to get the number of AbleUser
     * @return uint ableUserCount.
     */
-    function getAbleUserCount() onlyAuthorized public view returns(uint ableUserCount) {
+    function getAbleUserCount() public view returns(uint ableUserCount) {
         return ableUserList.length;
     }
     
@@ -251,7 +251,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @dev Function to get the number of AbleAccount
     * @return uint ableAccountCount.
     */
-    function getAbleAccountCount() onlyAuthorized public view returns(uint ableAccountCount) {
+    function getAbleAccountCount() public view returns(uint ableAccountCount) {
         return ableAccountList.length;
     }
     
@@ -260,7 +260,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param _userAddress the address to check if it exist.
     * @return boolean flag if _userAddress exist.
     */
-    function isAbleUser(address _userAddress) onlyAuthorized public view returns(bool isIndeed) {
+    function isAbleUser(address _userAddress) public view returns(bool isIndeed) {
         if(ableUserList.length==0) return false;
         return ableUserList[ableUsers[_userAddress].ableUserListPointer]==_userAddress;
     }
@@ -270,7 +270,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param _accountNumber the bytes32 to check if it exist.
     * @return boolean flag if _accountNumber exist.
     */
-    function isAbleAccount(bytes32 _accountNumber) onlyAuthorized public view returns(bool isIndeed) {
+    function isAbleAccount(bytes32 _accountNumber) public view returns(bool isIndeed) {
         if(ableAccountList.length==0) return false;
         return ableAccountList[ableAccounts[_accountNumber].ableAccountListPointer]==_accountNumber;
     }
@@ -280,7 +280,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param row the row to get _userAddress.
     * @return address the _userAddress.
     */
-    function getAbleUserAtIndex(uint row) onlyAuthorized public view returns(address _userAddress) {
+    function getAbleUserAtIndex(uint row) public view returns(address _userAddress) {
         if(ableUserList.length==0) revert();
         return ableUserList[row];
     }
@@ -290,7 +290,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param _userAddress the address to find the number of ableAccount which depend on _userAddress.
     * @return uint the number of ableAccount which depend on _userAddress.
     */
-    function getAbleUserAbleAccountCount(address _userAddress) onlyAuthorized public view returns(uint ableAccountCount) {
+    function getAbleUserAbleAccountCount(address _userAddress) public view returns(uint ableAccountCount) {
         if(!isAbleUser(_userAddress)) revert();
         return ableUsers[_userAddress].ableAccountKeys.length;
     }
@@ -301,7 +301,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param row the row to get _accountNumber.
     * @return bytes32 the _accountNumber.
     */
-    function getAbleUserAbleAccountAtIndex(address _userAddress, uint row) onlyAuthorized public view returns(bytes32 _accountNumber) {
+    function getAbleUserAbleAccountAtIndex(address _userAddress, uint row) public view returns(bytes32 _accountNumber) {
         if(!isAbleUser(_userAddress)) revert();
         return ableUsers[_userAddress].ableAccountKeys[row];
     }
@@ -311,7 +311,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param _accountNumber the bytes32 to get ableAccount properties.
     * @return address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_.
     */
-    function getAbleAccount(bytes32 _accountNumber) onlyAuthorized public view returns(address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_) {
+    function getAbleAccount(bytes32 _accountNumber) public view returns(address _userAddress_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_) {
         if(!isAbleAccount(_accountNumber)) revert();
         
         address owner = ableAccounts[_accountNumber].ableUserKey;
@@ -328,7 +328,7 @@ contract AblePlatform is Ownable, Authorizable {
     * @param row the row to get _accountNumber.
     * @return bytes32 _accountNumber_, address _tokenName_, uint _balance_.
     */
-    function getAbleAccountTokenBalance(bytes32 _accountNumber, uint row) onlyAuthorized public view returns(bytes32 _accountNumber_, address _tokenName_, uint _balance_) {
+    function getAbleAccountTokenBalance(bytes32 _accountNumber, uint row) public view returns(bytes32 _accountNumber_, address _tokenName_, uint _balance_) {
         if(!isAbleAccount(_accountNumber)) revert();
         
         address _token = ableAccounts[_accountNumber].tokenList[row];
