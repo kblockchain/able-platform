@@ -46,9 +46,13 @@
         }
 
         function start_Able(){
+
+             // 스마트 컨트랙트 에이블유저 등록
+
             var user_name = $('#input_able_user_name').val();
             if(user_name == ''){
                 alert('이름을 입력해주세요');
+                return;
            }
             var formData = $("#able_regist_form").serialize();
 
@@ -56,11 +60,15 @@
                 method: "POST",
                 url: "/create_new_account",
                 data: formData
-                ,success: function (result) {
-                    console.log(result);
-                    if(result.status == 200){
-                        self.isEditMode(!self.isEditMode());
+                ,success: function (res) {
+                    console.log(res);
+                    if(res.result == 200){
+                        console.log(res.message);
+                        regist_ableuser();
+                    } else if(res.result == 204){
+                        console.log(res.message);
                     }
+
                 }
             });
 
