@@ -27,53 +27,7 @@
     <script>
         $(document).ready(function () {
             console.log("ready");
-
         });
-
-        function regist_to_able() {
-            $('#myModal').modal({
-                show: true
-            });
-        }
-
-        function error() {
-            $('#errorModal').modal('show').css({
-                'margin-top': function () {
-                    return 200; //($(this).height()/2) // 작동안함;;
-                }
-            });
-
-        }
-
-        function start_Able(){
-
-             // 스마트 컨트랙트 에이블유저 등록
-
-            var user_name = $('#input_able_user_name').val();
-            if(user_name == ''){
-                alert('이름을 입력해주세요');
-                return;
-           }
-            var formData = $("#able_regist_form").serialize();
-
-            $.ajax({
-                method: "POST",
-                url: "/create_new_account",
-                data: formData
-                ,success: function (res) {
-                    console.log(res);
-                    if(res.result == 200){
-                        console.log(res.message);
-                        regist_ableuser();
-                    } else if(res.result == 204){
-                        console.log(res.message);
-                    }
-
-                }
-            });
-
-
-        }
     </script>
 </head>
 
@@ -105,8 +59,8 @@
                 <br>
                 <div style="text-align: center;">
                     <p></p>
-                    <button class="text-center" type="button" style="border: none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 50%; height: 30px;
-                    text-align: center; font-family: AppleSDGothicNeo ; background-color: blue; color:white;  border-radius: 30px;" onclick="javascript:start_Able()">
+                    <button class="text-center" id="btn_user_register" type="button" style="border: none; box-shadow: 0 2px 8px 0 #4c6ce9;  width: 50%; height: 30px;
+                    text-align: center; font-family: AppleSDGothicNeo ; background-color: blue; color:white;  border-radius: 30px;">
                         START ABLE
                     </button>
                 </div>
@@ -221,8 +175,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/p2pMatching">뱅크서비스</a>
                             </li>
-                            <!--<a class="btn btn-nav btn-rounded btn-inline" href="javascript:login();" target="_blank">-->
-                                <a class="btn btn-nav btn-rounded btn-inline" id="btn_login" href="javascript:metakmask_check()" target="_blank">
+                                <a class="btn btn-nav btn-rounded btn-inline" id="btn_login">
                                 <img style="height: 30px;" src="../img/navi_img_metamask@3x.png">
                                 Connect to Metamask
                             </a>
