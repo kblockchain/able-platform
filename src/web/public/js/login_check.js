@@ -897,6 +897,18 @@ function is_ableuser() {
             console.log("able 유저입니다.");
             //document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
 
+            $(function () {
+
+
+                console.log("able jquery");
+
+                $('#btn_login').html('<span>'+user_address.substring(0,4)+'</span>');
+                $('#btn_login').addClass('site-header-address');
+
+
+            });
+
+
 
         }
 
