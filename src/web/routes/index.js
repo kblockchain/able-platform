@@ -51,26 +51,45 @@ router.post('/create_new_account', function (req, res, next) {
 /* ==========================================================================
     Login Session
     ========================================================================== */
-router.post('/', function (req, res, next) {
+router.post('/save_session', function (req, res, next) {
 
     var ableUser_address = req.param("user_address");
     console.log('index.js user_address : ' + ableUser_address);
+
+    console.dir(req.session)
 
     // save data in session
     req.session.ableUser_address = ableUser_address;
 
     req.session.save(function () {
-        console.log('index.js 옵니까!?');
-
         // res.redirect('/p2pMatching');
+        res.json({result: '200', message: '세션에 등록되었습니다.'});
 
-        res.render('html/p2pMatching.html');
 
     });
-
-    res.sendStatus(200);
-
 });
+
+
+/* ==========================================================================
+    Check Session
+    ========================================================================== */
+router.post('/check_session', function (req, res, next) {
+    if(req.session.ableUser_address != null && req.session.ableUser_address !=''){
+        var ableUser_address = req.session.ableUser_address;
+        console.log(ableUser_address)
+        res.json({
+            result: '200',
+            user_address : ableUser_address ,
+            message: '세션이 존재합니다.'
+        });
+    }else{
+        res.json({result: '204', message: '세션이 존재하지 않습니다.'});
+    }
+});
+
+
+
+
 
 // DB connection
 function create_connection(){

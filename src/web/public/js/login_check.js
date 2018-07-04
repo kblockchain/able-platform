@@ -832,13 +832,36 @@ function user_register() {
                 // if openaccount fail
                 if (err) {
                      console.log("registerAbleUser error:" + err);
+                    window.location.href='/account_manage';
                 }
 
                  // todo 계좌가 생성될 때 까지는 사용자에게 계좌를 생성 중임을 알려야한다.
-                // success, get info
-                else {
+
+                else { // success, get info
                     // 유저
+                    var formData = $("#able_regist_form").serialize();
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/create_new_account",
+                        data: formData
+                        ,success: function (res) {
+                            console.log(res);
+
+                            if(res.result == 200) {
+                                console.log(res.message);
+                                regist_ableuser();
+
+                            } else if(res.result == 204) {
+                                console.log(res.message);
+                            }
+
+                        }
+
+                    });
+                    //todo 세션 추가
                     console.log("registerAbleUser result userName: " + result.args.userName);
+                    window.location.href='/account_manage';
                 }
 
 
@@ -846,46 +869,7 @@ function user_register() {
         }
     });
 
-    var formData = $("#able_regist_form").serialize();
 
-    $.ajax({
-        method: "POST",
-        url: "/create_new_account",
-        data: formData
-        ,success: function (res) {
-            console.log(res);
-
-            if(res.result == 200) {
-                console.log(res.message);
-                regist_ableuser();
-
-            } else if(res.result == 204) {
-                console.log(res.message);
-            }
-
-        }
-
-    });
-
-    // todo session
-    $.ajax({
-        method: "POST",
-        url: "/create_new_account",
-        data: formData
-        ,success: function (res) {
-            console.log(res);
-
-            if(res.result == 200) {
-                console.log(res.message);
-                regist_ableuser();
-
-            } else if(res.result == 204) {
-                console.log(res.message);
-            }
-
-        }
-
-    });
 
 }
 
@@ -921,36 +905,29 @@ function is_ableuser() {
 
 
             // session data send
-            $.ajax({
-                method: "POST",
-                url: "/",
-                dataType: "json",
-                data: {"user_address" : user_address}
-                ,success: function (res) {
-                    console.log("ajx loggin.check : " + res);
-
-                    if(res.result == 200) {
-                        console.log(res.message);
-
-                        location.href('/p2pMatching')
-
-                    } else if(res.result == 204) {
-                        console.log(res.message);
-                    }pm
-
-                }
-
-            });
 
             $(function () {
-                console.log("able jquery");
 
-                $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
-                $('#btn_login').addClass('site-header-address');
+                $.ajax({
+                    method: "POST",
+                    url: "/save_session",
+                    dataType: "json",
+                    data: {"user_address": user_address},
+                    success: function (res) {
+                        console.log("ajx loggin.check : " + JSON.stringify(res));
+                        $(location).attr('href', '/account_manage');
 
+                        console.log("able jquery");
+
+                        $('#btn_login').html('<span>' + user_address.substring(0, 8) + '.....' + user_address.substring(34, 42) + '</span>');
+                        $('#btn_login').addClass('site-header-address');
+
+
+                    }
+
+                });
 
             });
-
 
 
         }
@@ -969,6 +946,8 @@ function is_ableuser() {
         }
 
     });
+
+}
 
 
     /**************************************************************************************************************************************/
@@ -1194,4 +1173,35 @@ function is_ableuser() {
 
         //setInterval(removeToast, 2000);
     }
+
+/****************************************
+ * check session
+ * **********************************************************************************************/
+
+
+function check_session(){
+
+    $.ajax({
+        method: "POST",
+        url: "/check_session",
+        dataType: "json",
+        success: function (res) {
+            console.log("check_session : " + JSON.stringify(res));
+
+            if(res.result == 200){
+                var user_address = res.user_address;
+                $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
+                $('#btn_login').addClass('site-header-address');
+            }else{
+                alert('로그인 정보가 변경되었습니다.');
+                $(location).attr('href', '/');
+            }
+
+
+
+
+        }
+
+    });
 }
+

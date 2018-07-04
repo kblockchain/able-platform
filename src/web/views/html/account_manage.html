@@ -28,9 +28,14 @@
     <script src="../js/bootstrap-select.min.js"></script>
     <script src="../js/select2.full.min.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/login_check.js"></script>
+
     <script>
         $(document).ready(function () {
+
             console.log("ready");
+
+            check_session();
         });
 
         function welcome() {
@@ -111,8 +116,8 @@
                                 <a class="nav-link active" href="#"><span class="current">ㅇ</span> 뱅크서비스</a>
                             </li>
                             <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
-                                <a class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
-                                    <span>0xB89E26….06fD9AC23</span>
+                                <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
+                                    <span></span>
                                 </a>
                             </li>
                             <li class="nav-item">
