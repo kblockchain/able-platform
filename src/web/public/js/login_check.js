@@ -948,7 +948,7 @@ function is_ableuser() {
                 $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
                 $('#btn_login').addClass('site-header-address');
 
-                
+
             });
 
 
