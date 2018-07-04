@@ -1,28 +1,4 @@
-var express = require('express');
-var session = require('express-session');
-// express는 post방식의 데이터를 처리해주지 않는다.
-var bodyParser = require('body-parser');
-
-// session을 mysql에 저장하기 위해 사용하는 모듈
-var MySQLStore = require('express-mysql-session')(session)
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-
-app.use(session({
-    secret: 'test',
-    resave: false,
-    saveUninitialized: true,
-    store:new MySQLStore({
-        host: 'localhost',
-        port: 3306,
-        user: 'root',
-        password: '',
-        database: 'session'
-        // 해당 database에 session 테이블 생성 후 데이터 저장
-    })
-}));
-
-// 1.로그인 화면
+/*// 1.로그인 화면
 app.get('/auth/login', function (req, res) {
     var output=`
     <form action="/auth/login" method="post">
@@ -39,7 +15,7 @@ app.get('/auth/login', function (req, res) {
     </form>
     `;
     res.send(output);
-});
+});*/
 
 // 2.로그인 버튼 클릭 시 발생하는 이벤트
 app.post('/auth/login', function (req, res) {

@@ -19,6 +19,7 @@ router.get('/account_manage', function (req, res, next) {
     res.render('html/account_manage.html');
 });
 
+/* Post home page. */
 router.post('/create_new_account', function (req, res, next) {
 
     var ableUser_address = req.param('ableUser_address');
@@ -42,11 +43,34 @@ router.post('/create_new_account', function (req, res, next) {
             res.json({result: '204', message: '이미 등록된 계좌입니다.'});
         }
     });
+});
+
+/* ==========================================================================
+    Login Session
+    ========================================================================== */
+
+router.post('/', function (req, res, next) {
+
+    var ableUser_address = req.param("user_address");
+    console.log('index.js user_address : ' + ableUser_address);
+
+    // save data in session
+    req.session.ableUser_address = ableUser_address;
+
+    req.session.save(function () {
+        // console.log('index.js 옵니까!?');
+        //
+        // res.redirect('/p2pMatching');
+    });
+
+    location.href('/p2pMatching');
 
 
+    res.send(200);
 
 });
 
+// DB connection
 function create_connection(){
     var mysql = require('mysql');
     var connection = mysql.createConnection({
@@ -60,6 +84,7 @@ function create_connection(){
     return connection;
 }
 
+// new account register
 function regist_new_account(res, connection, ableUser_address, ableUser_nickname){
 
         var q = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "')";

@@ -817,6 +817,7 @@ function user_register() {
 
         // if there is an error => return;
         if (err) {
+
             console.log("registerAbleUser error:" + err);
             return;
 
@@ -840,12 +841,33 @@ function user_register() {
                     console.log("registerAbleUser result userName: " + result.args.userName);
                 }
 
+
             });
         }
     });
 
     var formData = $("#able_regist_form").serialize();
 
+    $.ajax({
+        method: "POST",
+        url: "/create_new_account",
+        data: formData
+        ,success: function (res) {
+            console.log(res);
+
+            if(res.result == 200) {
+                console.log(res.message);
+                regist_ableuser();
+
+            } else if(res.result == 204) {
+                console.log(res.message);
+            }
+
+        }
+
+    });
+
+    // todo session
     $.ajax({
         method: "POST",
         url: "/create_new_account",
@@ -897,15 +919,34 @@ function is_ableuser() {
             console.log("able 유저입니다.");
             //document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
 
+
+            // session data send
+            $.ajax({
+                method: "POST",
+                url: "/",
+                dataType: "json",
+                data: {"user_address" : user_address}
+                ,success: function (res) {
+                    console.log("ajx loggin.check : " + res);
+
+                    if(res.result == 200) {
+                        console.log(res.message);
+
+                        location.href('/p2pMatching')
+
+                    } else if(res.result == 204) {
+                        console.log(res.message);
+                    }pm
+
+                }
+
+            });
+
             $(function () {
-
-
                 console.log("able jquery");
 
-                $('#btn_login').html('<span>'+user_address.substring(0,4)+'</span>');
+                $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
                 $('#btn_login').addClass('site-header-address');
-
-
             });
 
 

@@ -219,7 +219,7 @@ $(document).ready(function(){
         Select
         ========================================================================== */
 
-    if ($('.bootstrap-select').length) {
+   if ($('.bootstrap-select').length) {
         // Bootstrap-select
         $('.bootstrap-select').selectpicker({
             style: '',
