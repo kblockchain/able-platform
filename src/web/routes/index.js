@@ -39,7 +39,7 @@ router.post('/create_new_account', function (req, res, next) {
         console.log('--------1---------'+rows[0].count);
         var count = Number(rows[0].count);
         if(count == 0){
-            regist_new_account(res, connection, ableUser_address, ableUser_nickname);
+            regist_new_account(req, res, connection, ableUser_address, ableUser_nickname);
         }else{
             console.log('204');
             connection.end();
@@ -106,7 +106,7 @@ function create_connection(){
 }
 
 // new account register
-function regist_new_account(res, connection, ableUser_address, ableUser_nickname){
+function regist_new_account(req, res, connection, ableUser_address, ableUser_nickname){
 
         var q = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "')";
         console.log('q : ' + q);
@@ -115,6 +115,8 @@ function regist_new_account(res, connection, ableUser_address, ableUser_nickname
             console.log(rows);
             if (!err) {
                 connection.end();
+                req.session.ableUser_address = ableUser_address;
+                req.session.save();
                 res.json({result: '200', message: '정상적으로 등록되었습니다.'});
             } else {
                 connection.end();

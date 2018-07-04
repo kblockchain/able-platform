@@ -812,6 +812,8 @@ function user_register() {
     var bytes32_username = web3.fromAscii(user_name, 32);
     console.log("fromAscii (input_username) : " + bytes32_username);
 
+    $('.loading').show();
+    $('.loading p').css('top',(($(window).height()-$("#wrap").outerHeight())/2+$(window).scrollTop())+"px");
     // registerAbleUser Function in solidity
     contractInstance.registerAbleUser(bytes32_username, function (err, result) {
 
@@ -850,6 +852,9 @@ function user_register() {
 
                             if(res.result == 200) {
                                 console.log(res.message);
+                                save_session(user_address);
+                                $('.loading').show();
+                                $('.loading p').css('top',(($(window).height()-$("#wrap").outerHeight())/2+$(window).scrollTop())+"px");
                                 regist_ableuser();
 
                             } else if(res.result == 204) {
@@ -1132,6 +1137,7 @@ function is_ableuser() {
             contractInstance.registerAbleUser("0x31313131", user_address, function (err, result) {
                 console.log("registerAbleUser err : " + err);
                 console.log("registerAbleUser result : " + result);
+                $('.loading').hide();
                 });
         });
     }
@@ -1174,20 +1180,41 @@ function is_ableuser() {
         //setInterval(removeToast, 2000);
     }
 
+
+/****************************************
+ * save session
+ * **************************************/
+
+function save_session(user_address){
+
+    $.ajax({
+        method: "POST",
+        url: "/save_session",
+        dataType: "json",
+        data: {"user_address": user_address},
+        success: function (res) {
+            console.log("ajx loggin.check : " + JSON.stringify(res));
+            $(location).attr('href', '/account_manage');
+
+            $('#btn_login').html('<span>' + user_address.substring(0, 8) + '.....' + user_address.substring(34, 42) + '</span>');
+            $('#btn_login').addClass('site-header-address');
+
+
+        }
+
+    });
+}
 /****************************************
  * check session
- * **********************************************************************************************/
-
+ * **************************************/
 
 function check_session(){
-
     $.ajax({
         method: "POST",
         url: "/check_session",
         dataType: "json",
         success: function (res) {
             console.log("check_session : " + JSON.stringify(res));
-
             if(res.result == 200){
                 var user_address = res.user_address;
                 $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
@@ -1196,10 +1223,6 @@ function check_session(){
                 alert('로그인 정보가 변경되었습니다.');
                 $(location).attr('href', '/');
             }
-
-
-
-
         }
 
     });
