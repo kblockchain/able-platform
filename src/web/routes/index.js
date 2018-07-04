@@ -7,6 +7,9 @@ router.get('/', function (req, res, next) {
     res.render('html/intro.html');
 });
 router.get('/p2pMatching', function (req, res, next) {
+
+    console.log('p2pMatching 옵니까!?');
+
     res.render('html/p2pMatching.html');
 });
 router.get('/send', function (req, res, next) {
@@ -48,7 +51,6 @@ router.post('/create_new_account', function (req, res, next) {
 /* ==========================================================================
     Login Session
     ========================================================================== */
-
 router.post('/', function (req, res, next) {
 
     var ableUser_address = req.param("user_address");
@@ -58,15 +60,15 @@ router.post('/', function (req, res, next) {
     req.session.ableUser_address = ableUser_address;
 
     req.session.save(function () {
-        // console.log('index.js 옵니까!?');
-        //
+        console.log('index.js 옵니까!?');
+
         // res.redirect('/p2pMatching');
+
+        res.render('html/p2pMatching.html');
+
     });
 
-    location.href('/p2pMatching');
-
-
-    res.send(200);
+    res.sendStatus(200);
 
 });
 
