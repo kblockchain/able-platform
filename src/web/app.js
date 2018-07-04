@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var ejs = require('ejs');
+var session = require('express-session');
+
+// express는 post방식의 데이터를 처리해주지 않는다.
+var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -14,7 +18,17 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
-app.use(express.static(path.join(__dirname, 'public')));
+
+// post
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+    secret: 'test',
+    resave: false,
+    saveUninitialized: true
+}));
+
+// file directory setup
+app.use(express.static(path.join(__dirname + '/public')));
 
 
 app.use(logger('dev'));
@@ -42,5 +56,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-
