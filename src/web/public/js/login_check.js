@@ -1,5 +1,6 @@
 // 스마트 컨트랙트 주소
-var contractAddress = '0x02e4Ec83cF8918E48Be5776847E05bCA4a0f30ba'; // real contract address
+// var contractAddress = '0x02e4Ec83cF8918E48Be5776847E05bCA4a0f30ba'; // real contract address
+var contractAddress = '0xDD601d27b61100b53f64FB54E3612a87a46AedF5'; // real contract address
 
 // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스 (추후 변경 예정)
 // for test
@@ -350,6 +351,11 @@ var abi = [
         "type": "function"
     },
     {
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "fallback"
+    },
+    {
         "constant": true,
         "inputs": [
             {
@@ -628,6 +634,29 @@ var contractInstance;
 var user_address; // 메타마스크에 로그인한 유저의 ethereum address
 var user_accountNumber; // 에이블 간편 계좌 번호
 
+$(function () {
+
+
+    // login button
+    $("#btn_login").click(function () {
+        metakmask_check();
+    });
+
+    // register able user button in modal
+    $("#btn_user_register").click(function () {
+        user_register();
+    });
+
+/*
+    $("#btn_user_register").click(function () {
+        register();
+    });
+*/
+
+});
+
+/**************************************************************************************************************************************/
+
 // 메타마스크 불러오기 확인
 // 브라우저에서 로딩이 다 되면 실행된다.
 function metakmask_check() {
@@ -724,26 +753,12 @@ function startApp() {
     simpleStorageContract = web3.eth.contract(abi);
     contractInstance = simpleStorageContract.at(contractAddress);
 
-    // getCoinbase 함수를 이용해서 메타마스크 계좌 정보 가져오기
-    // 도큐먼트 참고 주소 https://web3js.readthedocs.io/en/1.0/web3-eth.html?highlight=balance#getbalance
-    web3.eth.getCoinbase(function (e, address) {
-        web3.eth.getBalance(address, function (e, balances) {
-
-            // 메타마스크 주소
-            //document.getElementById('output_address').innerHTML = address;
-
-            // web3.fromWei() 메소드는 wei 숫자를 다른 단위로 변환하기 위해 사용 (wei -> ether)
-            // web3.toWei() 메소드는 다른 단위를 wei 단위로 변환하기 위해 사 (ether -> wei)
-            //document.getElementById('output_ethamount').innerHTML = Number(web3.fromWei(Number(balances), 'ether')).toFixed(2);
-        });
-
-    });
-
-    // todo isAbleUser() 코드가 들어가는 부분
-    is_ableuser();
     // 만약, 메타마스크의 아이디를 변경해준 경우에도 isAbleUser()인지 아닌지 체크 필요 or 데이터 베이스 거치는 작업 필요.
-
+    is_ableuser();
 }
+
+/**************************************************************************************************************************************/
+
 
 
 /**
@@ -773,6 +788,110 @@ function openErrorModal_not_login() {
     });
 }
 
+
+
+/**
+ * @dev Function to register ableUser
+ * @param _userName the bytes32 to insert userName.
+ * @return boolean flag if register success.
+ */
+function user_register() {
+
+    var user_name = $('#input_able_user_name').val();
+
+    if(user_name == '') {
+        alert('이름을 입력해주세요');
+        return;
+    }
+
+    console.log("가입하고자 하는 닉네임: " + user_name);
+
+    // 1. An ASCII string to be converted to HEX
+    // 2. The number of bytes the returned HEX string should have.
+    // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
+    var bytes32_username = web3.fromAscii(user_name, 32);
+    console.log("fromAscii (input_username) : " + bytes32_username);
+
+    // registerAbleUser Function in solidity
+    contractInstance.registerAbleUser(bytes32_username, function (err, result) {
+
+        // if there is an error => return;
+        if (err) {
+
+            console.log("registerAbleUser error:" + err);
+            return;
+
+        }
+
+        // check result value
+        if (typeof result !== 'undefined') {
+            console.log("registerAbleUser result : " + result);
+            contractInstance.AbleUserRegistered_Successful().watch((err, result) => {
+
+                // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
+                // if openaccount fail
+                if (err) {
+                     console.log("registerAbleUser error:" + err);
+                }
+
+                 // todo 계좌가 생성될 때 까지는 사용자에게 계좌를 생성 중임을 알려야한다.
+                // success, get info
+                else {
+                    // 유저
+                    console.log("registerAbleUser result userName: " + result.args.userName);
+                }
+
+
+            });
+        }
+    });
+
+    var formData = $("#able_regist_form").serialize();
+
+    $.ajax({
+        method: "POST",
+        url: "/create_new_account",
+        data: formData
+        ,success: function (res) {
+            console.log(res);
+
+            if(res.result == 200) {
+                console.log(res.message);
+                regist_ableuser();
+
+            } else if(res.result == 204) {
+                console.log(res.message);
+            }
+
+        }
+
+    });
+
+    // todo session
+    $.ajax({
+        method: "POST",
+        url: "/create_new_account",
+        data: formData
+        ,success: function (res) {
+            console.log(res);
+
+            if(res.result == 200) {
+                console.log(res.message);
+                regist_ableuser();
+
+            } else if(res.result == 204) {
+                console.log(res.message);
+            }
+
+        }
+
+    });
+
+}
+
+/**************************************************************************************************************************************/
+
+
 /**************************************************************************************************************************************/
 
 /**
@@ -801,6 +920,37 @@ function is_ableuser() {
             //document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
 
 
+            // session data send
+            $.ajax({
+                method: "POST",
+                url: "/",
+                dataType: "json",
+                data: {"user_address" : user_address}
+                ,success: function (res) {
+                    console.log("ajx loggin.check : " + res);
+
+                    if(res.result == 200) {
+                        console.log(res.message);
+
+                        location.href('/p2pMatching')
+
+                    } else if(res.result == 204) {
+                        console.log(res.message);
+                    }pm
+
+                }
+
+            });
+
+            $(function () {
+                console.log("able jquery");
+
+                $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
+                $('#btn_login').addClass('site-header-address');
+            });
+
+
+
         }
 
         // ableUser가 아닌 경우
@@ -810,17 +960,10 @@ function is_ableuser() {
 
             //document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
 
-
-            regist_to_able();
-            // todo modal로 회원가입 화면 띄워주기
+            //  modal로 회원가입 모달 띄워주기
             // 닉네임 입력받고 해당 닉네임으로 회원가입 진행하기
-            // contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
+            open_regist_modal();
 
-
-            /*                    contractInstance.registerAbleUser("0x31313131", user_address, function (err, result) {
-                                    console.log("registerAbleUser err : " + err);
-                                    console.log("registerAbleUser result : " + result);
-                                });*/
         }
 
     });
@@ -828,49 +971,7 @@ function is_ableuser() {
 
     /**************************************************************************************************************************************/
 
-    /**
-     * @dev Function to register ableUser
-     * @param _userName the bytes32 to insert userName.
-     * @return boolean flag if register success.
-     */
-    function regist_ableuser() {
 
-        if (isNaN(user_address)) {
-            toast("You need to metamask login.");
-        }
-
-        var input_username = document.getElementById("input_able_user_name").value;
-        console.log("가입하고자 하는 닉네임: " + input_username);
-
-        // 버전 확인 함수
-        var version = web3.version.api;
-        console.log(version); // "0.20.3"
-
-        // 1. An ASCII string to be converted to HEX
-        // 2. The number of bytes the returned HEX string should have.
-        // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
-        var bytes32_username = web3.fromAscii(input_username, 32);
-        console.log("fromAscii (input_username) : " + bytes32_username);
-
-        // todo 유저 생성하는 부분. 스마트 컨트랙트 가스 문제로 디버깅 필요. 트랜잭션이 발생하지 않음.
-        contractInstance.registerAbleUser(bytes32_username, function (err, result) {
-
-
-            // if there is an error => return;
-                if (err) {
-                console.log("registerAbleUser error:" + err);
-                return;
-            }
-            ;
-
-            // check result value
-            if (typeof result !== 'undefined') {
-
-                console.log("registerAbleUser result : " + result);
-
-            }
-        });
-    }
 
 
     /**************************************************************************************************************************************/
@@ -1025,6 +1126,37 @@ function is_ableuser() {
     });
 
     /**************************************************************************************************************************************/
+
+    function open_regist_modal() {
+
+        $(function () {
+            $('#myModal').modal({
+                show: true
+            });
+        });
+    }
+
+    function error() {
+        $('#errorModal').modal('show  ').css({
+            'margin-top': function () {
+                return 200; //($(this).height()/2) // 작동안함;;
+            }
+        });
+
+    }
+
+    function registerAbleUser(){
+
+        contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
+            contractInstance.registerAbleUser("0x31313131", user_address, function (err, result) {
+                console.log("registerAbleUser err : " + err);
+                console.log("registerAbleUser result : " + result);
+                });
+        });
+    }
+
+    /**************************************************************************************************************************************/
+
 
     /**
      * @dev Function to make toast message
