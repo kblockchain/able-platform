@@ -16046,3 +16046,53 @@ select#select_coin option[value="ethereum"] {
     font-size: 23px;
     text-align: center
 }
+
+@keyframes bounce {
+    0% {
+
+        transform: translatey(0px);
+    }
+    50% {
+
+        transform: translatey(-40px);
+    }
+    100% {
+
+        transform: translatey(0px);
+    }
+}
+
+.bounce_cube{
+    animation: bounce 4s ease-out infinite;
+    position: absolute;
+    top: -16%;
+    left: 36%;
+    width: 33%;
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 40px, 0);
+        transform: translate3d(0, 40px, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+}
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
