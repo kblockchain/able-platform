@@ -1,12 +1,7 @@
 // 스마트 컨트랙트 주소
-// var contractAddress = '0x02e4Ec83cF8918E48Be5776847E05bCA4a0f30ba'; // real contract address
 var contractAddress = '0xDD601d27b61100b53f64FB54E3612a87a46AedF5'; // real contract address
 
 // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스 (추후 변경 예정)
-// for test
-// var abi = [{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}];
-
-// for real abi
 var abi = [
     {
         "anonymous": false,
@@ -647,11 +642,15 @@ $(function () {
         user_register();
     });
 
-/*
-    $("#btn_user_register").click(function () {
-        register();
+    // add account
+    $("#btn_add_account").click(function () {
+        open_able_account();
     });
-*/
+
+    // session delete
+    $("#btn_logout").click(function () {
+        session_logout();
+    });
 
 });
 
@@ -964,18 +963,16 @@ function is_ableuser() {
      * @return boolean flag if open success.
      * @comments only ableuser can open account.
      */
-    $("#btn_open_account").click(function () {
-        if (isNaN(user_address)) {
-            toast("You need to metamask login.");
-            return;
-        }
+    function open_able_account() {
+
+        simpleStorageContract = web3.eth.contract(abi);
+        contractInstance = simpleStorageContract.at(contractAddress);
 
         var input_account_number = document.getElementById("input_account_number").value; // 유저가 입력한 보내고자 하는 이더리움 수량
         var input_account_password = document.getElementById("input_account_password").value; // 이더리움을 보내고자 하는 상대방 주소
 
         var bytes32_account_number = web3.fromAscii(input_account_number, 32);
         console.log("fromAscii (input_account_number) : " + bytes32_account_number);
-
 
         var bytes32_account_password = web3.fromAscii(input_account_password, 32);
         console.log("fromAscii (input_account_password) : " + bytes32_account_password);
@@ -1003,20 +1000,48 @@ function is_ableuser() {
                 // success, get info
                 else {
 
-                    // 유저
-                    console.log("openAbleAccount result accountNumber: " + result.args.accountNumber);
+                    user_Address = result.args.userAddress;
                     user_accountNumber = result.args.accountNumber;
+                    user_accountType = result.args.accountType;
 
-                    document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 성공";
-                    document.getElementById('output_check_accountNumber').innerHTML = "간평송금 계좌 번호\n" + result.args.accountNumber;
+                    var ascii_account = web3.toAscii(user_accountNumber);
+                    console.log("account !!!!!!!!!! " + ascii_account);
 
 
+
+                    console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
+                    console.log("openAbleAccount result user_Address: " + user_Address);
+                    console.log("openAbleAccount result input_account_password: " + input_account_password);
+                    console.log("openAbleAccount result user_accountType: " + user_accountType);
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/open_new_account",
+                        dataType: "json",
+                        data: {
+                            "user_accountNumber": ascii_account,
+                            "user_Address": user_Address,
+                            "ableAccount_password":input_account_password,
+                            "user_accountType": user_accountType
+                        },
+                        success: function (res) {
+
+                            console.log(res);
+
+                            if(res.result == 200) {
+                                console.log(res.message);
+                                $(location).attr('href', '/account_manage');
+
+                            } else if(res.result == 204) {
+                                console.log(res.message);
+                            }
+                        }
+                    });
                 }
 
             });
         });
-
-    });
+    }
 
 
     /**************************************************************************************************************************************/
@@ -1126,16 +1151,6 @@ function is_ableuser() {
 
     }
 
-    function registerAbleUser(){
-
-        contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
-            contractInstance.registerAbleUser("0x31313131", user_address, function (err, result) {
-                console.log("registerAbleUser err : " + err);
-                console.log("registerAbleUser result : " + result);
-                });
-        });
-    }
-
     /**************************************************************************************************************************************/
 
 
@@ -1177,10 +1192,7 @@ function is_ableuser() {
 /****************************************
  * check session
  * **********************************************************************************************/
-
-
 function check_session(){
-
     $.ajax({
         method: "POST",
         url: "/check_session",
@@ -1193,15 +1205,29 @@ function check_session(){
                 $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
                 $('#btn_login').addClass('site-header-address');
             }else{
-                alert('로그인 정보가 변경되었습니다.');
+                // alert('Please make sure to connect metamask rinkeby network');
+                alert('메타마스크 Rinkeby 네트워크로 로그인 후 접근해 주세요.');
                 $(location).attr('href', '/');
             }
-
-
-
-
         }
 
     });
 }
 
+function session_logout() {
+
+    console.log("session log out work1");
+
+    $.ajax({
+        method: "POST",
+        url: "/session_delete",
+        dataType: "json",
+        success: function (res) {
+            console.log("check_session : ㅁㄴㅇㅁㄴㅇ" + JSON.stringify(res));
+            console.log("session delete complete");
+            $(location).attr('href', '/');
+
+        }
+
+    });
+}

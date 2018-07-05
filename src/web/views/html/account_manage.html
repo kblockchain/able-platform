@@ -34,7 +34,6 @@
         $(document).ready(function () {
 
             console.log("ready");
-
             check_session();
         });
 
@@ -52,7 +51,7 @@
 <!-- welcome Modal -->
 <div class="modal fade" id="welcomeModal" role="dialog">
     <div class="modal-dialog " style="max-width: 500px">
-        <div class="modal-content" style="  border-radius: 30px; ">
+        <div class="modal-content" style="border-radius: 30px; ">
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
                 <span class="font-weight-bold" > Wellcome to ABLE! </span>
@@ -120,9 +119,12 @@
                                     <span></span>
                                 </a>
                             </li>
+
+                            <!-- 로그아웃 버튼 -->
                             <li class="nav-item">
-                                <a class="nav-link" active href="#"><span class="glyphicon glyphicon-share"></span></a>
+                                <a class="nav-link" active href="#" id="btn_logout"><span class="glyphicon glyphicon-share"></span></a>
                             </li>
+
                         </ul>
                     </div>
                 </div><!--.site-header-shown-->
@@ -138,7 +140,7 @@
             <a class="nav-link " href="/p2pMatching">P2P Matching Engine</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">ABLE DEX</a>
+            <a class="nav-link" href="#" onclick="javascript:alert('서비스 준비 중 입니다.')">ABLE DEX</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " href="/send">간편송금</a>
@@ -240,8 +242,11 @@
             </div>
         </div>
     </div>
+
+
+    <!--계좌 -->
     <br>
-    <div class="box-typical box-typical-padding new-account" >
+    <div class="box-typical box-typical-padding new-account">
         <div style="margin-left: 10px;">
             <div class="row">
                 <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
@@ -254,16 +259,23 @@
             <br><br>
             <div class="row">
                 <div style="font-size: 14px" class="col-sm-12">
-                    <label class="form-label input" >Address Nickname</label>
+                    <label class="form-label input" >Account Nickname</label>
                     <div style="margin-top: 5px">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="Ex) MyABLE">
+                        <input type="text" class="form-control" id="input_account_number" placeholder="ex) first account">
+                    </div>
+
+                    <br>
+                    <label class="form-label input" >Account password</label>
+                    <div style="margin-top: 5px">
+                        <input type="password" class="form-control" id="input_account_password" placeholder="password">
                     </div>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-sm-12">
-                    <button type="button"  class="btn btn-inline transaction" onclick="javascript:welcome()">Add Account</button>
+                    <!--<button type="button"  class="btn btn-inline transaction" onclick="javascript:welcome()">Add Account</button>-->
+                    <button type="button" class="btn btn-inline transaction" id="btn_add_account">Add Account</button>
                 </div>
             </div>
         </div>
