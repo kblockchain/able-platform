@@ -39,7 +39,6 @@ router.post('/create_new_account', function (req, res, next) {
 
         // if there no ableUser_address in db
         if(count == 0){
-<<<<<<< HEAD
             // insert query start
             regist_new_account(res, connection, ableUser_address, ableUser_nickname);
         }
