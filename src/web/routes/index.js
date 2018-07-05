@@ -9,6 +9,9 @@ router.get('/', function (req, res, next) {
 router.get('/p2pMatching', function (req, res, next) {
     res.render('html/p2pMatching.html');
 });
+router.get('/dex', function (req, res, next) {
+    res.render('html/dex.html');
+});
 router.get('/send', function (req, res, next) {
     res.render('html/send.html');
 });
@@ -18,6 +21,7 @@ router.get('/salary', function (req, res, next) {
 router.get('/account_manage', function (req, res, next) {
     res.render('html/account_manage.html');
 });
+
 
 /* ==========================================================================
     DB) Able user insert
