@@ -7,7 +7,6 @@
     <title>able</title>
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/widgets.min.css">
-
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/aos.css">
@@ -28,6 +27,9 @@
 
     <script>
         $(document).ready(function () {
+
+            //check_session();
+
             AOS.init({
                 easing: 'ease-out-back',
                 duration: 1000
@@ -35,6 +37,13 @@
 
             console.log("ready");
 
+            $('#to_next_section').click(function () {
+                window.scroll({
+                    top: 1100,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            });
         });
 
         function regist_to_able() {
@@ -52,8 +61,89 @@
 
         }
 
-
+        function connect_to_metamask(){
+            $('.loading').show();
+            $('.loading p').css('top',(($(window).height()-$("#wrap").outerHeight())/2+$(window).scrollTop())+"px");
+        }
+        // function connect_to_metamask1() {
+        //     function getData(callback) {
+        //         // new Promise() 추가
+        //         return new Promise(function (resolve, reject) {
+        //             setTimeout(function (){
+        //                 $.post('/check_session', function (response) {
+        //                 // 데이터를 받으면 resolve() 호출
+        //                     loader.classList.add('fadeOut');
+        //                 }, 300);
+        //                 resolve(response);
+        //             });
+        //         });
+        //     }
+        //
+        //     getData().then(function (tableData) {
+        //         // resolve()의 결과 값이 여기로 전달됨
+        //         console.log(tableData); // $.get()의 reponse 값이 tableData에 전달됨
+        //     });
+        // }
+        //
+        // window.addEventListener('load', () => {
+        //     const loader = document.getElementById('loader');
+        //     setTimeout(() => {
+        //         loader.classList.add('fadeOut');
+        //     }, 300);
+        // });
     </script>
+
+    <style>
+
+        #loader {
+        transition: all .3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000
+    }
+
+    #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1s infinite ease-in-out;
+        animation: sk-scaleout 1s infinite ease-in-out
+    }
+
+    @-webkit-keyframes sk-scaleout {
+        0% {
+            -webkit-transform: scale(0)
+        }
+        100% {
+            -webkit-transform: scale(1);
+            opacity: 0
+        }
+    }
+
+    @keyframes sk-scaleout {
+        0% {
+            -webkit-transform: scale(0);
+            transform: scale(0)
+        }
+        100% {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            opacity: 0
+        }
+    }</style>
 </head>
 
 <!-- Modal -->
@@ -220,7 +310,16 @@
 </header><!--.site-header-->
 
 <body>
+<div id="wrap">
+    <!--loading-->
+    <section class="loading">
+        <p>
+            <img src="../img/loading2.svg">
+        </p>
+    </section>
+</div>
 <div class="mobile-menu-left-overlay"></div>
+<br><br><br>
 <div class="row" style="background-image: linear-gradient( #2228f5, #171f78); ">
     <div class="col-md-6">
         <br><br><br><br><br><br><br><br>
@@ -246,7 +345,11 @@
 ">Launch of ABLE MVP(Minimum Viable Product) on Ethereum Test network
             </div>
             <br><br><br><br>
+<<<<<<< HEAD
 <!--            <button style="width: 300px;
+=======
+            <button onclick="javascript:connect_to_metamask();" style="width: 300px;
+>>>>>>> 3e4d2ffca66cb88ab944675ff641bef28ecb4e26
   height: 70px;
   border: none;
   border-radius: 8px;
@@ -281,12 +384,14 @@
 
         </div>
 
-        <div style="font-size: 50px; "><span style=" color:white;" class="glyphicon glyphicon-menu-down"></span>
+        <div style="font-size: 50px; ">
+
+            <a id="to_next_section"><span class=" glyphicon glyphicon-menu-down" style=" color:white;"></span></a>
         </div>
 
     </div>
 </div>
-<div class="row" style="background-color: white">
+<div id="Matching_Engine" class="row" style="background-color: white">
     <div class="col-md-6" data-aos="fade-right"
          data-aos-offset="300"
          data-aos-easing="ease-in-sine" style="padding-left: 10%;padding-top: 10%;">
@@ -375,9 +480,8 @@
             <!--border : none;-->
             <!--">-->
             <!--Decentralized Exchange-->
-
             <!--</button>-->
-            <br><br><br><br><br><br><br><br>
+            <br><br><br>
             <div data-aos="zoom-in-up">
                 <img height="700px;" src="../img/img_main_03.png">
             </div>

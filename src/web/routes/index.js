@@ -39,12 +39,17 @@ router.post('/create_new_account', function (req, res, next) {
 
         // if there no ableUser_address in db
         if(count == 0){
+<<<<<<< HEAD
             // insert query start
             regist_new_account(res, connection, ableUser_address, ableUser_nickname);
         }
 
         // already exist ableUser_address in db
         else{
+=======
+            regist_new_account(req, res, connection, ableUser_address, ableUser_nickname);
+        }else{
+>>>>>>> 3e4d2ffca66cb88ab944675ff641bef28ecb4e26
             console.log('204');
             connection.end();
             res.json({result: '204', message: '이미 등록된 계좌입니다.'});
@@ -161,10 +166,15 @@ function create_connection(){
     return connection;
 }
 
+<<<<<<< HEAD
 /* ==========================================================================
     DB) Input db to ableUser_address, albeUser_nickname
     ========================================================================== */
 function regist_new_account(res, connection, ableUser_address, ableUser_nickname){
+=======
+// new account register
+function regist_new_account(req, res, connection, ableUser_address, ableUser_nickname){
+>>>>>>> 3e4d2ffca66cb88ab944675ff641bef28ecb4e26
 
         var insert_query = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "')";
         console.log('insert_query : ' + insert_query);
@@ -173,6 +183,8 @@ function regist_new_account(res, connection, ableUser_address, ableUser_nickname
             console.log(rows);
             if (!err) {
                 connection.end();
+                req.session.ableUser_address = ableUser_address;
+                req.session.save();
                 res.json({result: '200', message: '정상적으로 등록되었습니다.'});
             } else {
                 connection.end();

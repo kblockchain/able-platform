@@ -16096,3 +16096,29 @@ select#select_coin option[value="ethereum"] {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
+.loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -4px;
+    left: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+.loading p {
+    position: relative;
+    top: 10%;
+    margin: -75px auto 0 auto;
+    width: 200px;
+    height: 50px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 0 30px;
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+}
