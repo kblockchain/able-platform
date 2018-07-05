@@ -1156,20 +1156,6 @@ function is_ableuser() {
 
     }
 
-<<<<<<< HEAD
-=======
-    function registerAbleUser(){
-
-        contractInstance.registerAbleUser(bytes32_nickname, function (err, result) {
-            contractInstance.registerAbleUser("0x31313131", user_address, function (err, result) {
-                console.log("registerAbleUser err : " + err);
-                console.log("registerAbleUser result : " + result);
-                $('.loading').hide();
-                });
-        });
-    }
-
->>>>>>> 3e4d2ffca66cb88ab944675ff641bef28ecb4e26
     /**************************************************************************************************************************************/
 
 
@@ -1210,13 +1196,8 @@ function is_ableuser() {
 
 
 /****************************************
-<<<<<<< HEAD
  * check session
  * **********************************************************************************************/
-=======
- * save session
- * **************************************/
-
 function save_session(user_address){
 
     $.ajax({
@@ -1239,8 +1220,6 @@ function save_session(user_address){
 /****************************************
  * check session
  * **************************************/
-
->>>>>>> 3e4d2ffca66cb88ab944675ff641bef28ecb4e26
 function check_session(){
     $.ajax({
         method: "POST",
@@ -1257,7 +1236,6 @@ function check_session(){
                 alert('메타마스크 Rinkeby 네트워크로 로그인 후 접근해 주세요.');
                 $(location).attr('href', '/');
             }
-<<<<<<< HEAD
         }
 
     });
@@ -1275,9 +1253,6 @@ function session_logout() {
             console.log("check_session : ㅁㄴㅇㅁㄴㅇ" + JSON.stringify(res));
             console.log("session delete complete");
             $(location).attr('href', '/');
-
-=======
->>>>>>> 3e4d2ffca66cb88ab944675ff641bef28ecb4e26
         }
 
     });
