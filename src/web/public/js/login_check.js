@@ -662,85 +662,84 @@ function metakmask_check() {
 
     // setInterval() 함수 - 일정 시간 간격으로 함수 반복 실행
     // 3초에 한번씩 메타마스크 네트워크 및 아이디 변경 여부 체크
-    //   var metamask = setInterval(function () {
-    if (typeof web3 !== 'undefined') {
+    // var metamask = setInterval(function () {
 
-        // 만약, 메타마스크의 계정을 변경하는 경우 1초에 한번씩 아이디를 체크하는 것 같음.
+        if (typeof web3 !== 'undefined') {
 
-        // 메타마스크가 설치 되어 있는 경우
-        // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
-        // let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io')); // ropsten 네트워크로 연결
-        window.web3 = new Web3(web3.currentProvider); // 현재 브라우저에서 연결된 네트워크로 연결
-        user_address = web3.eth.accounts[0];
-        console.log("user address : " + user_address);
+            // 만약, 메타마스크의 계정을 변경하는 경우 1초에 한번씩 아이디를 체크하는 것 같음.
 
-        $("#metamask_user_address").val(user_address);
+            // 메타마스크가 설치 되어 있는 경우
+            // web3가 메타마스크 등에 의해 이미 브라우저에 올라와 있다면 web3.currentProvider를 이용해 새 web3 인스턴스를 만듬.
+            // let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io')); // ropsten 네트워크로 연결
+            window.web3 = new Web3(web3.currentProvider); // 현재 브라우저에서 연결된 네트워크로 연결
+            user_address = web3.eth.accounts[0];
+            // console.log("user address : " + user_address);
 
-        // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
-        if (isNaN(user_address)) {
-            toast("You have to login metamask.");
+            $("#metamask_user_address").val(user_address);
 
-            return;
+            // 메타마스크는 설치되어 있는데 로그인 하지 않은 경우
+            if (isNaN(user_address)) {
+                toast("You have to login metamask.");
+
+                return;
+            }
+
+            // todo 여기 로직 체크 필요. 로그인 버튼을 계속 클릭하게 할 것인지, 다른 네트워크 일 경우 버튼 이벤트 안먹히게 할 것인지.
+            // 메타마스크가 어떤 네트워크에 속해있는지 체크 후, Rinkeby가 아닐 경우 로그인 막음.
+            web3.version.getNetwork((err, netId) => {
+
+                if (netId == "1") {
+                    // console.log('This is mainnet')
+
+                    // clearInterval() - 실행되고 있는 interval을 중지
+                    openErrorModal('this is mainNet.  Connect to Rinkeby please.');
+                    // clearInterval(metamask)
+
+                    return;
+                }
+
+                else if (netId == "2") {
+                    // console.log('This is the deprecated Modern test network.')
+                    openErrorModal('This is the deprecated Modern test network.  Connect to Rinkeby please.');
+                    // clearInterval(metamask)
+                    return;
+                }
+
+                else if (netId == "3") {
+                    // console.log('This is the Ropsten test network.')
+                    openErrorModal('This is the Ropsten test network.  Connect to Rinkeby please.');
+                    // clearInterval(metamask)
+                    return;
+                }
+
+                else if (netId == "4") {
+                    // console.log('This is the Rinkeby test network.')
+                    // 메인 함수 시작 (web3를 통해서 스마트 컨트랙트에 접근 가능해짐)
+                    // startApp();
+                    startApp()
+                }
+
+                else if (netId == "42") {
+                    // console.log('This is the Kovan test network.')
+                    openErrorModal('This is an unknown network.  Connect to Rinkeby please.');
+                    // clearInterval(metamask)
+                    return;
+                }
+
+                else {
+                    // console.log('This is an unknown network.')
+                    openErrorModal('This is an unknown network.  Connect to Rinkeby please.');
+                    // clearInterval(metamask)
+                    return;
+                }
+
+            });
+        } else {
+            openErrorModal_not_login();
+            // clearInterval(metamask);
+
         }
-
-        // todo 여기 로직 체크 필요. 로그인 버튼을 계속 클릭하게 할 것인지, 다른 네트워크 일 경우 버튼 이벤트 안먹히게 할 것인지.
-        // 메타마스크가 어떤 네트워크에 속해있는지 체크 후, Rinkeby가 아닐 경우 로그인 막음.
-        web3.version.getNetwork((err, netId) => {
-
-            if (netId == "1") {
-                console.log('This is mainnet')
-
-                // clearInterval() - 실행되고 있는 interval을 중지
-                openErrorModal('this is mainNet.  Connect to Rinkeby please.');
-                clearInterval(metamask)
-
-                return;
-            }
-
-            else if (netId == "2") {
-                console.log('This is the deprecated Modern test network.')
-                openErrorModal('This is the deprecated Modern test network.  Connect to Rinkeby please.');
-                clearInterval(metamask)
-                return;
-            }
-
-            else if (netId == "3") {
-                console.log('This is the Ropsten test network.')
-                openErrorModal('This is the Ropsten test network.  Connect to Rinkeby please.');
-                clearInterval(metamask)
-                return;
-            }
-
-            else if (netId == "4") {
-                console.log('This is the Rinkeby test network.')
-                // 메인 함수 시작 (web3를 통해서 스마트 컨트랙트에 접근 가능해짐)
-                // startApp();
-                startApp()
-            }
-
-            else if (netId == "42") {
-                console.log('This is the Kovan test network.')
-                openErrorModal('This is an unknown network.  Connect to Rinkeby please.');
-                clearInterval(metamask)
-                return;
-            }
-
-            else {
-                console.log('This is an unknown network.')
-                openErrorModal('This is an unknown network.  Connect to Rinkeby please.');
-                clearInterval(metamask)
-                return;
-            }
-
-        });
-    } else {
-        openErrorModal_not_login();
-        clearInterval(metamask);
-
-    }
-
-
-    //   },3000);
+    // },3000);
 }
 
 
@@ -803,13 +802,13 @@ function user_register() {
         return;
     }
 
-    console.log("가입하고자 하는 닉네임: " + user_name);
+    // console.log("가입하고자 하는 닉네임: " + user_name);
 
     // 1. An ASCII string to be converted to HEX
     // 2. The number of bytes the returned HEX string should have.
     // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
     var bytes32_username = web3.fromAscii(user_name, 32);
-    console.log("fromAscii (input_username) : " + bytes32_username);
+    // console.log("fromAscii (input_username) : " + bytes32_username);
 
     $('.loading').show();
     $('.loading p').css('top',(($(window).height()-$("#wrap").outerHeight())/2+$(window).scrollTop())+"px");
@@ -818,10 +817,9 @@ function user_register() {
 
         // if there is an error => return;
         if (err) {
-
             console.log("registerAbleUser error:" + err);
+            $('.loading').hide();
             return;
-
         }
 
         // check result value
@@ -939,7 +937,7 @@ function is_ableuser() {
         // ableUser가 아닌 경우
         else if (result == false) {
 
-            console.log("able 유저가 아닙니다.");
+            // console.log("able 유저가 아닙니다.");
 
             //document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
 
@@ -1010,14 +1008,14 @@ function is_ableuser() {
                     user_accountType = result.args.accountType;
 
                     var ascii_account = web3.toAscii(user_accountNumber);
-                    console.log("account !!!!!!!!!! " + ascii_account);
+                    // console.log("account !!!!!!!!!! " + ascii_account);
 
 
 
-                    console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
-                    console.log("openAbleAccount result user_Address: " + user_Address);
-                    console.log("openAbleAccount result input_account_password: " + input_account_password);
-                    console.log("openAbleAccount result user_accountType: " + user_accountType);
+                    // console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
+                    // console.log("openAbleAccount result user_Address: " + user_Address);
+                    // console.log("openAbleAccount result input_account_password: " + input_account_password);
+                    // console.log("openAbleAccount result user_accountType: " + user_accountType);
 
                     $.ajax({
                         method: "POST",
@@ -1226,7 +1224,7 @@ function check_session(){
         url: "/check_session",
         dataType: "json",
         success: function (res) {
-            console.log("check_session : " + JSON.stringify(res));
+            // console.log("check_session : " + JSON.stringify(res));
             if(res.result == 200){
                 var user_address = res.user_address;
                 $('#btn_login').html('<span>'+user_address.substring(0,8)+ '.....' + user_address.substring(34,42) +'</span>');
