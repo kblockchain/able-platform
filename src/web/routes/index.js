@@ -18,6 +18,9 @@ router.get('/salary', function (req, res, next) {
 router.get('/account_manage', function (req, res, next) {
     res.render('html/account_manage.html');
 });
+router.get('/dex', function (req, res, next) {
+    res.render('html/dex.html');
+});
 
 /* ==========================================================================
     DB) Able user insert
@@ -34,24 +37,23 @@ router.post('/create_new_account', function (req, res, next) {
     var q = "SELECT count(ableUser_address) AS count FROM AbleUser WHERE ableUser_address = '" + ableUser_address + "'";
     console.log('q : ' + q);
     connection.query(q, function (err, rows, fields) {
-        console.log('--------1---------'+rows[0].count);
+        console.log('--------1---------' + rows[0].count);
         var count = Number(rows[0].count);
 
         // if there no ableUser_address in db
-        if(count == 0){
+        if (count == 0) {
             // insert query start
             regist_new_account(res, connection, ableUser_address, ableUser_nickname);
         }
 
         // already exist ableUser_address in db
-        else{
+        else {
             console.log('204');
             connection.end();
             res.json({result: '204', message: '이미 등록된 계좌입니다.'});
         }
     });
 });
-
 
 
 /* ==========================================================================
@@ -73,7 +75,7 @@ router.post('/open_new_account', function (req, res, next) {
 
     var connection = create_connection();
     var insert_query = "INSERT INTO AbleAccount (ableAccount_number, ableUser_address, ableAccount_password, ableAccount_info, ableAccount_type) " +
-        "VALUES ('" + user_accountNumber + "','" + user_Address +"','" + ableAccount_password +"','" + ableAccount_info + "','" + user_accountType + "')";
+        "VALUES ('" + user_accountNumber + "','" + user_Address + "','" + ableAccount_password + "','" + ableAccount_info + "','" + user_accountType + "')";
 
     connection.query(insert_query, function (err, rows, fields) {
         console.log(err);
@@ -117,15 +119,15 @@ router.post('/save_session', function (req, res, next) {
     Check Session
     ========================================================================== */
 router.post('/check_session', function (req, res, next) {
-    if(req.session.ableUser_address != null && req.session.ableUser_address !=''){
+    if (req.session.ableUser_address != null && req.session.ableUser_address != '') {
         var ableUser_address = req.session.ableUser_address;
         console.log(ableUser_address)
         res.json({
             result: '200',
-            user_address : ableUser_address ,
+            user_address: ableUser_address,
             message: '세션이 존재합니다.'
         });
-    }else{
+    } else {
         res.json({result: '204', message: '세션이 존재하지 않습니다.'});
     }
 });
@@ -143,12 +145,10 @@ router.post('/session_delete', function (req, res) {
 });
 
 
-
-
 /* ==========================================================================
     DB) Connect to db
     ========================================================================== */
-function create_connection(){
+function create_connection() {
     var mysql = require('mysql');
     var connection = mysql.createConnection({
         host: '13.125.18.152',
@@ -164,24 +164,89 @@ function create_connection(){
 /* ==========================================================================
     DB) Input db to ableUser_address, albeUser_nickname
     ========================================================================== */
+
 // new account register
-function regist_new_account(req, res, connection, ableUser_address, ableUser_nickname){
-        var insert_query = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "')";
-        console.log('insert_query : ' + insert_query);
-        connection.query(insert_query, function (err, rows, fields) {
-            console.log(err);
-            console.log(rows);
-            if (!err) {
-                connection.end();
-                req.session.ableUser_address = ableUser_address;
-                req.session.save();
-                res.json({result: '200', message: '정상적으로 등록되었습니다.'});
-            } else {
-                connection.end();
-                res.json({result: '500', message: '오류가 발생되었습니다.'});
-            }
-        });
+function regist_new_account(req, res, connection, ableUser_address, ableUser_nickname) {
+    var insert_query = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "')";
+    console.log('insert_query : ' + insert_query);
+    connection.query(insert_query, function (err, rows, fields) {
+        console.log(err);
+        console.log(rows);
+        if (!err) {
+            connection.end();
+            req.session.ableUser_address = ableUser_address;
+            req.session.save();
+            res.json({result: '200', message: '정상적으로 등록되었습니다.'});
+        } else {
+            connection.end();
+            res.json({result: '500', message: '오류가 발생되었습니다.'});
+        }
+    });
 }
+
+
+/* ==========================================================================
+    DB) Get User_Accounts
+    ========================================================================== */
+router.post('/get_accounts', function (req, res, next) {
+
+    var account_list;
+
+    var connection = create_connection();
+    // var q = "SELECT count(*) AS account_count FROM AbleAccount WHERE ableUser_address = '" + req.session.ableUser_address + "'";
+    //
+    // connection.query(q, function (err, rows, fields) {
+    //     console.log('account_count : ' + rows[0].count);
+    //     account_count = Number(rows[0].count);
+    // });
+
+    q = "SELECT * FROM AbleAccount WHERE ableUser_address = '" + req.session.ableUser_address + "'";
+
+    connection.query(q, function (err, rows, fields) {
+
+        console.log(q);
+        console.dir(rows);
+        // for (i=0;i<rows.length();i++){
+        //     var q2= "SELECT A.* FROM TokenBalance A LEFT JOIN AbleAccount B ON A.ableAccount_number = B. ableAccount_number WHERE A.ableAccount_number =  '"+rows[i].ableAccount_number+"'";
+        //
+        //     connection.query(q2, function (err, rows, fields) {
+        //         console.log('account_count : '+rows[0].count);
+        //         account_count = Number(rows[0].count);
+        //     });
+        // }
+        account_list = rows;
+        res.json({result: '200', account_count: rows.length, account_list: account_list, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+
+});
+
+router.post('/get_tokens', function (req, res, next) {
+    var account_list;
+
+    var connection = create_connection();
+    // var q = "SELECT count(*) AS account_count FROM AbleAccount WHERE ableUser_address = '" + req.session.ableUser_address + "'";
+    //
+    // connection.query(q, function (err, rows, fields) {
+    //     console.log('account_count : ' + rows[0].count);
+    //     account_count = Number(rows[0].count);
+    // });
+
+    q = "SELECT * FROM TokenBalance WHERE ableAccount_number = '" + req.param("ableAccount_number") + "'";
+
+    console.log(q);
+    connection.query(q, function (err, rows, fields) {
+
+        console.dir(rows);
+
+        token_list = rows;
+        res.json({result: '200', account_count: rows.length, token_list: token_list, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+});
+
 
 
 module.exports = router;

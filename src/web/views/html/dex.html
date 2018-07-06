@@ -1,239 +1,287 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>able-dex</title>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>able</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/tags_editor.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" href="../css/daterangepicker.min.css">
+    <link rel="stylesheet" href="../css/main.css">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/tether.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/flatpickr.min.js"></script>
+    <script src="../js/daterangepicker.js"></script>
+    <script src="../js/jquery.caret.min.js"></script>
+    <script src="../js/jquery.tag-editor.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/select2.full.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/login_check.js"></script>
 
 
+    <script>
+        $(document).ready(function () {
+            console.log("ready");
+            check_session();
+
+        });
+
+        function welcome(){
+            $('#welcomeModal').modal('show').css({
+                'margin-top': function(){
+                    return 200; //($(this).height()/2) // 작동안함;;
+                }
+            });
+
+        }
+    </script>
 </head>
 
-<body>
+<!--site header-->
+<body class="horizontal-navigation chrome-browser menu-left-opened">
+<header class="site-header" >
+    <div class="container-fluid">
+        <a href="/" class="site-logo">
+            <img class="hidden-md-down" src="../img/logo-3.png" alt="">
+            <img class="hidden-lg-down" src="../img/logo-2-mob.png" alt="">
+        </a>
+        <button style="margin-left: 20px; " id="show-hide-sidebar-toggle" class="show-hide-sidebar">
+            <span>toggle menu</span>
+        </button>
+        <button class="hamburger hamburger--htla">
+            <span>toggle menu</span>
+        </button>
+        <div class="site-header-content">
+            <div class="site-header-content-in">
+                <!--<button id="show-hide-sidebar-toggle" class="show-hide-sidebar">-->
+                <!--<span>toggle menu</span>-->
+                <!--</button>-->
+                <!--<button class="hamburger hamburger&#45;&#45;htla">-->
+                <!--<span>toggle menu</span>-->
+                <!--</button>hide toggle-->
+                <div class="site-header-collapsed">
+                </div><!--.site-header-collapsed-->
+                <div class="mobile-menu-right-overlay">
+                </div>
+                <div class="site-header-shown">
+                    <div style="float: right">
+                        <ul class="nav ">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><span class="current">ㅇ</span>Notice</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><span class="current">ㅇ</span>About ABLE</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#"><span class="current">ㅇ</span>Bank Service</a>
+                            </li>
+                            <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
+                                <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
+                                    <span></span>
+                                </a>
+                            </li>
 
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">ABLE DEX</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">Features</a>
-        <a class="p-2 text-dark" href="#">Enterprise</a>
-        <a class="p-2 text-dark" href="#">Support</a>
-        <a class="p-2 text-dark" href="#">Pricing</a>
-    </nav>
-    <a id="target" class="btn btn-outline-primary" href="#">Login</a>
+                            <!-- 로그아웃 버튼 -->
+                            <li class="nav-item">
+                                <a class="nav-link" active href="#" id="btn_logout"><span class="glyphicon glyphicon-share"></span></a>
+                            </li>
 
+                        </ul>
+                    </div>
+                </div><!--.site-header-shown-->
+            </div><!--site-header-content-in-->
+        </div><!--.site-header-content-->
+    </div><!--.container-fluid-->
+</header><!--.site-header-->
+
+<!--.top menu-->
+
+<div class="mobile-menu-left-overlay"></div>
+<div class="row">
+    <ul class="main-nav nav nav-inline" style="z-index: 8; box-shadow: 1px 1px 3px #ccc;">
+        <li class="nav-item">
+            <a class="nav-link active" href="/p2pMatching">P2P Matching Engine</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="javascript:alert('Service is in preparation.')">ABLE DEX</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="/send">Easy Transfer</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="/salary">Pay Salary</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="/account_manage">Account Manage</a>
+        </li>
+    </ul>
 </div>
-
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">ABLE DEX</h1>
-</div>
-
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-
-            <div id="accordion">
-
-                <div class="card">
-                    <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                            ETH Market
-                        </a>
-                    </div>
-                    <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                        <div class="card-body">
-                            <br><br><br><br><br><br><br>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-                            ABLE Market
-                        </a>
-                    </div>
-                    <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <br><br><br><br><br><br><br>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-                            BTC Market
-                        </a>
-                    </div>
-                    <div id="collapseThree" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <br><br><br><br><br><br><br>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
-                            NEO Market
-                        </a>
-                    </div>
-                    <div id="collapseFour" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <br><br><br><br><br><br><br>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-
-
-
+<div class="col-md-12" style=" max-height:100%">
+    <div class="row" style="height:1500px;">
+        <div class="col-sm-4"
+             style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
+            <section>
+                <h5 class="m-t-lg ">P2P List</h5>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Coin</th>
+                        <th>Interest</th>
+                        <th>Vol</th>
+                        <th>CHG</th>
+                    </tr>
+                    <tr>
+                        <td>BIT</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ETH</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ABLE</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>EOS</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>TRON</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
         </div>
 
-        <div class="col-sm-6">
+        <style type="text/css">
 
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Chart</h4>
-                </div>
-                <div class="card-body">
+            .borrow {
+                background-image: linear-gradient(to right, rgba(136, 160, 252, 0.5), #4c6ce9);
 
+                margin-top: 7px;
+                position: relative;
+                display: inline-block;
+                height: 20px;
+                border: none;
+                border-left: 0;
+                border-radius: 4px;
+            }
 
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+            .lend {
+                background-image: linear-gradient(to left, rgba(245, 123, 146, 0.5), #e84559);
+                margin-top: 7px;
+                position: relative;
+                display: inline-block;
+                height: 20px;
+                border: none;
+                border-left: 0;
+                border-radius: 4px;
+            }
 
+            .centerbox {
+                background-color: #bec6cc;
+                height: 35px;
+                text-align: center;
+                font-size: 2px;
+            }
+        </style>
 
+        <div class="col-sm-8">
+            <div class="row" style="padding-top: 150px;">
+                <div class="col-sm-12">
 
-
-
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">Buy Order</h4>
-                        </div>
-                        <div class="card-body">
-
-                            <div class="mb-3">
-                                <label for="address">Price</label>
-                                <input type="text" class="form-control" id="address" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Please enter eth address.
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="amount">Amount</label>
-                                <input type="text" class="form-control" id="amount" placeholder="Amount" required>
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
-                            </div>
-
-
-                            Calculate Price
-
-                            <button type="button" class="btn btn-lg btn-block btn-outline-primary">BUY</button>
-                        </div>
+                    <div class="box-typical box-typical-padding">
+                        <iframe src="https://kr.tradingview.com/chart/JYAO4HHu//" frameborder="0" width="1000" height="500"></iframe>
                     </div>
                 </div>
-
                 <div class="col-sm-6">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">Sell Order</h4>
-                        </div>
-                        <div class="card-body">
-
-                            <div class="mb-3">
-                                <label for="address">Price</label>
-                                <input type="text" class="form-control" id="address" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Please enter eth address.
+                    <div class="box-typical box-typical-padding">
+                        <h5 class="m-t-lg ">Lend</h5>
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Interest Rate</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <input type="text" class="form-control" placeholder=""></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Amount</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <input type="text" class="form-control" placeholder=""></p>
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="amount">Amount</label>
-                                <input type="text" class="form-control" id="amount" placeholder="Amount" required>
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
+                            <div class="col-sm-12">
+                                Calculate Interest
+                            </div>
+                            <br>
+                            <div class="col-sm-12">
+                                <button type="button" style="width:100%" class="btn btn-inline">LEND</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="box-typical box-typical-padding">
+                        <h5 class="m-t-lg ">Borrow</h5>
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Interest Rate</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <input type="text" class="form-control" placeholder=""></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Amount</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <input type="text" class="form-control" placeholder=""></p>
                                 </div>
                             </div>
 
-
-                            Calculate Price
-
-                            <button type="button" class="btn btn-lg btn-block btn-outline-primary">SELL</button>
-                        </div>
+                            <div class="col-sm-12">
+                                Calculate Interest
+                            </div>
+                            <br>
+                            <div class="col-sm-12">
+                                <button type="button" style="width:100%" class="btn btn-inline">BORROW</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
-
-    <!-- Footer 기능 -->
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            <div class="col-12 col-md">
-                <img class="mb-2" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
-                <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Features</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Cool stuff</a></li>
-                    <li><a class="text-muted" href="#">Random feature</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Resources</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Resource</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>About</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Team</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
 </div>
 
 
-
-
-<!-- web3.js 파일 cdn에서 불러오기 (메타마스크 사용자는 설치할 필요가 없으나, 일단은 포함 시켜 놓음) -->
-<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
-<script src="js/login_check.js"></script>
-<script>
-    Holder.addTheme('thumb', {
-        bg: '#55595c',
-        fg: '#eceeef',
-        text: 'Thumbnail'
-    });
-</script>
 </body>
 </html>

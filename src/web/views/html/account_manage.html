@@ -35,7 +35,104 @@
 
             console.log("ready");
             check_session();
+            get_accounts();
         });
+
+        function get_accounts(){
+            $.ajax({
+                method: "POST",
+                url: "/get_accounts",
+                success: function (res) {
+                    console.log(res.account_list.size);
+
+                        var html = "";
+                    var tokens_html = "";
+                        for(i=0; i< res.account_list.length; i++){
+                            console.log(res.account_list);
+
+                            $.ajax({
+                                method: "POST",
+                                url: "/get_tokens",
+                                data: { ableAccount_number : res.account_list[i].ableUser_address }
+                                ,success: function (res) {
+                                    console.log(res);
+
+
+
+                                    for(i=0; i< res.token_list.length; i++){
+                                        tokens_html +=
+                                        "<div class=\"col-sm-6\">\n" +
+                                        "                    <div class=\"row\">\n" +
+                                        "                        <div class=\"col-sm-3\">\n" +
+                                        "                            <div class=\"card coinmark\">\n" +
+                                        "                                <div  class=\"coinmark-sub\">\n" +
+                                        "                                    <img class=\"coin-image\"\n" +
+                                        "                                         src=\"../img/side_logo_bitcoin_on.png\">\n" +
+                                        "                                    <p>BTC\n" +
+                                        "                                </div>\n" +
+                                        "                            </div>\n" +
+                                        "                        </div>\n" +
+                                        "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
+                                        "                            "+ res.token_list[i].token_balance + " BTC\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>\n" +
+                                        "                </div>\n";
+                                    }
+                                }
+
+                            });
+
+                            html += "<div class=\"box-typical box-typical-padding my-account\" >\n" +
+                                "        <div style=\"margin-left: 10px;\">\n" +
+                                "            <div class=\"row\">\n" +
+                                "                <div class=\"col-sm-3\"><img style=\" margin-top: 10px; height: 25px;\"\n" +
+                                "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
+                                "                <div class=\"col-sm-6\"></div>\n" +
+                                "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
+                                "                    Registration Date<br>"+res.account_list[i].reg_date+"\n" +
+                                "                </div>\n" +
+                                "            </div>\n" +
+                                "            <br><br>\n" +
+                                "            <div class=\"row\">\n" +
+                                "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+                                "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
+                                "                    <div style=\"margin-top: 5px\">\n" +
+                                "                        \""+res.account_list[i].ableAccount_number+"\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+                                "                        copy</a>\n" +
+                                "                    </div>\n" +
+                                "                </div>\n" +
+                                "            </div>\n" +
+                                "            <br>\n" +
+                                "            <div class=\"row\">\n" +
+                                "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+                                "                    <label class=\"form-label input\" >Address Nickname</label>\n" +
+                                "                    <div style=\"margin-top: 5px\">\n" +
+                                "                        MyABLE <a\n" +
+                                "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+                                "                        copy</a>\n" +
+                                "                    </div>\n" +
+                                "                </div>\n" +
+                                "                <div  class=\"col-sm-12 contour\">\n" +
+                                "                    <br>\n" +
+                                "                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -\n" +
+                                "                    - - - - - - - - - - - - - - - - - - - - - -\n" +
+                                "                    <br><br><br>\n" +
+                                "                </div>\n" +
+                                "            </div>\n" +
+                                "            <div id=\"token_list\" class=\"row\">\n" +
+                                "            </div>\n" +
+                                "        </div>\n" +
+                                "    </div>";
+
+                        }
+                        $('#account_list').html(html);
+                        $('#token_list').html(tokens_html);
+
+
+                }
+
+            });
+        }
 
         function welcome() {
             $('#welcomeModal').modal('show').css({
@@ -167,87 +264,18 @@
 </div>
 <br><br><br><br><br><br><br><br><br>
 <h2 style="text-align: center" class="intro-title">Account Manage</h2><br><br>
-<div class="container" style="width: 600px;">
-    <div class="box-typical box-typical-padding my-account" >
-        <div style="margin-left: 10px;">
-            <div class="row">
-                <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
-                                           src="../img/logo_able_black_horizontal.png"></div>
-                <div class="col-sm-6"></div>
-                <div class="col-sm-3" style="color:#919fa9; font-size: 13px; text-align: right">
-                    Registration Date<br>2018.06.10
-                </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div style="font-size: 14px" class="col-sm-12">
-                    <label class="form-label input" >ABLE User Address</label>
-                    <div style="margin-top: 5px">
-                        0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC <a class="btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard" href="#" >
-                        copy</a>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div style="font-size: 14px" class="col-sm-12">
-                    <label class="form-label input" >Address Nickname</label>
-                    <div style="margin-top: 5px">
-                        MyABLE <a
-                            class="btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard" href="#" >
-                        copy</a>
-                    </div>
-                </div>
-                <div  class="col-sm-12 contour">
-                    <br>
-                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -
-                    - - - - - - - - - - - - - - - - - - - - - -
-                    <br><br><br>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card coinmark">
-                                <div  class="coinmark-sub">
-                                    <img class="coin-image"
-                                         src="../img/side_logo_bitcoin_on.png">
-                                    <p>BTC
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-9" style="padding-top: 20px">
-                            334.32994823 BTC
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card coinmark">
-                                <div class="coinmark-sub">
-                                    <img class="coin-image"
-                                         src="../img/side_logo_ethereum_on.png">
-                                    <p>ETH
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-9" style="padding-top: 20px">
-                            124.36924102
-                            ETH
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container" style="width: 600px;" id = "account_list">
 
+</div>
+
+
+
+<div class="container" style="width: 600px;">
 
     <!--계좌 -->
     <br>
     <div class="box-typical box-typical-padding new-account">
-        <div style="margin-left: 10px;">
+        <div  style="margin-left: 10px;">
             <div class="row">
                 <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
                                            src="../img/logo_able_gray_horizontal.png"></div>
