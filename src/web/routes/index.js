@@ -227,7 +227,7 @@ router.post('/get_accounts', function (req, res, next) {
 });
 
 router.post('/get_tokens', function (req, res, next) {
-    var account_list;
+    var token_list;
 
     var connection = create_connection();
     // var q = "SELECT count(*) AS account_count FROM AbleAccount WHERE ableUser_address = '" + req.session.ableUser_address + "'";
