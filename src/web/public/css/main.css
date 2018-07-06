@@ -2989,7 +2989,9 @@ audio, canvas, img, video {
 }
 
 .m-t-lg {
-    margin-top: 30px
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .m-x-lg {
@@ -5972,8 +5974,8 @@ textarea.form-control {
 }
 
 .checkbox, .checkbox-bird, .checkbox-detailed, .checkbox-slide, .checkbox-toggle, .radio {
-    position: relative;
-    margin-bottom: .75rem
+    /*position: relative;*/
+    /*margin-bottom: .75rem*/
 }
 
 .checkbox input, .checkbox-bird input, .checkbox-detailed input, .checkbox-slide input, .checkbox-toggle input, .radio input {
@@ -6340,14 +6342,14 @@ textarea.form-control {
 }
 
 .checkbox-detailed {
-    display: inline-block;
+    display: block;
     vertical-align: top;
     margin: 0 12px 12px 0
 }
 
 .checkbox-detailed input + label {
-    width: 200px;
-    height: 84px;
+    width: 100%;
+    height: 100%;
     border: solid 1px #d8e2e7;
     -webkit-border-radius: 5px;
     border-radius: 5px;
