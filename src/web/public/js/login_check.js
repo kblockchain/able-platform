@@ -1008,14 +1008,12 @@ function is_ableuser() {
                     user_accountType = result.args.accountType;
 
                     var ascii_account = web3.toAscii(user_accountNumber);
-                    // console.log("account !!!!!!!!!! " + ascii_account);
+                    console.log("account !!!!!!!!!! " + ascii_account);
 
-
-
-                    // console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
-                    // console.log("openAbleAccount result user_Address: " + user_Address);
-                    // console.log("openAbleAccount result input_account_password: " + input_account_password);
-                    // console.log("openAbleAccount result user_accountType: " + user_accountType);
+                    console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
+                    console.log("openAbleAccount result user_Address: " + user_Address);
+                    console.log("openAbleAccount result input_account_password: " + input_account_password);
+                    console.log("openAbleAccount result user_accountType: " + user_accountType);
 
                     $.ajax({
                         method: "POST",
@@ -1033,7 +1031,7 @@ function is_ableuser() {
 
                             if(res.result == 200) {
                                 console.log(res.message);
-                                $(location).attr('href', '/account_manage');
+                                // $(location).attr('href', '/account_manage');
 
                             } else if(res.result == 204) {
                                 console.log(res.message);
