@@ -891,7 +891,6 @@ function is_ableuser() {
             console.log("err : " + err);
             return;
         }
-        ;
 
         console.log("result : " + result);
 
@@ -1149,6 +1148,164 @@ function error() {
 
 /**************************************************************************************************************************************/
 
+function get_accounts() {
+
+    var html = "";
+    var tokens_html = "";
+
+    simpleStorageContract = web3.eth.contract(abi);
+    contractInstance = simpleStorageContract.at(contractAddress);
+
+    console.log("user_address : " + user_address);
+
+    // 계좌 갯수를 가져온다
+    contractInstance.getAbleUserAbleAccountCount.call(user_address, function (err, res) {
+        if (err) {
+            console.log("err : " + err);
+            return;
+        }
+        console.log("result : " + res);
+        var nick_list = new Array();
+
+        //계좌가 있다면
+        if (res > 0) {
+
+
+            //계좌 갯수만큼 계좌 넘버를 가져온다
+            for (var i = 0; i < res; i++) {
+
+
+                console.log("iiiii : " + i);
+
+                contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, function (err, res) {
+                    if (err) {
+                        console.log("err : " + err);
+                        return;
+                    }
+                    console.log("result : " + res);
+
+                    if (res != null) {
+
+                        //계좌 넘버로 계좌 인포를 가져온다
+                        var account_number = res;
+                        contractInstance.getAbleAccount.call(account_number, function (err, res) {
+                            console.log("res : " + res);
+
+
+                            var account_info = res.toString().split(',');
+
+
+                            console.log("user account name : " + web3.toAscii(account_info[1]));
+                            var ddd = web3.toAscii(account_info[1]);
+
+                            nick_list.push(ddd);
+                            // $('#account_nickname' + i).text(ddd);
+
+                            console.log("nick name list length : " + nick_list.length);
+
+                            console.log("i : " + i);
+                            console.log("nick name load : " + nick_list[i]);
+
+
+                            console.log("nick name load : " + nick_list[0]);
+                            console.log("nick name load : " + nick_list[1]);
+
+                            // console.log("account info accountInfo: " + account_info[2]);
+                            // console.log("account info accountType: " + account_info[3]);
+                            // console.log("account info numToken: " + account_info[4]);
+
+
+                            for (j = 0; j < account_info[4]; j++) {
+                                contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
+                                    console.log("res : " + res);
+                                    var token_info = res.toString().split(',');
+                                    tokens_html +=
+                                        "<div class=\"col-sm-6\">\n" +
+                                        "                    <div class=\"row\">\n" +
+                                        "                        <div class=\"col-sm-3\">\n" +
+                                        "                            <div class=\"card coinmark\">\n" +
+                                        "                                <div  class=\"coinmark-sub\">\n" +
+                                        "                                    <img class=\"coin-image\"\n" +
+                                        "                                         src=\"../img/side_logo_bitcoin_on.png\">\n" +
+                                        "                                    <p>BTC\n" +
+                                        "                                </div>\n" +
+                                        "                            </div>\n" +
+                                        "                        </div>\n" +
+                                        "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
+                                        "                            " + token_info[2] + " BTC\n" +
+                                        "                        </div>\n" +
+                                        "                    </div>\n" +
+                                        "                </div>\n";
+                                });
+                            }
+
+
+                        });
+                    }
+                });
+
+
+
+                html += "<div class=\"box-typical box-typical-padding my-account\" >\n" +
+                    "        <div style=\"margin-left: 10px;\">\n" +
+                    "            <div class=\"row\">\n" +
+                    "                <div class=\"col-sm-3\"><img style=\" margin-top: 10px; height: 25px;\"\n" +
+                    "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
+                    "                <div class=\"col-sm-6\"></div>\n" +
+                    "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
+                    "                    Registration Date<br>" + "수정되어야할부분" + "\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "            <br><br>\n" +
+                    "            <div class=\"row\">\n" +
+                    "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+                    "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
+                    "                    <div style=\"margin-top: 5px\">\n" +
+                    "                        \"" + user_address + "\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+                    "                        copy</a>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "            <br>\n" +
+                    "            <div class=\"row\">\n" +
+                    "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+                    "                    <label class=\"form-label input\" >Address Nickname</label>\n" +
+                    "                    <div id=\"account_nickname" + i + "\" style=\"margin-top: 5px\">\n" +
+                    "                         "+nick_list[i]+"<a\n" +
+                    "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+                    "                        copy</a>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "                <div  class=\"col-sm-12 contour\">\n" +
+                    "                    <br>\n" +
+                    "                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -\n" +
+                    "                    - - - - - - - - - - - - - - - - - - - - - -\n" +
+                    "                    <br><br><br>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "            <div id=\"token_list\" class=\"row\">\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "    </div>";
+
+
+            }
+
+            $('#account_list').html(html);
+            $('#token_list').html(tokens_html);
+
+        } else {
+            //todo 계좌가 없을 경우에 할것들 나중에 생각
+        }
+    });
+
+
+}
+
+function html_account() {
+
+}
+
 
 /**
  * @dev Function to make toast message
@@ -1220,9 +1377,19 @@ function check_session() {
         success: function (res) {
             // console.log("check_session : " + JSON.stringify(res));
             if (res.result == 200) {
-                var user_address = res.user_address;
+                user_address = res.user_address;
                 $('#btn_login').html('<span>' + user_address.substring(0, 8) + '.....' + user_address.substring(34, 42) + '</span>');
                 $('#btn_login').addClass('site-header-address');
+
+
+                var current_page = $(location).attr('href');
+
+
+                if (current_page.indexOf('account_manage') != -1) {
+                    get_accounts();
+                }
+
+
             } else {
                 // alert('Please make sure to connect metamask rinkeby network');
                 alert('메타마스크 Rinkeby 네트워크로 로그인 후 접근해 주세요.');
