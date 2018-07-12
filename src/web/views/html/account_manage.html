@@ -35,9 +35,17 @@
 
             console.log("ready");
             check_session();
+            setTimeout(function(){
+                get_nicklist();
+            },2000);
+
+            setTimeout(function(){
+                get_tokenlist();
+            },2000);
+
+
+
         });
-
-
 
         function welcome() {
             $('#welcomeModal').modal('show').css({
@@ -186,7 +194,7 @@
             <div class="row">
                 <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
                                            src="../img/logo_able_gray_horizontal.png"></div>
-                <div class="col-sm-6 new-account-regist"> Account Regist</div>
+                <div class="col-sm-6 new-account-regist"> Account Register</div>
                 <div class="col-sm-3" style="color:#919fa9; font-size: 13px; text-align: right">
                 </div>
                 <br>

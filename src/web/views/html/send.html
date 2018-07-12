@@ -39,6 +39,12 @@
             $('#payment_date').daterangepicker({
                 singleDatePicker: true,
             });
+
+            $( "#select_account" ).change(function(){
+                get_account_detail($('#select_account').val());
+
+            });
+
         });
 
         function send() {
@@ -115,10 +121,10 @@
                     <div style="float: right">
                         <ul class="nav ">
                             <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="current"></span>Notice</a>
+                                <a class="nav-link" href="#"><span class="current"></span>Notice</a>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="current"></span>About ABLE</a>
+                                <a class="nav-link" href="#"><span class="current"></span>About ABLE</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="#"><span class="current"></span>Bank Service</a>
@@ -201,8 +207,8 @@
 
                 <!--<label class="form-label input">Address NickName(Optional)</label>-->
                 <!--<p class="form-control-static">-->
-                    <!--<input type="text" class="form-control"-->
-                           <!--placeholder="Ex) My Able"></p>-->
+                <!--<input type="text" class="form-control"-->
+                <!--placeholder="Ex) My Able"></p>-->
 
                 <div class="row">
                     <div class="col-md-6">
@@ -224,11 +230,11 @@
 
                 <div class="row">
                     <!--<div class="col-md-6">-->
-                        <!--<label class="form-label input" >Gas Limit</label>-->
-                        <!--<p class="form-control-static">-->
-                            <!--<input type="text" class="form-control"-->
-                                   <!--id="inputPassword" placeholder="20">-->
-                        <!--</p>-->
+                    <!--<label class="form-label input" >Gas Limit</label>-->
+                    <!--<p class="form-control-static">-->
+                    <!--<input type="text" class="form-control"-->
+                    <!--id="inputPassword" placeholder="20">-->
+                    <!--</p>-->
                     <!--</div>-->
                     <div class="col-sm-12">
                         <button type="button" onclick="javascript:transfer_token()" class="btn btn-inline transaction">Send Transaction</button>
@@ -261,7 +267,13 @@
     <hr>
     <div class="row" style=" width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">
         <div class="col-md-12">
-        <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
+            <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
+
+            <label class="form-label input" >Select Your Account</label>
+            <select class="form-control" id="select_account">
+            </select>
+            <br>
+            <label class="form-label input" >To ABLE User Address</label>
             <br><br><br>
         </div>
         <div class="row" style="width: 100%">
