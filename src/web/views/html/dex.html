@@ -241,7 +241,31 @@
                 <div class="col-sm-12">
 
                     <div class="box-typical box-typical-padding">
-                        <iframe src="https://kr.tradingview.com/chart/JYAO4HHu" frameborder="0" width="1000" height="500"></iframe>
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container">
+                            <div id="tradingview_9e99b"></div>
+                            <div class="tradingview-widget-copyright"><a href="https://kr.tradingview.com/chart/JYAO4HHu/" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                            <script type="text/javascript">
+                                new TradingView.widget(
+                                    {
+                                        "width": 980,
+                                        "height": 610,
+                                        "symbol": "KRAKEN:ETHUSD",
+                                        "interval": "D",
+                                        "timezone": "Etc/UTC",
+                                        "theme": "Light",
+                                        "style": "1",
+                                        "locale": "kr",
+                                        "toolbar_bg": "#f1f3f6",
+                                        "enable_publishing": false,
+                                        "allow_symbol_change": true,
+                                        "container_id": "tradingview_9e99b"
+                                    }
+                                );
+                            </script>
+                        </div>
+                        <!-- TradingView Widget END -->
                     </div>
                 </div>
                 <div class="col-sm-6">
