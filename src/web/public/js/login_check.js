@@ -1146,7 +1146,103 @@ function error() {
 
 }
 
+
+/**
+ * 간편송금용 어카운트 불러오기
+ */
+
+function get_accounts_for_send() {
+    simpleStorageContract = web3.eth.contract(abi);
+    contractInstance = simpleStorageContract.at(contractAddress);
+    contractInstance.getAbleUserAbleAccountCount.call(user_address, function (err, res) {
+        if (err) {
+            console.log("err : " + err);
+            return;
+        }
+
+        //계좌가 있다면
+        if (res > 0) {
+
+            //계좌 갯수만큼 계좌 넘버를 가져온다
+            for (var i = 0; i < res; i++) {
+                contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, function (err, res) {
+                    if (err) {
+                        console.log("err : " + err);
+                        return;
+                    }
+                    if (res != null) {
+                        $('#select_account').append("<option value="+res+">닉네임</option>");
+                    }
+                });
+
+
+            }
+
+            setTimeout(function () {
+                get_account_detail($('#select_account').val());
+            }, 1000);
+        }
+    });
+
+}
+
+
+function get_account_detail(account_number) {
+    contractInstance.getAbleAccount.call(account_number, function (err, res) {
+
+        var account_info = res.toString().split(',');
+
+        console.log("user account name : " + web3.toAscii(account_info[1]));
+        console.log("token_list_length : " + account_info[4]);
+        nick_list.push(web3.toAscii(account_info[1]));
+
+
+        $('#send_menu_user_address').text(web3.toAscii(account_info[1]));
+        $('#send_menu_account_type').text(account_info[3]);
+
+        $('#send_menu_token_list').html("");
+        alert(account_info[4]);
+        for (j = 0; j < account_info[4]; j++) {
+            contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
+
+
+                var token_info = res.toString().split(',');
+
+                html = "<span class=\"my-info-label\" >ETH</spans><br>\n" +
+                    "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>";
+
+                $('#send_menu_token_list').append(html);
+
+
+            });
+        }
+
+
+    });
+
+}
+
+function get_send_menu_token_balance(){
+
+    var html = "";
+    for(i=0;i<token_list.length;i++){
+            var token_info = token_list[i].toString().split(',');
+
+        html += "<span class=\"my-info-label\" >ETH</spans><br>\n" +
+            "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>";
+    }
+
+    $('#send_menu_token_list').html(html);
+    token_list = new Array();
+}
+
+
+/**
+ * 계좌관리 용 어카운트 불러오기
+ */
 /**************************************************************************************************************************************/
+var nick_list = new Array();
+var token_list = new Array();
 
 function get_accounts() {
 
@@ -1165,7 +1261,7 @@ function get_accounts() {
             return;
         }
         console.log("result : " + res);
-        var nick_list = new Array();
+
 
         //계좌가 있다면
         if (res > 0) {
@@ -1173,136 +1269,136 @@ function get_accounts() {
 
             //계좌 갯수만큼 계좌 넘버를 가져온다
             for (var i = 0; i < res; i++) {
+                (function (m) {
+
+                    contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, function (err, res) {
+                        if (err) {
+                            console.log("err : " + err);
+                            return;
+                        }
+
+                        if (res != null) {
+
+                            //계좌 넘버로 계좌 인포를 가져온다
+                            var account_number = res;
+                            contractInstance.getAbleAccount.call(account_number, function (err, res) {
+
+                                var account_info = res.toString().split(',');
+
+                                console.log("user account name : " + web3.toAscii(account_info[1]));
+                                console.log("token_list_length : " + account_info[4]);
+                                nick_list.push(web3.toAscii(account_info[1]));
+
+                                for (j = 0; j < account_info[4]; j++) {
+                                    contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
+                                        token_list.push(res);
+                                        console.log("token_info : " + res);
+
+                                    });
+                                }
 
 
-                console.log("iiiii : " + i);
+                            });
+                        }
+                    });
+                    html += "<div class=\"box-typical box-typical-padding my-account\" >\n" +
+                        "        <div style=\"margin-left: 10px;\">\n" +
+                        "            <div class=\"row\">\n" +
+                        "                <div class=\"col-sm-3\"><img style=\" margin-top: 10px; height: 25px;\"\n" +
+                        "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
+                        "                <div class=\"col-sm-6\"></div>\n" +
+                        "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
+                        "                    Registration Date<br>" + "수정되어야할부분" + "\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "            <br><br>\n" +
+                        "            <div class=\"row\">\n" +
+                        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+                        "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
+                        "                    <div style=\"margin-top: 5px\">\n" +
+                        "                        \"" + user_address + "\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+                        "                        copy</a>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "            <br>\n" +
+                        "            <div class=\"row\">\n" +
+                        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+                        "                    <label class=\"form-label input\" >Address Nickname</label>\n" +
+                        "                    <div id=\"account_nickname" + i + "\" style=\"margin-top: 5px\">\n" +
+                        "                         " + "<a\n" +
+                        "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+                        "                        copy</a>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "                <div  class=\"col-sm-12 contour\">\n" +
+                        "                    <br>\n" +
+                        "                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -\n" +
+                        "                    - - - - - - - - - - - - - - - - - - - - - -\n" +
+                        "                    <br><br><br>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "            <div id=\"token_list" + i + "\" class=\"row\">\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>";
 
-                contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, function (err, res) {
-                    if (err) {
-                        console.log("err : " + err);
-                        return;
-                    }
-                    console.log("result : " + res);
-
-                    if (res != null) {
-
-                        //계좌 넘버로 계좌 인포를 가져온다
-                        var account_number = res;
-                        contractInstance.getAbleAccount.call(account_number, function (err, res) {
-                            console.log("res : " + res);
-
-
-                            var account_info = res.toString().split(',');
-
-
-                            console.log("user account name : " + web3.toAscii(account_info[1]));
-                            var ddd = web3.toAscii(account_info[1]);
-
-                            nick_list.push(ddd);
-                            // $('#account_nickname' + i).text(ddd);
-
-                            console.log("nick name list length : " + nick_list.length);
-
-                            console.log("i : " + i);
-                            console.log("nick name load : " + nick_list[i]);
-
-
-                            console.log("nick name load : " + nick_list[0]);
-                            console.log("nick name load : " + nick_list[1]);
-
-                            // console.log("account info accountInfo: " + account_info[2]);
-                            // console.log("account info accountType: " + account_info[3]);
-                            // console.log("account info numToken: " + account_info[4]);
-
-
-                            for (j = 0; j < account_info[4]; j++) {
-                                contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
-                                    console.log("res : " + res);
-                                    var token_info = res.toString().split(',');
-                                    tokens_html +=
-                                        "<div class=\"col-sm-6\">\n" +
-                                        "                    <div class=\"row\">\n" +
-                                        "                        <div class=\"col-sm-3\">\n" +
-                                        "                            <div class=\"card coinmark\">\n" +
-                                        "                                <div  class=\"coinmark-sub\">\n" +
-                                        "                                    <img class=\"coin-image\"\n" +
-                                        "                                         src=\"../img/side_logo_bitcoin_on.png\">\n" +
-                                        "                                    <p>BTC\n" +
-                                        "                                </div>\n" +
-                                        "                            </div>\n" +
-                                        "                        </div>\n" +
-                                        "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
-                                        "                            " + token_info[2] + " BTC\n" +
-                                        "                        </div>\n" +
-                                        "                    </div>\n" +
-                                        "                </div>\n";
-                                });
-                            }
+                })(i);
 
 
-                        });
-                    }
-                });
-
-
-
-                html += "<div class=\"box-typical box-typical-padding my-account\" >\n" +
-                    "        <div style=\"margin-left: 10px;\">\n" +
-                    "            <div class=\"row\">\n" +
-                    "                <div class=\"col-sm-3\"><img style=\" margin-top: 10px; height: 25px;\"\n" +
-                    "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
-                    "                <div class=\"col-sm-6\"></div>\n" +
-                    "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
-                    "                    Registration Date<br>" + "수정되어야할부분" + "\n" +
-                    "                </div>\n" +
-                    "            </div>\n" +
-                    "            <br><br>\n" +
-                    "            <div class=\"row\">\n" +
-                    "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
-                    "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
-                    "                    <div style=\"margin-top: 5px\">\n" +
-                    "                        \"" + user_address + "\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
-                    "                        copy</a>\n" +
-                    "                    </div>\n" +
-                    "                </div>\n" +
-                    "            </div>\n" +
-                    "            <br>\n" +
-                    "            <div class=\"row\">\n" +
-                    "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
-                    "                    <label class=\"form-label input\" >Address Nickname</label>\n" +
-                    "                    <div id=\"account_nickname" + i + "\" style=\"margin-top: 5px\">\n" +
-                    "                         "+nick_list[i]+"<a\n" +
-                    "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
-                    "                        copy</a>\n" +
-                    "                    </div>\n" +
-                    "                </div>\n" +
-                    "                <div  class=\"col-sm-12 contour\">\n" +
-                    "                    <br>\n" +
-                    "                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -\n" +
-                    "                    - - - - - - - - - - - - - - - - - - - - - -\n" +
-                    "                    <br><br><br>\n" +
-                    "                </div>\n" +
-                    "            </div>\n" +
-                    "            <div id=\"token_list\" class=\"row\">\n" +
-                    "            </div>\n" +
-                    "        </div>\n" +
-                    "    </div>";
+                setTimeout(function () {
+                    get_tokenlist();
+                }, 2000);
 
 
             }
 
             $('#account_list').html(html);
-            $('#token_list').html(tokens_html);
+
 
         } else {
             //todo 계좌가 없을 경우에 할것들 나중에 생각
         }
     });
 
+}
+
+function get_nicklist() {
+
+    console.log("nick_list : " + nick_list.length);
+    for (z = 0; z < nick_list.length; z++) {
+        console.log(nick_list[z])
+        $('#account_nickname' + z).text(nick_list[z]);
+    }
 
 }
 
-function html_account() {
+function get_tokenlist() {
+    var tokens_html = "";
+    console.log("token_list : " + token_list.length);
+    for (z = 0; z < token_list.length; z++) {
+        var token_info = token_list[z].toString().split(',');
+
+        tokens_html +=
+            "<div class=\"col-sm-6\">\n" +
+            "                    <div class=\"row\">\n" +
+            "                        <div class=\"col-sm-3\">\n" +
+            "                            <div class=\"card coinmark\">\n" +
+            "                                <div  class=\"coinmark-sub\">\n" +
+            "                                    <img class=\"coin-image\"\n" +
+            "                                         src=\"../img/side_logo_bitcoin_on.png\">\n" +
+            "                                    <p>BTC\n" +
+            "                                </div>\n" +
+            "                            </div>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
+            "                            " + token_info[2] + " BTC\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n";
+        console.log(token_list[z]);
+        $('#token_list' + z).html(tokens_html);
+    }
 
 }
 
@@ -1387,6 +1483,8 @@ function check_session() {
 
                 if (current_page.indexOf('account_manage') != -1) {
                     get_accounts();
+                } else if (current_page.indexOf('send') != -1) {
+                    get_accounts_for_send();
                 }
 
 
