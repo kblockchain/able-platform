@@ -1,5 +1,5 @@
 // 스마트 컨트랙트 주소
-var contractAddress = '0xDD601d27b61100b53f64FB54E3612a87a46AedF5'; // real contract address
+var contractAddress = '0x4aD1797DfA1E8C9C7Ae605Ba96dD4eDea4C5b206'; // real contract address
 
 // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스 (추후 변경 예정)
 var abi = [
@@ -7,61 +7,18 @@ var abi = [
         "anonymous": false,
         "inputs": [
             {
-                "indexed": false,
-                "name": "token",
+                "indexed": true,
+                "name": "previousOwner",
                 "type": "address"
             },
             {
-                "indexed": false,
-                "name": "from",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "to",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "balance",
-                "type": "uint256"
+                "indexed": true,
+                "name": "newOwner",
+                "type": "address"
             }
         ],
-        "name": "AbleTransfer",
+        "name": "OwnershipTransferred",
         "type": "event"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_addr",
-                "type": "address"
-            }
-        ],
-        "name": "addAuthorized",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_addr",
-                "type": "address"
-            }
-        ],
-        "name": "deleteAuthorized",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "constant": false,
@@ -153,6 +110,15 @@ var abi = [
     },
     {
         "constant": false,
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
         "inputs": [
             {
                 "name": "_from",
@@ -186,7 +152,7 @@ var abi = [
         "constant": false,
         "inputs": [
             {
-                "name": "newOwner",
+                "name": "_newOwner",
                 "type": "address"
             }
         ],
@@ -195,56 +161,6 @@ var abi = [
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [
-            {
-                "name": "isIndeed",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "userAddress",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "balance",
-                "type": "uint256"
-            }
-        ],
-        "name": "AbleWithdraw",
-        "type": "event"
     },
     {
         "anonymous": false,
@@ -313,10 +229,98 @@ var abi = [
         "type": "event"
     },
     {
-        "inputs": [],
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_accountNumber",
+                "type": "bytes32"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [
+            {
+                "name": "isIndeed",
+                "type": "bool"
+            }
+        ],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "constructor"
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "previousOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipRenounced",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "from",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "to",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "balance",
+                "type": "uint256"
+            }
+        ],
+        "name": "AbleTransfer",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "userAddress",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "balance",
+                "type": "uint256"
+            }
+        ],
+        "name": "AbleWithdraw",
+        "type": "event"
     },
     {
         "constant": false,
@@ -346,20 +350,49 @@ var abi = [
         "type": "function"
     },
     {
+        "inputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "fallback"
+        "type": "constructor"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "ableAddress",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "ableDollarAddress",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
     },
     {
         "constant": true,
         "inputs": [
             {
-                "name": "_token",
-                "type": "address"
-            },
-            {
                 "name": "_accountNumber",
                 "type": "bytes32"
+            },
+            {
+                "name": "_token",
+                "type": "address"
             }
         ],
         "name": "balanceOf",
@@ -536,25 +569,6 @@ var abi = [
         "constant": true,
         "inputs": [
             {
-                "name": "authorizerIndex",
-                "type": "uint256"
-            }
-        ],
-        "name": "getAuthorizer",
-        "outputs": [
-            {
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
                 "name": "_accountNumber",
                 "type": "bytes32"
             }
@@ -591,25 +605,6 @@ var abi = [
     },
     {
         "constant": true,
-        "inputs": [
-            {
-                "name": "_addr",
-                "type": "address"
-            }
-        ],
-        "name": "isAuthorized",
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
         "inputs": [],
         "name": "owner",
         "outputs": [
@@ -630,7 +625,6 @@ var user_address; // 메타마스크에 로그인한 유저의 ethereum address
 var user_accountNumber; // 에이블 간편 계좌 번호
 
 $(function () {
-
 
     // login button
     $("#btn_login").click(function () {
