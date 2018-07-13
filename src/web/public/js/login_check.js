@@ -7,18 +7,61 @@ var abi = [
         "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
-                "name": "previousOwner",
+                "indexed": false,
+                "name": "token",
                 "type": "address"
             },
             {
-                "indexed": true,
-                "name": "newOwner",
+                "indexed": false,
+                "name": "from",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "to",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "balance",
+                "type": "uint256"
+            }
+        ],
+        "name": "AbleTransfer",
+        "type": "event"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_addr",
                 "type": "address"
             }
         ],
-        "name": "OwnershipTransferred",
-        "type": "event"
+        "name": "addAuthorized",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_addr",
+                "type": "address"
+            }
+        ],
+        "name": "deleteAuthorized",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
         "constant": false,
@@ -110,15 +153,6 @@ var abi = [
     },
     {
         "constant": false,
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
         "inputs": [
             {
                 "name": "_from",
@@ -152,7 +186,7 @@ var abi = [
         "constant": false,
         "inputs": [
             {
-                "name": "_newOwner",
+                "name": "newOwner",
                 "type": "address"
             }
         ],
@@ -161,6 +195,56 @@ var abi = [
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_accountNumber",
+                "type": "bytes32"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [
+            {
+                "name": "isIndeed",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "userAddress",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "balance",
+                "type": "uint256"
+            }
+        ],
+        "name": "AbleWithdraw",
+        "type": "event"
     },
     {
         "anonymous": false,
@@ -229,98 +313,10 @@ var abi = [
         "type": "event"
     },
     {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [
-            {
-                "name": "isIndeed",
-                "type": "bool"
-            }
-        ],
+        "inputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "name": "previousOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipRenounced",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "from",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "to",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "balance",
-                "type": "uint256"
-            }
-        ],
-        "name": "AbleTransfer",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "userAddress",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "balance",
-                "type": "uint256"
-            }
-        ],
-        "name": "AbleWithdraw",
-        "type": "event"
+        "type": "constructor"
     },
     {
         "constant": false,
@@ -350,49 +346,20 @@ var abi = [
         "type": "function"
     },
     {
-        "inputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "ableAddress",
-        "outputs": [
-            {
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "ableDollarAddress",
-        "outputs": [
-            {
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
+        "type": "fallback"
     },
     {
         "constant": true,
         "inputs": [
             {
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
                 "name": "_token",
                 "type": "address"
+            },
+            {
+                "name": "_accountNumber",
+                "type": "bytes32"
             }
         ],
         "name": "balanceOf",
@@ -569,6 +536,25 @@ var abi = [
         "constant": true,
         "inputs": [
             {
+                "name": "authorizerIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "getAuthorizer",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
                 "name": "_accountNumber",
                 "type": "bytes32"
             }
@@ -605,6 +591,25 @@ var abi = [
     },
     {
         "constant": true,
+        "inputs": [
+            {
+                "name": "_addr",
+                "type": "address"
+            }
+        ],
+        "name": "isAuthorized",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
         "inputs": [],
         "name": "owner",
         "outputs": [
@@ -625,6 +630,7 @@ var user_address; // 메타마스크에 로그인한 유저의 ethereum address
 var user_accountNumber; // 에이블 간편 계좌 번호
 
 $(function () {
+
 
     // login button
     $("#btn_login").click(function () {
@@ -1140,7 +1146,6 @@ function error() {
 
 }
 
-
 /**
  * 간편송금용 어카운트 불러오기
  */
@@ -1187,9 +1192,8 @@ function get_account_detail(account_number) {
         var account_info = res.toString().split(',');
 
         console.log("user account name : " + web3.toAscii(account_info[1]));
-        console.log("token_list_length : " + account_info[4]);
+        //console.log("token_list_length : " + account_info[4]);
         nick_list.push(web3.toAscii(account_info[1]));
-
 
         $('#send_menu_user_address').text(web3.toAscii(account_info[1]));
         $('#send_menu_account_type').text(account_info[3]);
@@ -1238,10 +1242,9 @@ function get_send_menu_token_balance(){
 var nick_list = new Array();
 var token_list = new Array();
 
-function get_accounts() {
+async function get_accounts() {
 
     var html = "";
-    var tokens_html = "";
 
     simpleStorageContract = web3.eth.contract(abi);
     contractInstance = simpleStorageContract.at(contractAddress);
@@ -1249,106 +1252,58 @@ function get_accounts() {
     console.log("user_address : " + user_address);
 
     // 계좌 갯수를 가져온다
-    contractInstance.getAbleUserAbleAccountCount.call(user_address, function (err, res) {
+    await contractInstance.getAbleUserAbleAccountCount.call(user_address, async function (err, res) {
         if (err) {
             console.log("err : " + err);
             return;
         }
         console.log("result : " + res);
 
-
         //계좌가 있다면
         if (res > 0) {
-
-
             //계좌 갯수만큼 계좌 넘버를 가져온다
-            for (var i = 0; i < res; i++) {
-                (function (m) {
-
-                    contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, function (err, res) {
-                        if (err) {
-                            console.log("err : " + err);
-                            return;
-                        }
-
+             for (let i = 0; i < res; i++) {
+                 var tokens_html = "";
+                 (function(cntr2) {
+                    contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, async function (err, res) {
+                         console.log(cntr2);
                         if (res != null) {
-
                             //계좌 넘버로 계좌 인포를 가져온다
                             var account_number = res;
-                            contractInstance.getAbleAccount.call(account_number, function (err, res) {
+                            await contractInstance.getAbleAccount.call(account_number, async function (err, res) {
 
                                 var account_info = res.toString().split(',');
 
                                 console.log("user account name : " + web3.toAscii(account_info[1]));
+                                console.log("user account name : " + account_info[1]);
                                 console.log("token_list_length : " + account_info[4]);
                                 nick_list.push(web3.toAscii(account_info[1]));
 
-                                for (j = 0; j < account_info[4]; j++) {
-                                    contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
-                                        token_list.push(res);
-                                        console.log("token_info : " + res);
 
+                                var sub_token_list = new Array();
+                                for (let j = 0; j < account_info[4]; j++) {
+                                    (function(cntr) {
+                                    contractInstance.getAbleAccountTokenBalance.call(account_number, j, async function (err, res) {
+                                            //tokens_html += make_token_html(res,cntr);
+                                        await sub_token_list.push(res);
+
+                                        //console.log("token_info : "+j+" => " + res);
                                     });
+                                    })(j);
                                 }
-
-
+                                // var m = new Map();
+                                // console.dir(sub_token_list);
+                                // m.set(i,sub_token_list);
+                                token_list.push(sub_token_list);
                             });
                         }
                     });
-                    html += "<div class=\"box-typical box-typical-padding my-account\" >\n" +
-                        "        <div style=\"margin-left: 10px;\">\n" +
-                        "            <div class=\"row\">\n" +
-                        "                <div class=\"col-sm-3\"><img style=\" margin-top: 10px; height: 25px;\"\n" +
-                        "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
-                        "                <div class=\"col-sm-6\"></div>\n" +
-                        "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
-                        "                    Registration Date<br>" + "수정되어야할부분" + "\n" +
-                        "                </div>\n" +
-                        "            </div>\n" +
-                        "            <br><br>\n" +
-                        "            <div class=\"row\">\n" +
-                        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
-                        "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
-                        "                    <div style=\"margin-top: 5px\">\n" +
-                        "                        \"" + user_address + "\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
-                        "                        copy</a>\n" +
-                        "                    </div>\n" +
-                        "                </div>\n" +
-                        "            </div>\n" +
-                        "            <br>\n" +
-                        "            <div class=\"row\">\n" +
-                        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
-                        "                    <label class=\"form-label input\" >Address Nickname</label>\n" +
-                        "                    <div id=\"account_nickname" + i + "\" style=\"margin-top: 5px\">\n" +
-                        "                         " + "<a\n" +
-                        "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
-                        "                        copy</a>\n" +
-                        "                    </div>\n" +
-                        "                </div>\n" +
-                        "                <div  class=\"col-sm-12 contour\">\n" +
-                        "                    <br>\n" +
-                        "                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -\n" +
-                        "                    - - - - - - - - - - - - - - - - - - - - - -\n" +
-                        "                    <br><br><br>\n" +
-                        "                </div>\n" +
-                        "            </div>\n" +
-                        "            <div id=\"token_list" + i + "\" class=\"row\">\n" +
-                        "            </div>\n" +
-                        "        </div>\n" +
-                        "    </div>";
-
-                })(i);
-
-
-                setTimeout(function () {
-                    get_tokenlist();
-                }, 2000);
-
+                     html += make_html(i , tokens_html);
+                 })(i);
 
             }
 
             $('#account_list').html(html);
-
 
         } else {
             //todo 계좌가 없을 경우에 할것들 나중에 생각
@@ -1357,45 +1312,110 @@ function get_accounts() {
 
 }
 
-function get_nicklist() {
+function make_html(i,tokens_html){
+    return "<div class=\"box-typical box-typical-padding my-account\" >\n" +
+        "        <div style=\"margin-left: 10px;\">\n" +
+        "            <div class=\"row\">\n" +
+        "                <div class=\"col-sm-3\"><img style=\" margin-top: 10px; height: 25px;\"\n" +
+        "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
+        "                <div class=\"col-sm-6\"></div>\n" +
+        "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
+        "                    Registration Date<br>" + "수정되어야할부분" + "\n" +
+        "                </div>\n" +
+        "            </div>\n" +
+        "            <br><br>\n" +
+        "            <div class=\"row\">\n" +
+        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+        "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
+        "                    <div style=\"margin-top: 5px\">\n" +
+        "                        \"" + user_address + "\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+        "                        copy</a>\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "            </div>\n" +
+        "            <br>\n" +
+        "            <div class=\"row\">\n" +
+        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+        "                    <label class=\"form-label input\" >Address Nickname</label>\n" +
+        "                    <div id=\"account_nickname" + i + "\" style=\"margin-top: 5px\">\n" +
+        "                         " + "<a\n" +
+        "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+        "                        copy</a>\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div  class=\"col-sm-12 contour\">\n" +
+        "                    <br>\n" +
+        "                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Holding Coin - - - - - - - - - - -\n" +
+        "                    - - - - - - - - - - - - - - - - - - - - - -\n" +
+        "                    <br><br><br>\n" +
+        "                </div>\n" +
+        "            </div>\n" +
+        "            <div id=\"token_list" + i + "\" class=\"row\">\n" + tokens_html +
+        "            </div>\n" +
+        "        </div>\n" +
+        "    </div>";
+}
 
+function make_token_html(res){
+    console.log("make_token_html : "+res);
+
+    var coin_icon = '';
+    var coin_src = '';
+    if(res[1] == '0x0000000000000000000000000000000000000000'){
+        coin_icon = 'ETH';
+        coin_src = '../img/side_logo_bitcoin_on.png';
+    }else if(res[1] == '0xb5b4b627ad1c2c78440607e9db15c64db7dc6dc5') {
+        coin_icon = 'ABLER';
+        coin_src = '../img/side_logo_able_on.png';
+    }else if(res[1] == '0x1685f3715c4cec05cce6c462f8cc5a6ddaa92fd5'){
+        coin_icon = 'ABLDR';
+        coin_src = '../img/side_logo_abledollar_on.png';
+    }
+
+
+
+
+    return "<div class=\"col-sm-6\">\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"col-sm-3\">\n" +
+    "                            <div class=\"card coinmark\">\n" +
+    "                                <div  class=\"coinmark-sub\">\n" +
+    "                                    <img class=\"coin-image\"\n" +
+    "                                         src=\""+coin_src+"\">\n" +
+    "                                    <p>"+coin_icon+"\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
+    "                            " + res[2] + " "+coin_icon+"\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                </div>\n";
+
+}
+
+function get_nicklist() {
     console.log("nick_list : " + nick_list.length);
     for (z = 0; z < nick_list.length; z++) {
         console.log(nick_list[z])
         $('#account_nickname' + z).text(nick_list[z]);
     }
-
 }
 
 function get_tokenlist() {
-    var tokens_html = "";
     console.log("token_list : " + token_list.length);
     for (z = 0; z < token_list.length; z++) {
-        var token_info = token_list[z].toString().split(',');
+        var token_html = "";
+        var sub_token_list = token_list[z];
+        console.dir(sub_token_list)
+        for (item of sub_token_list){
+            token_html += make_token_html(item);
 
-        tokens_html +=
-            "<div class=\"col-sm-6\">\n" +
-            "                    <div class=\"row\">\n" +
-            "                        <div class=\"col-sm-3\">\n" +
-            "                            <div class=\"card coinmark\">\n" +
-            "                                <div  class=\"coinmark-sub\">\n" +
-            "                                    <img class=\"coin-image\"\n" +
-            "                                         src=\"../img/side_logo_bitcoin_on.png\">\n" +
-            "                                    <p>BTC\n" +
-            "                                </div>\n" +
-            "                            </div>\n" +
-            "                        </div>\n" +
-            "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
-            "                            " + token_info[2] + " BTC\n" +
-            "                        </div>\n" +
-            "                    </div>\n" +
-            "                </div>\n";
-        console.log(token_list[z]);
-        $('#token_list' + z).html(tokens_html);
+        }
+        $('#token_list' + z).html(token_html);
     }
 
 }
-
 
 /**
  * @dev Function to make toast message
