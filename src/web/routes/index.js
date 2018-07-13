@@ -25,6 +25,10 @@ router.get('/dex', function (req, res, next) {
     res.render('html/dex.html');
 });
 
+router.get('/deposit_token', function (req, res, next) {
+    res.render('html/deposit_token.html');
+});
+
 
 /* ==========================================================================
     DB) Able user insert

@@ -29,6 +29,7 @@
     <script src="../js/select2.full.min.js"></script>
     <script src="../js/app.js"></script>
     <script src="../js/login_check.js"></script>
+    <script src="../js/custom_token_add.js"></script>
 
 
     <script>
@@ -61,7 +62,7 @@
                         style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px; text-align: center;">
-                <label  class="form-label" >To ABLE User Address</label>
+                <label  class="form-label" >To Able Account Number</label>
                 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC
                 <br><br>
                 <label  class="form-label" >Address Nickname</label>
@@ -114,13 +115,13 @@
                     <div style="float: right">
                         <ul class="nav ">
                             <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="current">ㅇ</span>Notice</a>
+                            <a class="nav-link" href="#"><span class="current"></span>Notice</a>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="current">ㅇ</span>About ABLE</a>
+                            <a class="nav-link" href="#"><span class="current"></span>About ABLE</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#"><span class="current">ㅇ</span>Bank Service</a>
+                                <a class="nav-link active" href="#"><span class="current"></span>Bank Service</a>
                             </li>
                             <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
                                 <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
@@ -160,6 +161,11 @@
         <li class="nav-item">
             <a class="nav-link " href="/account_manage">Account Manage</a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link " href="/deposit_token">Deposit</a>
+        </li>
+
         <!--임시 좌측 정렬 처리-->
         <!--<li class="nav-item ">-->
         <!--<a class="nav-link" href="#">-->
@@ -175,55 +181,57 @@
 
 <div style="background-color: white">
     <br><br><br><br><br><br><br><br><br>
-    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Send ABLE and Token</h2><br><br>
+    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Send ABLE Token</h2><br><br>
     <div class="row" style="width: 100%;  border-bottom: 1px; background-color: white">
 
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
             <div class="form-group" style=" align-self: center">
-                <label class="form-label input" >To ABLE User Address</label>
+
+
+                <label class="form-label input" >My Account Number</label>
                 <p class="form-control-static">
-                    <input type="text" class="form-control"
-                           placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
-                <label class="form-label input">Address NickName(Optional)</label>
+                    <input type="text" class="form-control" id="input_my_account_number" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
+
+
+                <label class="form-label input" >To ABLE Account Number</label>
                 <p class="form-control-static">
-                    <input type="text" class="form-control"
-                           placeholder="Ex) My Able"></p>
+                    <input type="text" class="form-control" id="input_account_number" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
+
+                <!--<label class="form-label input">Address NickName(Optional)</label>-->
+                <!--<p class="form-control-static">-->
+                    <!--<input type="text" class="form-control"-->
+                           <!--placeholder="Ex) My Able"></p>-->
+
                 <div class="row">
                     <div class="col-md-6">
                         <label class="form-label input" >Coin Select</label>
                         <select class="form-control" id="select_coin">
-                            <option style="background-image:url(../img/side_logo_ethereum_on.png);" >ethereum</option>
-                            <option><span class="glyphicon glyphicon-ok
-"style="margin-right: 3px;"></span> bitcoin</option>
-                            <option>3</option>
-                            <option>4</option>
+                            <option>Ethereum</option>
+                            <option>Able Coin</option>
+                            <option>Able Dollar</option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label input" >Amount to send</label>
                         <p class="form-control-static">
-                            <input type="text" class="form-control "
-                                   id="inputPassword" placeholder="1.00000000000 ETH">
+                            <input type="text" class="form-control" id="input_num_token" placeholder="1.00000000000 ETH">
                         </p>
                     </div>
                 </div>
-                <div class="row">
 
-                    <div class="col-md-6">
-                        <label class="form-label input" >Gas Limit</label>
-                        <p class="form-control-static">
-                            <input type="text" class="form-control"
-                                   id="inputPassword" placeholder="20">
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                    </div>
-                    <br><br><br><br><br>
+                <div class="row">
+                    <!--<div class="col-md-6">-->
+                        <!--<label class="form-label input" >Gas Limit</label>-->
+                        <!--<p class="form-control-static">-->
+                            <!--<input type="text" class="form-control"-->
+                                   <!--id="inputPassword" placeholder="20">-->
+                        <!--</p>-->
+                    <!--</div>-->
                     <div class="col-sm-12">
-                        <button type="button" onclick="javascript:send()" class="btn btn-inline transaction">Send Transaction</button>
+                        <button type="button" onclick="javascript:transfer_token()" class="btn btn-inline transaction">Send Transaction</button>
                     </div>
                 </div>
             </div>
