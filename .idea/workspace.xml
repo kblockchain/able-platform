@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e255b31-62f4-4e23-8132-73969ffb0d71" name="Default" comment="move file directory">
-      <change afterPath="$PROJECT_DIR$/src/web/public/js/custom_token_add.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/web/views/html/deposit_token.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/views/html/account_manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/views/html/account_manage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/views/html/dex.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/views/html/dex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/views/html/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/views/html/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/views/html/p2pMatching.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/views/html/p2pMatching.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/views/html/salary.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/views/html/salary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/views/html/send.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/views/html/send.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/web/public/js/custom_token_add.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/public/js/custom_token_add.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -64,20 +55,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom_token_add.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="custom_token_add.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/web/public/js/custom_token_add.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="111" column="57" lean-forward="true" selection-start-line="111" selection-start-column="57" selection-end-line="111" selection-end-column="57" />
+            <state relative-caret-position="210">
+              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="send.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="send.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/web/views/html/send.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="214" column="26" lean-forward="true" selection-start-line="214" selection-start-column="26" selection-end-line="214" selection-end-column="26" />
+            <state relative-caret-position="262">
+              <caret line="207" column="42" lean-forward="true" selection-start-line="207" selection-start-column="42" selection-end-line="207" selection-end-column="42" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#li#3;n#ul#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -98,7 +89,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>class=&quot;col-sm-4&quot;</find>
       <find>col-sm-4</find>
       <find>(min-width: 576px)</find>
       <find>(min-width: 576px) {</find>
@@ -128,6 +118,7 @@
       <find>ABLE User Add</find>
       <find>select acc</find>
       <find>se</find>
+      <find>s</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,8 +146,8 @@
         <option value="$PROJECT_DIR$/src/web/views/html/dex.html" />
         <option value="$PROJECT_DIR$/src/web/views/html/salary.html" />
         <option value="$PROJECT_DIR$/src/web/views/html/deposit_token.html" />
-        <option value="$PROJECT_DIR$/src/web/public/js/custom_token_add.js" />
         <option value="$PROJECT_DIR$/src/web/views/html/send.html" />
+        <option value="$PROJECT_DIR$/src/web/public/js/custom_token_add.js" />
       </list>
     </option>
   </component>
@@ -451,7 +442,7 @@
       <workItem from="1530585331165" duration="67327000" />
       <workItem from="1531292496314" duration="1184000" />
       <workItem from="1531360944535" duration="3511000" />
-      <workItem from="1531382484025" duration="12147000" />
+      <workItem from="1531382484025" duration="13535000" />
     </task>
     <task id="LOCAL-00001" summary="move file directory">
       <created>1529398791773</created>
@@ -464,20 +455,20 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88503000" />
+    <option name="totallyTimeSpent" value="89891000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2960" y="23" width="1280" height="1360" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49920762" visible="true" weight="0.17285945" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49920762" visible="true" weight="0.17285945" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3296355" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.3293745" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3293745" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.5898654" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -809,10 +800,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/web/public/js/custom_token_add.js">
+    <entry file="file://$PROJECT_DIR$/src/web/views/html/send.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="111" column="57" lean-forward="true" selection-start-line="111" selection-start-column="57" selection-end-line="111" selection-end-column="57" />
+        <state relative-caret-position="262">
+          <caret line="207" column="42" lean-forward="true" selection-start-line="207" selection-start-column="42" selection-end-line="207" selection-end-column="42" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ul#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -823,15 +819,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/web/views/html/send.html">
+    <entry file="file://$PROJECT_DIR$/src/web/public/js/custom_token_add.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="214" column="26" lean-forward="true" selection-start-line="214" selection-start-column="26" selection-end-line="214" selection-end-column="26" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#li#3;n#ul#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="210">
+          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
         </state>
       </provider>
     </entry>
