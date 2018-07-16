@@ -631,7 +631,6 @@ var user_accountNumber; // 에이블 간편 계좌 번호
 
 $(function () {
 
-
     // login button
     $("#btn_login").click(function () {
         metakmask_check();
@@ -1199,7 +1198,6 @@ function get_accounts_for_send() { // 간편송금 페이지 진입시 세션 �
 /**
  * 간편송금 계좌 상세정보 불러오기 (현재 선택값)
  */
-
 function get_account_detail(account_number) {
     contractInstance.getAbleAccount.call(account_number, function (err, res) { // 계좌 정보를 파라메터로 호출
         if (err) {
