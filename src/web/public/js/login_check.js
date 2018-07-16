@@ -980,7 +980,6 @@ function open_able_account() {
             alert("계좌 생성에 실패했습니다.");
             $('.loading').hide();
             console.log("openAbleAccount err : " + err);
-            return
             return;
         }
 
@@ -1004,7 +1003,7 @@ function open_able_account() {
             // success, get info
             else {
 
-                // user_Address = result.args.userAddress;
+                user_Address = result.args.userAddress;
                 user_accountNumber = result.args.accountNumber;
                 user_accountType = result.args.accountType;
 
@@ -1012,7 +1011,7 @@ function open_able_account() {
                 console.log("account !!!!!!!!!! " + ascii_account);
 
                 console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
-                // console.log("openAbleAccount result user_Address: " + user_Address);
+                console.log("openAbleAccount result user_Address: " + user_Address);
                 console.log("openAbleAccount result input_account_password: " + input_account_password);
                 console.log("openAbleAccount result user_accountType: " + user_accountType);
 
@@ -1032,7 +1031,6 @@ function open_able_account() {
 
                         if (res.result == 200) {
                             console.log(res.message);
-                            // $(location).attr('href', '/account_manage');
                             $(location).attr('href', '/account_manage');
 
                         } else if (res.result == 204) {
@@ -1180,7 +1178,6 @@ function get_accounts_for_send() {
                         return;
                     }
                     if (res != null) {
-                        $('#select_account').append("<option value="+res+">닉네임</option>");
 
                         var account_nickname = web3.toAscii(res);
                         $('#select_account').append("<option value="+res+">"+account_nickname+"</option>");
