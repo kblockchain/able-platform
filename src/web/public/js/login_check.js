@@ -838,7 +838,7 @@ function user_register() {
                     // 유저
                     var formData = $("#able_regist_form").serialize();
 
-                    $.ajax({
+                    $.ajax({ // 새로운 유저 정보 DB로 입력
                         method: "POST",
                         url: "/create_new_account",
                         data: formData
@@ -850,7 +850,7 @@ function user_register() {
                                 save_session(user_address);
                                 $('.loading').show();
                                 $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
-                                regist_ableuser();
+                                regist_ableuser(); // 스마트 컨트랙트 등록 모달
 
                             } else if (res.result == 204) {
                                 console.log(res.message);
@@ -1158,10 +1158,10 @@ function error() {
  * 간편송금용 어카운트 불러오기
  */
 
-function get_accounts_for_send() {
+function get_accounts_for_send() { // 간편송금 페이지 진입시 세션 체크를 끝내고 이 함수를 실행
     simpleStorageContract = web3.eth.contract(abi);
     contractInstance = simpleStorageContract.at(contractAddress);
-    contractInstance.getAbleUserAbleAccountCount.call(user_address, function (err, res) {
+    contractInstance.getAbleUserAbleAccountCount.call(user_address, function (err, res) { // 유저의 계좌 갯수를 불러온다
         if (err) {
             console.log("err : " + err);
             return;
@@ -1171,13 +1171,13 @@ function get_accounts_for_send() {
         if (res > 0) {
 
             //계좌 갯수만큼 계좌 넘버를 가져온다
-            for (var i = 0; i < res; i++) {
+            for (var i = 0; i < res; i++) { // 계좌 갯수만큼 반복
                 contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, function (err, res) {
                     if (err) {
                         console.log("err : " + err);
                         return;
                     }
-                    if (res != null) {
+                    if (res != null) { // 계좌 정보를 각각 가져와 셀렉트 박스 옵션으로 넣는다.
 
                         var account_nickname = web3.toAscii(res);
                         $('#select_account').append("<option value="+res+">"+account_nickname+"</option>");
@@ -1187,7 +1187,7 @@ function get_accounts_for_send() {
 
             }
 
-            setTimeout(function () {
+            setTimeout(function () { // 현재 선택된 값으로 계좌 상세정보를 호출
                 get_account_detail($('#select_account').val());
             }, 1000);
         }
@@ -1196,10 +1196,18 @@ function get_accounts_for_send() {
 }
 
 
-function get_account_detail(account_number) {
-    contractInstance.getAbleAccount.call(account_number, function (err, res) {
+/**
+ * 간편송금 계좌 상세정보 불러오기 (현재 선택값)
+ */
 
-        var account_info = res.toString().split(',');
+function get_account_detail(account_number) {
+    contractInstance.getAbleAccount.call(account_number, function (err, res) { // 계좌 정보를 파라메터로 호출
+        if (err) {
+            console.log("err : " + err);
+            return;
+        }
+
+        var account_info = res.toString().split(','); // 스트링으로 반환 받은 값을 배열로 저장
 
         $('#modal_nickname').text(web3.toAscii(account_info[1]));
         console.log("user account name : " + web3.toAscii(account_info[1]));
@@ -1209,18 +1217,21 @@ function get_account_detail(account_number) {
         $('#send_menu_user_address').text(user_address.substring(0, 8) + '.....' + user_address.substring(34, 42));
         $('#send_menu_account_number').text(account_info[1].substring(0, 8) + '.....' + account_info[1].substring(58, 66));
         $('#send_menu_account_type').text(account_info[3]);
-        $('#input_my_account_number').val(account_info[1]);
+        $('#input_my_account_number').val(account_info[1]);// 모달창과 우측 위젯에 필요정보를 넣어준다
 
 
         $('#send_menu_token_list').html("");
         console.log(" length : "+account_info[4]);
-        for (j = 0; j < account_info[4]; j++) {
+        for (j = 0; j < account_info[4]; j++) { // 토큰 갯수만큼 토큰 정보를 불러온다
             contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
-
+                if (err) {
+                    console.log("err : " + err);
+                    return;
+                }
                 var coin_icon = "";
                 var token_info = res.toString().split(',');
 
-                if(token_info[1] == '0x0000000000000000000000000000000000000000'){
+                if(token_info[1] == '0x0000000000000000000000000000000000000000'){ // 토큰 거래주소에 따라 각각 구분해준다.
                     coin_icon = 'ETH';
                 }else if(token_info[1] == '0xb5b4b627ad1c2c78440607e9db15c64db7dc6dc5') {
                     coin_icon = 'ABLER';
@@ -1230,7 +1241,7 @@ function get_account_detail(account_number) {
 
 
                 html = "<span class=\"my-info-label\" >"+coin_icon+"</spans><br>\n" +
-                    "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>";
+                    "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>"; // 토큰 정보를 각각 넣어준다
 
                 $('#send_menu_token_list').append(html);
 
@@ -1243,17 +1254,19 @@ function get_account_detail(account_number) {
 
 }
 
+/**
+ * 간편송금 실제 송금 실행
+ */
 
 function transfer_token_execute(){
 
-
-    $('.loading').show();
+    $('.loading').show(); // 펜딩을 걸어준다.
     $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
     var _from   = $('#input_my_account_number').val();
     //var _to     = $('#input_account_number').val();
     console.log($('#input_account_nickname').val())
-    var _to     = web3.fromAscii($('#input_account_nickname').val(),32);
+    var _to     = web3.fromAscii($('#input_account_nickname').val(),32); // 송금에 필요한 입력된 값들을 변수로 받아온다
 
     var _token  = $('#select_coin').val();
     //var _token  = '0xB5b4b627ad1C2C78440607E9Db15c64DB7Dc6dc5';
@@ -1264,13 +1277,13 @@ function transfer_token_execute(){
     console.log(_token);
     console.log(_amount);
 
-    contractInstance.transferFrom(_from, _to, _token, _amount, function (err, res) {
+    contractInstance.transferFrom(_from, _to, _token, _amount, function (err, res) { // 송금실행
         if (err) {
             console.log("err : " + err);
             return;
         }
 
-        contractInstance.AbleTransfer().watch((err, res) => {
+        contractInstance.AbleTransfer().watch((err, res) => { // 송금이 완료되면 리턴값을 받아 완료되었다고 알려준다
 
 
             if (err) {
@@ -1333,15 +1346,15 @@ async function get_accounts() {
                                 console.log("user account name : " + web3.toAscii(account_info[1]));
                                 console.log("user account name : " + account_info[1]);
                                 console.log("token_list_length : " + account_info[4]);
-                                nick_list.push(web3.toAscii(account_info[1]));
+                                nick_list.push(web3.toAscii(account_info[1])); // 닉네임 리스트에 넣는다. 닉베임은 계좌리스트를 만들때 필요한데 그 다음 과정인 상세정보에서 받아오기 때문에 전역변수에 넣어두고 후에 호출한다.
 
 
                                 var sub_token_list = new Array();
-                                for (let j = 0; j < account_info[4]; j++) {
+                                for (let j = 0; j < account_info[4]; j++) { // 계좌가 보유하고 있는 토큰 리스트 수 만큼 토큰 상세정보를 불러온다.
                                     (function(cntr) {
                                     contractInstance.getAbleAccountTokenBalance.call(account_number, j, async function (err, res) {
                                             //tokens_html += make_token_html(res,cntr);
-                                        await sub_token_list.push(res);
+                                        await sub_token_list.push(res); // 토큰 리스트에 토큰 정보를 담고
 
                                         //console.log("token_info : "+j+" => " + res);
                                     });
@@ -1350,7 +1363,7 @@ async function get_accounts() {
                                 // var m = new Map();
                                 // console.dir(sub_token_list);
                                 // m.set(i,sub_token_list);
-                                token_list.push(sub_token_list);
+                                token_list.push(sub_token_list); // 전역변수 토큰 리스트에 계좌당 토큰 리스트를 담는다.
                             });
                         }
                     });
@@ -1366,7 +1379,7 @@ async function get_accounts() {
             },1500);
 
             setTimeout(function(){
-                get_tokenlist();
+                get_tokenlist(); // 작업이 끝나면 닉네임과 토큰리스트를 불러와 화면에 넣어준다.
             },1500);
 
         } else {
@@ -1375,6 +1388,11 @@ async function get_accounts() {
     });
 
 }
+
+
+/**
+ * 계좌관리 계좌리스트 화면 만들기
+ */
 
 function make_html(i,tokens_html){
     return "<div class=\"box-typical box-typical-padding my-account\" >\n" +
@@ -1420,12 +1438,16 @@ function make_html(i,tokens_html){
         "    </div>";
 }
 
+/**
+ * 계좌관리 토큰리스트 화면 만들기
+ */
+
 function make_token_html(res){
     console.log("make_token_html : "+res);
 
     var coin_icon = '';
     var coin_src = '';
-    if(res[1] == '0x0000000000000000000000000000000000000000'){
+    if(res[1] == '0x0000000000000000000000000000000000000000'){ // 토큰 정보마다 코인을 구별해줌
         coin_icon = 'ETH';
         coin_src = '../img/side_logo_bitcoin_on.png';
     }else if(res[1] == '0xb5b4b627ad1c2c78440607e9db15c64db7dc6dc5') {
@@ -1435,9 +1457,6 @@ function make_token_html(res){
         coin_icon = 'ABLDR';
         coin_src = '../img/side_logo_abledollar_on.png';
     }
-
-
-
 
     return "<div class=\"col-sm-6\">\n" +
     "                    <div class=\"row\">\n" +
@@ -1458,6 +1477,11 @@ function make_token_html(res){
 
 }
 
+
+/**
+ * 계좌관리 계좌 닉네임 리스트 설정하기
+ */
+
 function get_nicklist() {
     console.log("nick_list : " + nick_list.length);
     for (z = 0; z < nick_list.length; z++) {
@@ -1465,6 +1489,10 @@ function get_nicklist() {
         $('#account_nickname' + z).text(nick_list[z]);
     }
 }
+
+/**
+ * 계좌관리 토큰 리스트 불러오기
+ */
 
 function get_tokenlist() {
     console.log("token_list : " + token_list.length);
