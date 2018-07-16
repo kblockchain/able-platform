@@ -48,10 +48,11 @@
         });
 
         function send() {
-            $('#modal_to_address').html(
-                $('#input_my_account_number').val().substr(0,33)+"<br>"+
-                $('#input_my_account_number').val().substr(33,66)
-            );
+            $('#modal_to_address').text($('#input_account_nickname').val());
+            // $('#modal_to_address').html(
+            //     $('#input_my_account_number').val().substr(0,33)+"<br>"+
+            //     $('#input_my_account_number').val().substr(33,66)
+            // );
             $('#modal_amount').text($('#input_num_token').val());
 
             $('#myModal').modal('show').css({
@@ -74,10 +75,10 @@
                         style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px; text-align: center;">
-                <label  class="form-label" >To Able Account Number</label>
+                <label  class="form-label" >To Able Account NickName</label>
                 <span id="modal_to_address"style="max-width: 30%;"></span>
                 <br><br>
-                <label  class="form-label" >Address Nickname</label>
+                <label  class="form-label" >From Able Account NickName</label>
                 <span id="modal_nickname"></span>
                 <br><br>
                 <label  class="form-label" >Amount to send</label>
@@ -220,9 +221,9 @@
                     <input type="text" class="form-control" id="input_my_account_number" placeholder="" disabled></p>
 
 
-                <label class="form-label input" >To ABLE Account Number</label>
+                <label class="form-label input" >To ABLE Account NickName</label>
                 <p class="form-control-static">
-                    <input type="text" class="form-control" id="input_account_number" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
+                    <input type="text" class="form-control" id="input_account_nickname" placeholder=""></p>
 
                 <!--<label class="form-label input">Address NickName(Optional)</label>-->
                 <!--<p class="form-control-static">-->

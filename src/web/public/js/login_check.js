@@ -1251,9 +1251,12 @@ function transfer_token_execute(){
     $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
     var _from   = $('#input_my_account_number').val();
-    var _to     = $('#input_account_number').val();
-//    var _token  = $('#select_coin').val();
-    var _token  = '0xB5b4b627ad1C2C78440607E9Db15c64DB7Dc6dc5';
+    //var _to     = $('#input_account_number').val();
+    console.log($('#input_account_nickname').val())
+    var _to     = web3.fromAscii($('#input_account_nickname').val(),32);
+
+    var _token  = $('#select_coin').val();
+    //var _token  = '0xB5b4b627ad1C2C78440607E9Db15c64DB7Dc6dc5';
     var _amount = $('#input_num_token').val();
 
     console.log(_from);
