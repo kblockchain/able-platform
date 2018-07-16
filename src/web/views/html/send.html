@@ -31,7 +31,6 @@
     <script src="../js/login_check.js"></script>
     <script src="../js/custom_token_add.js"></script>
 
-
     <script>
         $(document).ready(function () {
             check_session();
@@ -172,6 +171,9 @@
             <a class="nav-link " href="/deposit_token">Deposit</a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="/withdraw_token">Withdraw</a>
+        </li>
         <!--임시 좌측 정렬 처리-->
         <!--<li class="nav-item ">-->
         <!--<a class="nav-link" href="#">-->
@@ -195,6 +197,10 @@
         <div class="col-md-6">
             <div class="form-group" style=" align-self: center">
 
+                <label class="form-label input" >Select Your Account</label>
+                <select class="form-control" id="select_account">
+                </select>
+                <br>
 
                 <label class="form-label input" >My Account Number</label>
                 <p class="form-control-static">
@@ -264,15 +270,13 @@
         <br>
         <br><br><br><br><br>
     </div>
+
+
     <hr>
     <div class="row" style=" width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">
         <div class="col-md-12">
             <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
 
-            <label class="form-label input" >Select Your Account</label>
-            <select class="form-control" id="select_account">
-            </select>
-            <br>
             <label class="form-label input" >To ABLE User Address</label>
             <br><br><br>
         </div>

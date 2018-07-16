@@ -997,7 +997,7 @@ function open_able_account() {
             // success, get info
             else {
 
-                user_Address = result.args.userAddress;
+                // user_Address = result.args.userAddress;
                 user_accountNumber = result.args.accountNumber;
                 user_accountType = result.args.accountType;
 
@@ -1005,7 +1005,7 @@ function open_able_account() {
                 console.log("account !!!!!!!!!! " + ascii_account);
 
                 console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
-                console.log("openAbleAccount result user_Address: " + user_Address);
+                // console.log("openAbleAccount result user_Address: " + user_Address);
                 console.log("openAbleAccount result input_account_password: " + input_account_password);
                 console.log("openAbleAccount result user_accountType: " + user_accountType);
 
