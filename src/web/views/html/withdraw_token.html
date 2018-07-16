@@ -134,47 +134,42 @@
 <div class="mobile-menu-left-overlay"></div>
 <div class="row" style="background-color: white">
     <ul class="main-nav nav ">
+
         <li class="nav-item">
             <a class="nav-link " href="/p2pMatching">P2P Matching Engine</a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="/dex">ABLE DEX</a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="/send">Easy Transfer</a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link " href="/salary">Pay Salary</a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link " href="/account_manage">Account Manage</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link active" href="/deposit_token">Deposit</a>
+            <a class="nav-link" href="/deposit_token">Deposit</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/withdraw_token">Withdraw</a>
+            <a class="nav-link active" href="/withdraw_token">Withdraw</a>
         </li>
 
-        <!--임시 좌측 정렬 처리-->
-        <!--<li class="nav-item ">-->
-        <!--<a class="nav-link" href="#">-->
-        <!--<button type="button" style="margin-bottom: 3px" class="btn btn-inline">-->
-        <!--<img style="height: 12px;" src="../img/subnvi_ic_account.png">-->
-        <!--계좌관리-->
-        <!--</button>-->
-        <!--</a>-->
-        <!--</li>-->
     </ul>
 </div>
 <!--.top menu-->
 
 <div style="background-color: white">
     <br><br><br><br><br><br><br><br><br>
-    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Able Token Deposit</h2>
-    <br>
+    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Able Withdraw</h2>
 
     <div class="row" style="width: 100%;  border-bottom: 1px; background-color: white">
 
@@ -183,11 +178,6 @@
         <div class="col-md-6">
             <div class="form-group" style=" align-self: center">
 
-                <!--<label class="form-label input" >Select Your Account</label>-->
-                <!--<select class="form-control" id="select_account">-->
-                <!--</select>-->
-
-                <br>
 
                 <label class="form-label input" >Able Account Number</label>
                 <p class="form-control-static">
@@ -212,12 +202,12 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <button id="btn_token_approve" type="button" class="btn btn-inline transaction" onclick="jajascript:check_approve()">1. Approve</button>
-                        <button id="btn_deposit_token" type="button" class="btn btn-inline transaction" onclick="javascript:deposit_token()">2. Deposit</button>
+                        <button id="btn_deposit_token" type="button" class="btn btn-inline transaction" onclick="javascript:withdraw_token()">Withdraw</button>
                     </div>
                 </div>
             </div>
         </div>
+
 <!--        <div class="col-md-3">
             <div class="box-typical box-typical-padding my-info">
                 <b style="font-size:25px;  font-weight: 900">My ABLE Token</b>

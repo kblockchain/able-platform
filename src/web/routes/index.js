@@ -29,6 +29,10 @@ router.get('/deposit_token', function (req, res, next) {
     res.render('html/deposit_token.html');
 });
 
+router.get('/withdraw_token', function (req, res, next) {
+    res.render('html/withdraw_token.html');
+});
+
 
 /* ==========================================================================
     DB) Able user insert
