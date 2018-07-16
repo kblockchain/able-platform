@@ -1305,6 +1305,14 @@ async function get_accounts() {
 
             $('#account_list').html(html);
 
+            setTimeout(function(){
+                get_nicklist();
+            },1500);
+
+            setTimeout(function(){
+                get_tokenlist();
+            },1500);
+
         } else {
             //todo 계좌가 없을 경우에 할것들 나중에 생각
         }
