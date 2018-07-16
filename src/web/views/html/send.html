@@ -48,6 +48,12 @@
         });
 
         function send() {
+            $('#modal_to_address').html(
+                $('#input_my_account_number').val().substr(0,33)+"<br>"+
+                $('#input_my_account_number').val().substr(33,66)
+            );
+            $('#modal_amount').text($('#input_num_token').val());
+
             $('#myModal').modal('show').css({
                 'margin-top': function () {
                     return 200; //($(this).height()/2) // 작동안함;;
@@ -63,26 +69,26 @@
         <div class="modal-content" style="border-radius: 30px; ">
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
-                <span class="font-weight-bold"> Confirm </span>
+                <span class="font-weight-bold"> Transfer Confirm </span>
                 <button type="button" class="dismiss" data-dismiss="modal"><img
                         style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px; text-align: center;">
                 <label  class="form-label" >To Able Account Number</label>
-                0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC
+                <span id="modal_to_address"style="max-width: 30%;"></span>
                 <br><br>
                 <label  class="form-label" >Address Nickname</label>
-                N/N
+                <span id="modal_nickname"></span>
                 <br><br>
                 <label  class="form-label" >Amount to send</label>
-                1.000000000000 ETH
+                <span id="modal_amount"></span>
                 <br><br>
-                <label class="form-label" >Gas Limit</label>
-                20
-                <br><br>
+                <!--<label class="form-label" >Gas Limit</label>-->
+                <!--20-->
+                <!--<br><br>-->
                 <div style="text-align: center;">
                     <p></p>
-                    <button class="text-center modal-btn" type="button" >
+                    <button onclick="javascript:transfer_token_execute();" class="text-center modal-btn" type="button" >
                         SEND
                     </button>
                 </div>
@@ -93,6 +99,14 @@
 
 <!--site header-->
 <body class="horizontal-navigation chrome-browser menu-left-opened">
+<div id="wrap">
+    <!--loading-->
+    <section class="loading">
+        <p>
+            <img src="../img/loading2.svg">
+        </p>
+    </section>
+</div>
 <header class="site-header" >
     <div class="container-fluid">
         <a href="/" class="site-logo">
@@ -195,10 +209,15 @@
         <div class="col-md-6">
             <div class="form-group" style=" align-self: center">
 
+                <label class="form-label input" >Select Your Account</label>
+                <p class="form-control-static">
+                <select class="form-control" id="select_account">
+                </select>
+                </p>
 
                 <label class="form-label input" >My Account Number</label>
                 <p class="form-control-static">
-                    <input type="text" class="form-control" id="input_my_account_number" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC"></p>
+                    <input type="text" class="form-control" id="input_my_account_number" placeholder="" disabled></p>
 
 
                 <label class="form-label input" >To ABLE Account Number</label>
@@ -214,16 +233,16 @@
                     <div class="col-md-6">
                         <label class="form-label input" >Coin Select</label>
                         <select class="form-control" id="select_coin">
-                            <option>Ethereum</option>
-                            <option>Able Coin</option>
-                            <option>Able Dollar</option>
+                            <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
+                            <option value="0xb5b4b627ad1c2c78440607e9db15c64db7dc6dc5">Able Coin</option>
+                            <option value="0x1685f3715c4cec05cce6c462f8cc5a6ddaa92fd5">Able Dollar</option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label input" >Amount to send</label>
                         <p class="form-control-static">
-                            <input type="text" class="form-control" id="input_num_token" placeholder="1.00000000000 ETH">
+                            <input type="text" class="form-control" id="input_num_token" placeholder="0">
                         </p>
                     </div>
                 </div>
@@ -237,7 +256,7 @@
                     <!--</p>-->
                     <!--</div>-->
                     <div class="col-sm-12">
-                        <button type="button" onclick="javascript:transfer_token()" class="btn btn-inline transaction">Send Transaction</button>
+                        <button type="button" onclick="javascript:send()" class="btn btn-inline transaction">Send Transaction</button>
                     </div>
                 </div>
             </div>
@@ -248,16 +267,16 @@
                 <br><br>
                 <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
                 <div>
-                    <span class="my-info-label" >Address</spans><br>
-                    <span class="my-info-content">#ewqer2342!#rds2332424rsd23214</span><br><br>
-                    <span class="my-info-label" >Name</spans><br>
-                    <span class="my-info-content" >Kooseongbeom</span><br><br>
-                    <span class="my-info-label" >ABLE Account</spans><br>
-                    <span class="my-info-content" >Free Account</span><br><br>
-                    <span class="my-info-label" >ABLE</spans><br>
-                    <span class="my-info-content" >45326.3235346464</span><br><br>
-                    <span class="my-info-label" >ETH</spans><br>
-                    <span class="my-info-content" >56.0000000000</span><br><br>
+                    <span class="my-info-label" >User Address</spans><br>
+                    <span class="my-info-content" id="send_menu_user_address"></span><br><br>
+                    <!--<span class="my-info-label" >Name</spans><br>-->
+                    <!--<span class="my-info-content" >Kooseongbeom</span><br><br>-->
+                    <span class="my-info-label" >Account Number</spans><br>
+                    <span class="my-info-content" id="send_menu_account_number"></span><br><br>
+                    <span class="my-info-label" >Account Type</spans><br>
+                    <span class="my-info-content" id="send_menu_account_type" >Free Account</span><br><br>
+                        <div id="send_menu_token_list"></div>
+
                 </div>
             </div>
         </div>
@@ -269,9 +288,7 @@
         <div class="col-md-12">
             <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
 
-            <label class="form-label input" >Select Your Account</label>
-            <select class="form-control" id="select_account">
-            </select>
+
             <br>
             <label class="form-label input" >To ABLE User Address</label>
             <br><br><br>

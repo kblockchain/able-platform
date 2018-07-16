@@ -977,10 +977,14 @@ function open_able_account() {
     contractInstance.openAbleAccount(bytes32_account_number, bytes32_account_password, function (err, result) {
 
         if (err) {
+            alert("계좌 생성에 실패했습니다.");
+            $('.loading').hide();
             console.log("openAbleAccount err : " + err);
-            return
+            return;
         }
 
+        $('.loading').show();
+        $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
         // event listener
         // check AbleOpenAccount success or fail
@@ -989,6 +993,8 @@ function open_able_account() {
             // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
             // if openaccount fail
             if (err) {
+                alert("계좌 생성에 실패했습니다.");
+                $('.loading').hide();
                 document.getElementById('output_check_ableaccount_status').innerHTML = "계좌 생성 실패";
 
             }
@@ -1025,9 +1031,11 @@ function open_able_account() {
 
                         if (res.result == 200) {
                             console.log(res.message);
-                            // $(location).attr('href', '/account_manage');
+                            $(location).attr('href', '/account_manage');
 
                         } else if (res.result == 204) {
+                            alert("계좌 생성에 실패했습니다.");
+                            $('.loading').hide();
                             console.log(res.message);
                         }
                     }
@@ -1170,7 +1178,9 @@ function get_accounts_for_send() {
                         return;
                     }
                     if (res != null) {
-                        $('#select_account').append("<option value="+res+">닉네임</option>");
+
+                        var account_nickname = web3.toAscii(res);
+                        $('#select_account').append("<option value="+res+">"+account_nickname+"</option>");
                     }
                 });
 
@@ -1191,22 +1201,35 @@ function get_account_detail(account_number) {
 
         var account_info = res.toString().split(',');
 
+        $('#modal_nickname').text(web3.toAscii(account_info[1]));
         console.log("user account name : " + web3.toAscii(account_info[1]));
         //console.log("token_list_length : " + account_info[4]);
-        nick_list.push(web3.toAscii(account_info[1]));
+        //nick_list.push(web3.toAscii(account_info[1]));
 
-        $('#send_menu_user_address').text(web3.toAscii(account_info[1]));
+        $('#send_menu_user_address').text(user_address.substring(0, 8) + '.....' + user_address.substring(34, 42));
+        $('#send_menu_account_number').text(account_info[1].substring(0, 8) + '.....' + account_info[1].substring(58, 66));
         $('#send_menu_account_type').text(account_info[3]);
+        $('#input_my_account_number').val(account_info[1]);
+
 
         $('#send_menu_token_list').html("");
-        alert(account_info[4]);
+        console.log(" length : "+account_info[4]);
         for (j = 0; j < account_info[4]; j++) {
             contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
 
-
+                var coin_icon = "";
                 var token_info = res.toString().split(',');
 
-                html = "<span class=\"my-info-label\" >ETH</spans><br>\n" +
+                if(token_info[1] == '0x0000000000000000000000000000000000000000'){
+                    coin_icon = 'ETH';
+                }else if(token_info[1] == '0xb5b4b627ad1c2c78440607e9db15c64db7dc6dc5') {
+                    coin_icon = 'ABLER';
+                }else if(token_info[1] == '0x1685f3715c4cec05cce6c462f8cc5a6ddaa92fd5'){
+                    coin_icon = 'ABLDR';
+                }
+
+
+                html = "<span class=\"my-info-label\" >"+coin_icon+"</spans><br>\n" +
                     "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>";
 
                 $('#send_menu_token_list').append(html);
@@ -1220,18 +1243,48 @@ function get_account_detail(account_number) {
 
 }
 
-function get_send_menu_token_balance(){
 
-    var html = "";
-    for(i=0;i<token_list.length;i++){
-            var token_info = token_list[i].toString().split(',');
+function transfer_token_execute(){
 
-        html += "<span class=\"my-info-label\" >ETH</spans><br>\n" +
-            "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>";
-    }
 
-    $('#send_menu_token_list').html(html);
-    token_list = new Array();
+    $('.loading').show();
+    $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
+
+    var _from   = $('#input_my_account_number').val();
+    var _to     = $('#input_account_number').val();
+//    var _token  = $('#select_coin').val();
+    var _token  = '0xB5b4b627ad1C2C78440607E9Db15c64DB7Dc6dc5';
+    var _amount = $('#input_num_token').val();
+
+    console.log(_from);
+    console.log(_to);
+    console.log(_token);
+    console.log(_amount);
+
+    contractInstance.transferFrom(_from, _to, _token, _amount, function (err, res) {
+        if (err) {
+            console.log("err : " + err);
+            return;
+        }
+
+        contractInstance.AbleTransfer().watch((err, res) => {
+
+
+            if (err) {
+                console.log("err : " + err);
+                return;
+            }
+            else{
+                alert('완료되었습니다.');
+                $(location).attr('href', '/send');
+            }
+
+        });
+
+
+
+        });
+
 }
 
 
