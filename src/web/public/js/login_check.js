@@ -1447,15 +1447,19 @@ function make_token_html(res){
 
     var coin_icon = '';
     var coin_src = '';
+    var amount = 0;
     if(res[1] == '0x0000000000000000000000000000000000000000'){ // 토큰 정보마다 코인을 구별해줌
         coin_icon = 'ETH';
         coin_src = '../img/side_logo_bitcoin_on.png';
+        amount = web3.fromWei(res[2]);
     }else if(res[1] == '0xb5b4b627ad1c2c78440607e9db15c64db7dc6dc5') {
         coin_icon = 'ABLER';
         coin_src = '../img/side_logo_able_on.png';
+        amount = res[2];
     }else if(res[1] == '0x1685f3715c4cec05cce6c462f8cc5a6ddaa92fd5'){
         coin_icon = 'ABLDR';
         coin_src = '../img/side_logo_abledollar_on.png';
+        amount = res[2];
     }
 
     return "<div class=\"col-sm-6\">\n" +
@@ -1470,7 +1474,7 @@ function make_token_html(res){
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
-    "                            " + res[2] + " "+coin_icon+"\n" +
+    "                            " + amount + " "+coin_icon+"\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n";
