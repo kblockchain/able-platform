@@ -490,7 +490,6 @@ $("#btn_sendtransaction").click(function () {
 
     console.log("보내고자 하는 이더리움 수량 : " + input_ethamount); // 보내고자 하는 이더리움 수량 체크
 
-    // var receiver_address = "0x0466965159Aa9972e3b3f236CD2Df93F26f629C9";
 
     // 만약, 보내고자 하는 수량을 입력하지 않은 경우 입력 유도
     if (isNaN(input_ethamount_float)) {
