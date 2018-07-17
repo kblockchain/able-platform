@@ -33,6 +33,10 @@ router.get('/withdraw_token', function (req, res, next) {
     res.render('html/withdraw_token.html');
 });
 
+router.get('/main', function (req, res, next) {
+    res.render('html/main.html');
+});
+
 
 /* ==========================================================================
     DB) Able user insert
