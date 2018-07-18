@@ -622,9 +622,11 @@ function get_account_detail(account_number) {
                     coin_icon = 'ABLDR';
                 }
 
+                var amount = web3.fromWei(parseFloat(token_info[2]));
+
 
                 html = "<span class=\"my-info-label\" >"+coin_icon+"</spans><br>\n" +
-                    "    <span class=\"my-info-content\" >"+token_info[2]+"</span><br><br>"; // 토큰 정보를 각각 넣어준다
+                    "    <span class=\"my-info-content\" >"+amount+"</span><br><br>"; // 토큰 정보를 각각 넣어준다
 
                 $('#send_menu_token_list').append(html);
 
@@ -653,7 +655,7 @@ function transfer_token_execute(){
 
     var _token  = $('#select_coin').val();
     //var _token  = '0xB5b4b627ad1C2C78440607E9Db15c64DB7Dc6dc5';
-    var _amount = $('#input_num_token').val();
+    var _amount = web3.toWei(parseFloat($('#input_num_token').val()));
 
     console.log(_from);
     console.log(_to);
@@ -848,8 +850,8 @@ function make_token_html(res){
         coin_icon = 'ETH';
         coin_src = '../img/side_logo_bitcoin_on.png';
         console.log(" 변환전 : "+res[2]);
-        console.log(" 변환후 : "+web3.fromWei(parseInt(res[2])));
-        amount = web3.fromWei(parseInt(res[2]));
+        console.log(" 변환후 : "+web3.fromWei(parseFloat(res[2])));
+        amount = web3.fromWei(parseFloat(res[2]));
     }
 
     else if(res[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {
