@@ -35,6 +35,10 @@
         $(document).ready(function () {
             check_session();
 
+            // 에이블 계좌 변경시 작동하는 함수
+            $( "#select_account" ).change(function(){
+                get_account_detail($('#select_account').val());
+            });
         });
     </script>
 </head>
@@ -189,9 +193,15 @@
 
                 <br>
 
-                <label class="form-label input" >Able Account Number</label>
+                <label class="form-label input" >Select Your Account</label>
                 <p class="form-control-static">
-                    <input type="text" class="form-control" placeholder="Ex) 0xB89E26f0C6B30966648Fc768bE13e303C06fD9AC" id="input_account_number"></p>
+                    <select class="form-control" id="select_account">
+                    </select>
+                </p>
+
+                <label class="form-label input" >My Account Number</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_my_account_number" placeholder="" disabled></p>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -204,9 +214,9 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label input">Number of Token</label>
+                        <label class="form-label input">Number of Token (eth)</label>
                         <p class="form-control-static">
-                            <input type="text" class="form-control" id="input_num_token" placeholder="Num of Token"></p>
+                            <input type="text" class="form-control" id="input_num_token" placeholder="ex) 10 eth"></p>
                     </div>
                 </div>
 

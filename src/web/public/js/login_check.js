@@ -2,7 +2,394 @@
 var contractAddress = '0xA3C03A87FB45100AA977EDAADc2F0eCF82598604'; // real contract address
 
 // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스
-var abi = [ { "anonymous": false, "inputs": [ { "indexed": true, "name": "previousOwner", "type": "address" }, { "indexed": true, "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_token", "type": "address" }, { "indexed": false, "name": "_amountTokens", "type": "uint256" }, { "indexed": false, "name": "_priceInWei", "type": "uint256" }, { "indexed": false, "name": "_orderKey", "type": "uint256" } ], "name": "BuyOrderFulfilled", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_token", "type": "address" }, { "indexed": false, "name": "_amountTokens", "type": "uint256" }, { "indexed": false, "name": "_priceInWei", "type": "uint256" }, { "indexed": false, "name": "_orderKey", "type": "uint256" } ], "name": "SellOrderFulfilled", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_token", "type": "address" }, { "indexed": false, "name": "_priceInWei", "type": "uint256" }, { "indexed": false, "name": "_orderKey", "type": "uint256" } ], "name": "BuyOrderCanceled", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_token", "type": "address" }, { "indexed": false, "name": "_priceInWei", "type": "uint256" }, { "indexed": false, "name": "_orderKey", "type": "uint256" } ], "name": "SellOrderCanceled", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "previousOwner", "type": "address" } ], "name": "OwnershipRenounced", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "userAddress", "type": "address" }, { "indexed": false, "name": "userName", "type": "bytes32" } ], "name": "AbleUserRegistered_Successful", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "userAddress", "type": "address" }, { "indexed": false, "name": "accountNumber", "type": "bytes32" }, { "indexed": false, "name": "accountType", "type": "string" } ], "name": "AbleAccountOpened_Successful", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_token", "type": "address" }, { "indexed": false, "name": "_accountNumber", "type": "bytes32" }, { "indexed": false, "name": "_amountTokens", "type": "uint256" }, { "indexed": false, "name": "_priceInWei", "type": "uint256" }, { "indexed": false, "name": "_orderKey", "type": "uint256" } ], "name": "LimitSellOrderCreated", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_token", "type": "address" }, { "indexed": false, "name": "_accountNumber", "type": "bytes32" }, { "indexed": false, "name": "_amountTokens", "type": "uint256" }, { "indexed": false, "name": "_priceInWei", "type": "uint256" }, { "indexed": false, "name": "_orderKey", "type": "uint256" } ], "name": "LimitBuyOrderCreated", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "token", "type": "address" }, { "indexed": false, "name": "from", "type": "bytes32" }, { "indexed": false, "name": "to", "type": "bytes32" }, { "indexed": false, "name": "amount", "type": "uint256" }, { "indexed": false, "name": "balance", "type": "uint256" } ], "name": "AbleTransfer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "token", "type": "address" }, { "indexed": false, "name": "userAddress", "type": "address" }, { "indexed": false, "name": "amount", "type": "uint256" }, { "indexed": false, "name": "balance", "type": "uint256" } ], "name": "AbleWithdraw", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "token", "type": "address" }, { "indexed": false, "name": "userAddress", "type": "address" }, { "indexed": false, "name": "amount", "type": "uint256" }, { "indexed": false, "name": "balance", "type": "uint256" } ], "name": "AbleDeposit", "type": "event" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_token", "type": "address" }, { "name": "_priceInWei", "type": "uint256" }, { "name": "_amount", "type": "uint256" } ], "name": "buyToken", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_token", "type": "address" }, { "name": "_isSellOrder", "type": "bool" }, { "name": "_priceInWei", "type": "uint256" }, { "name": "_offerKey", "type": "uint256" } ], "name": "cancelOrder", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" } ], "name": "deposit", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_token", "type": "address" }, { "name": "_amount", "type": "uint256" } ], "name": "depositToken", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_password", "type": "bytes32" } ], "name": "openAbleAccount", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_userName", "type": "bytes32" } ], "name": "registerAbleUser", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_token", "type": "address" }, { "name": "_priceInWei", "type": "uint256" }, { "name": "_amount", "type": "uint256" } ], "name": "sellToken", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_from", "type": "bytes32" }, { "name": "_to", "type": "bytes32" }, { "name": "_token", "type": "address" }, { "name": "_amount", "type": "uint256" } ], "name": "transferFrom", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_amount", "type": "uint256" } ], "name": "withdraw", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_token", "type": "address" }, { "name": "_amount", "type": "uint256" } ], "name": "withdrawToken", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [], "name": "ableAddress", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "ableDollarAddress", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "_token", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "_token_", "type": "address" }, { "name": "_balance_", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_accountNumber", "type": "bytes32" } ], "name": "getAbleAccount", "outputs": [ { "name": "_userAddress_", "type": "address" }, { "name": "_userName_", "type": "bytes32" }, { "name": "_accountNumber_", "type": "bytes32" }, { "name": "_accountInfo_", "type": "string" }, { "name": "_accountType_", "type": "string" }, { "name": "_numToken_", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getAbleAccountCount", "outputs": [ { "name": "ableAccountCount", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_accountNumber", "type": "bytes32" }, { "name": "row", "type": "uint256" } ], "name": "getAbleAccountTokenBalance", "outputs": [ { "name": "_accountNumber_", "type": "bytes32" }, { "name": "_tokenName_", "type": "address" }, { "name": "_balance_", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_userAddress", "type": "address" }, { "name": "row", "type": "uint256" } ], "name": "getAbleUserAbleAccountAtIndex", "outputs": [ { "name": "_accountNumber", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_userAddress", "type": "address" } ], "name": "getAbleUserAbleAccountCount", "outputs": [ { "name": "ableAccountCount", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "row", "type": "uint256" } ], "name": "getAbleUserAtIndex", "outputs": [ { "name": "_userAddress", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getAbleUserCount", "outputs": [ { "name": "ableUserCount", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_token", "type": "address" } ], "name": "getBuyOrderBook", "outputs": [ { "name": "_arrPricesBuy_", "type": "uint256[]" }, { "name": "_arrVolumesBuy_", "type": "uint256[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_token", "type": "address" } ], "name": "getSellOrderBook", "outputs": [ { "name": "", "type": "uint256[]" }, { "name": "", "type": "uint256[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_accountNumber", "type": "bytes32" } ], "name": "isAbleAccount", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_userAddress", "type": "address" } ], "name": "isAbleUser", "outputs": [ { "name": "isIndeed", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ];
+var abi = [{
+    "anonymous": false,
+    "inputs": [{"indexed": true, "name": "previousOwner", "type": "address"}, {
+        "indexed": true,
+        "name": "newOwner",
+        "type": "address"
+    }],
+    "name": "OwnershipTransferred",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "_token", "type": "address"}, {
+        "indexed": false,
+        "name": "_amountTokens",
+        "type": "uint256"
+    }, {"indexed": false, "name": "_priceInWei", "type": "uint256"}, {
+        "indexed": false,
+        "name": "_orderKey",
+        "type": "uint256"
+    }],
+    "name": "BuyOrderFulfilled",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "_token", "type": "address"}, {
+        "indexed": false,
+        "name": "_amountTokens",
+        "type": "uint256"
+    }, {"indexed": false, "name": "_priceInWei", "type": "uint256"}, {
+        "indexed": false,
+        "name": "_orderKey",
+        "type": "uint256"
+    }],
+    "name": "SellOrderFulfilled",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "_token", "type": "address"}, {
+        "indexed": false,
+        "name": "_priceInWei",
+        "type": "uint256"
+    }, {"indexed": false, "name": "_orderKey", "type": "uint256"}],
+    "name": "BuyOrderCanceled",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "_token", "type": "address"}, {
+        "indexed": false,
+        "name": "_priceInWei",
+        "type": "uint256"
+    }, {"indexed": false, "name": "_orderKey", "type": "uint256"}],
+    "name": "SellOrderCanceled",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": true, "name": "previousOwner", "type": "address"}],
+    "name": "OwnershipRenounced",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "userAddress", "type": "address"}, {
+        "indexed": false,
+        "name": "userName",
+        "type": "bytes32"
+    }],
+    "name": "AbleUserRegistered_Successful",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "userAddress", "type": "address"}, {
+        "indexed": false,
+        "name": "accountNumber",
+        "type": "bytes32"
+    }, {"indexed": false, "name": "accountType", "type": "string"}],
+    "name": "AbleAccountOpened_Successful",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "_token", "type": "address"}, {
+        "indexed": false,
+        "name": "_accountNumber",
+        "type": "bytes32"
+    }, {"indexed": false, "name": "_amountTokens", "type": "uint256"}, {
+        "indexed": false,
+        "name": "_priceInWei",
+        "type": "uint256"
+    }, {"indexed": false, "name": "_orderKey", "type": "uint256"}],
+    "name": "LimitSellOrderCreated",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "_token", "type": "address"}, {
+        "indexed": false,
+        "name": "_accountNumber",
+        "type": "bytes32"
+    }, {"indexed": false, "name": "_amountTokens", "type": "uint256"}, {
+        "indexed": false,
+        "name": "_priceInWei",
+        "type": "uint256"
+    }, {"indexed": false, "name": "_orderKey", "type": "uint256"}],
+    "name": "LimitBuyOrderCreated",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "token", "type": "address"}, {
+        "indexed": false,
+        "name": "from",
+        "type": "bytes32"
+    }, {"indexed": false, "name": "to", "type": "bytes32"}, {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+    }, {"indexed": false, "name": "balance", "type": "uint256"}],
+    "name": "AbleTransfer",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "token", "type": "address"}, {
+        "indexed": false,
+        "name": "userAddress",
+        "type": "address"
+    }, {"indexed": false, "name": "amount", "type": "uint256"}, {
+        "indexed": false,
+        "name": "balance",
+        "type": "uint256"
+    }],
+    "name": "AbleWithdraw",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{"indexed": false, "name": "token", "type": "address"}, {
+        "indexed": false,
+        "name": "userAddress",
+        "type": "address"
+    }, {"indexed": false, "name": "amount", "type": "uint256"}, {
+        "indexed": false,
+        "name": "balance",
+        "type": "uint256"
+    }],
+    "name": "AbleDeposit",
+    "type": "event"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {
+        "name": "_token",
+        "type": "address"
+    }, {"name": "_priceInWei", "type": "uint256"}, {"name": "_amount", "type": "uint256"}],
+    "name": "buyToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {
+        "name": "_token",
+        "type": "address"
+    }, {"name": "_isSellOrder", "type": "bool"}, {"name": "_priceInWei", "type": "uint256"}, {
+        "name": "_offerKey",
+        "type": "uint256"
+    }],
+    "name": "cancelOrder",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}],
+    "name": "deposit",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {"name": "_token", "type": "address"}, {
+        "name": "_amount",
+        "type": "uint256"
+    }],
+    "name": "depositToken",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {"name": "_password", "type": "bytes32"}],
+    "name": "openAbleAccount",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_userName", "type": "bytes32"}],
+    "name": "registerAbleUser",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {
+        "name": "_token",
+        "type": "address"
+    }, {"name": "_priceInWei", "type": "uint256"}, {"name": "_amount", "type": "uint256"}],
+    "name": "sellToken",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_from", "type": "bytes32"}, {"name": "_to", "type": "bytes32"}, {
+        "name": "_token",
+        "type": "address"
+    }, {"name": "_amount", "type": "uint256"}],
+    "name": "transferFrom",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_newOwner", "type": "address"}],
+    "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {"name": "_amount", "type": "uint256"}],
+    "name": "withdraw",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {"name": "_token", "type": "address"}, {
+        "name": "_amount",
+        "type": "uint256"
+    }],
+    "name": "withdrawToken",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}, {
+    "constant": true,
+    "inputs": [],
+    "name": "ableAddress",
+    "outputs": [{"name": "", "type": "address"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "ableDollarAddress",
+    "outputs": [{"name": "", "type": "address"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {"name": "_token", "type": "address"}],
+    "name": "balanceOf",
+    "outputs": [{"name": "_token_", "type": "address"}, {"name": "_balance_", "type": "uint256"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}],
+    "name": "getAbleAccount",
+    "outputs": [{"name": "_userAddress_", "type": "address"}, {
+        "name": "_userName_",
+        "type": "bytes32"
+    }, {"name": "_accountNumber_", "type": "bytes32"}, {
+        "name": "_accountInfo_",
+        "type": "string"
+    }, {"name": "_accountType_", "type": "string"}, {"name": "_numToken_", "type": "uint256"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "getAbleAccountCount",
+    "outputs": [{"name": "ableAccountCount", "type": "uint256"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}, {"name": "row", "type": "uint256"}],
+    "name": "getAbleAccountTokenBalance",
+    "outputs": [{"name": "_accountNumber_", "type": "bytes32"}, {
+        "name": "_tokenName_",
+        "type": "address"
+    }, {"name": "_balance_", "type": "uint256"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_userAddress", "type": "address"}, {"name": "row", "type": "uint256"}],
+    "name": "getAbleUserAbleAccountAtIndex",
+    "outputs": [{"name": "_accountNumber", "type": "bytes32"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_userAddress", "type": "address"}],
+    "name": "getAbleUserAbleAccountCount",
+    "outputs": [{"name": "ableAccountCount", "type": "uint256"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "row", "type": "uint256"}],
+    "name": "getAbleUserAtIndex",
+    "outputs": [{"name": "_userAddress", "type": "address"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "getAbleUserCount",
+    "outputs": [{"name": "ableUserCount", "type": "uint256"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_token", "type": "address"}],
+    "name": "getBuyOrderBook",
+    "outputs": [{"name": "_arrPricesBuy_", "type": "uint256[]"}, {"name": "_arrVolumesBuy_", "type": "uint256[]"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_token", "type": "address"}],
+    "name": "getSellOrderBook",
+    "outputs": [{"name": "", "type": "uint256[]"}, {"name": "", "type": "uint256[]"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_accountNumber", "type": "bytes32"}],
+    "name": "isAbleAccount",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "_userAddress", "type": "address"}],
+    "name": "isAbleUser",
+    "outputs": [{"name": "isIndeed", "type": "bool"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{"name": "", "type": "address"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}];
 
 // global variable
 var simpleStorageContract; // 컨트랙트 변수
@@ -33,8 +420,6 @@ $(function () {
     });
 
 });
-
-/**************************************************************************************************************************************/
 
 // 메타마스크 불러오기 확인
 // 브라우저에서 로딩이 다 되면 실행된다.
@@ -254,9 +639,6 @@ function user_register() {
 
 /**************************************************************************************************************************************/
 
-
-/**************************************************************************************************************************************/
-
 /**
  * @dev Function to open free ableAccount
  * @param _accountNumber the bytes32 to add new ableAccount.
@@ -276,14 +658,9 @@ function is_ableuser() {
 
         // ableUser인 경우
         if (result == true) {
-            // todo 계좌 페이지 or 메인 페이지 띄우기
-
             console.log("able 유저입니다.");
-            //document.getElementById('output_check_ableuser').innerHTML ="able 유저 입니다.";
-
 
             // session data send
-
             $(function () {
 
                 $.ajax({
@@ -559,7 +936,7 @@ function get_accounts_for_send() { // 간편송금 페이지 진입시 세션 �
                     if (res != null) { // 계좌 정보를 각각 가져와 셀렉트 박스 옵션으로 넣는다.
 
                         var account_nickname = web3.toAscii(res);
-                        $('#select_account').append("<option value="+res+">"+account_nickname+"</option>");
+                        $('#select_account').append("<option value=" + res + ">" + account_nickname + "</option>");
                     }
                 });
 
@@ -600,7 +977,7 @@ function get_account_detail(account_number) {
 
 
         $('#send_menu_token_list').html("");
-        console.log(" length : "+account_info[5]);
+        console.log(" length : " + account_info[5]);
         for (j = 0; j < account_info[5]; j++) { // 토큰 갯수만큼 토큰 정보를 불러온다
             contractInstance.getAbleAccountTokenBalance.call(account_number, j, function (err, res) {
                 if (err) {
@@ -610,23 +987,23 @@ function get_account_detail(account_number) {
                 var coin_icon = "";
                 var token_info = res.toString().split(',');
 
-                if(token_info[1] == '0x0000000000000000000000000000000000000000'){ // 토큰 거래주소에 따라 각각 구분해준다.
+                if (token_info[1] == '0x0000000000000000000000000000000000000000') { // 토큰 거래주소에 따라 각각 구분해준다.
                     coin_icon = 'ETH';
                 }
 
-                else if(token_info[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {
+                else if (token_info[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {
                     coin_icon = 'ABLER';
                 }
 
-                else if(token_info[1] == '0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f'){
+                else if (token_info[1] == '0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f') {
                     coin_icon = 'ABLDR';
                 }
 
                 var amount = web3.fromWei(parseFloat(token_info[2]));
 
 
-                html = "<span class=\"my-info-label\" >"+coin_icon+"</spans><br>\n" +
-                    "    <span class=\"my-info-content\" >"+amount+"</span><br><br>"; // 토큰 정보를 각각 넣어준다
+                html = "<span class=\"my-info-label\" >" + coin_icon + "</spans><br>\n" +
+                    "    <span class=\"my-info-content\" >" + amount + "</span><br><br>"; // 토큰 정보를 각각 넣어준다
 
                 $('#send_menu_token_list').append(html);
 
@@ -638,7 +1015,6 @@ function get_account_detail(account_number) {
     });
 
 }
-
 
 
 /**
@@ -670,13 +1046,13 @@ async function get_accounts() {
 
 
             //계좌 갯수만큼 계좌 넘버를 가져온다
-             for (let i = 0; i < res; i++) {
-                 var tokens_html = "";
-                 (function(cntr2) {
+            for (let i = 0; i < res; i++) {
+                var tokens_html = "";
+                (function (cntr2) {
                     contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, async function (err, res) {
 
 
-                         console.log(cntr2);
+                        console.log(cntr2);
                         if (res != null) {
 
                             //계좌 넘버로 계좌 인포를 가져온다
@@ -698,16 +1074,16 @@ async function get_accounts() {
 
                                 var sub_token_list = new Array();
                                 for (let j = 0; j < account_info[5]; j++) { // 계좌가 보유하고 있는 토큰 리스트 수 만큼 토큰 상세정보를 불러온다.
-                                    (function(cntr) {
-                                    contractInstance.getAbleAccountTokenBalance.call(account_number, j, async function (err, res) {
+                                    (function (cntr) {
+                                        contractInstance.getAbleAccountTokenBalance.call(account_number, j, async function (err, res) {
                                             //tokens_html += make_token_html(res,cntr);
-                                        await sub_token_list.push(res); // 토큰 리스트에 토큰 정보를 담고
+                                            await sub_token_list.push(res); // 토큰 리스트에 토큰 정보를 담고
 
-                                        console.log("result 123123123: " + res);
+                                            console.log("result 123123123: " + res);
 
 
-                                        //console.log("token_info : "+j+" => " + res);
-                                    });
+                                            //console.log("token_info : "+j+" => " + res);
+                                        });
                                     })(j);
                                 }
                                 // var m = new Map();
@@ -717,20 +1093,20 @@ async function get_accounts() {
                             });
                         }
                     });
-                     html += make_html(i , tokens_html);
-                 })(i);
+                    html += make_html(i, tokens_html);
+                })(i);
 
             }
 
             $('#account_list').html(html);
 
-            setTimeout(function(){
+            setTimeout(function () {
                 get_nicklist();
-            },3000);
+            }, 3000);
 
-            setTimeout(function(){
+            setTimeout(function () {
                 get_tokenlist(); // 작업이 끝나면 닉네임과 토큰리스트를 불러와 화면에 넣어준다.
-            },3000);
+            }, 3000);
 
         } else {
             //todo 계좌가 없을 경우에 할것들 나중에 생각
@@ -744,7 +1120,7 @@ async function get_accounts() {
  * 계좌관리 계좌리스트 화면 만들기
  */
 
-function make_html(i,tokens_html){
+function make_html(i, tokens_html) {
     return "<div class=\"box-typical box-typical-padding my-account\" >\n" +
         "        <div style=\"margin-left: 10px;\">\n" +
         "            <div class=\"row\">\n" +
@@ -792,48 +1168,48 @@ function make_html(i,tokens_html){
  * 계좌관리 토큰리스트 화면 만들기
  */
 
-function make_token_html(res){
-    console.log("make_token_html : "+res);
+function make_token_html(res) {
+    console.log("make_token_html : " + res);
 
     var coin_icon = '';
     var coin_src = '';
     var amount = 0;
-    if(res[1] == '0x0000000000000000000000000000000000000000'){ // 토큰 정보마다 코인을 구별해줌
+    if (res[1] == '0x0000000000000000000000000000000000000000') { // 토큰 정보마다 코인을 구별해줌
         coin_icon = 'ETH';
         coin_src = '../img/side_logo_bitcoin_on.png';
-        console.log(" 변환전 : "+res[2]);
-        console.log(" 변환후 : "+web3.fromWei(parseFloat(res[2])));
+        console.log(" 변환전 : " + res[2]);
+        console.log(" 변환후 : " + web3.fromWei(parseFloat(res[2])));
         amount = web3.fromWei(parseFloat(res[2]));
     }
 
-    else if(res[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {
+    else if (res[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {
         coin_icon = 'ABLER';
         coin_src = '../img/side_logo_able_on.png';
         amount = res[2];
     }
 
-    else if(res[1] == '0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f'){
+    else if (res[1] == '0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f') {
         coin_icon = 'ABLDR';
         coin_src = '../img/side_logo_abledollar_on.png';
         amount = res[2];
     }
 
     return "<div class=\"col-sm-6\">\n" +
-    "                    <div class=\"row\">\n" +
-    "                        <div class=\"col-sm-3\">\n" +
-    "                            <div class=\"card coinmark\">\n" +
-    "                                <div  class=\"coinmark-sub\">\n" +
-    "                                    <img class=\"coin-image\"\n" +
-    "                                         src=\""+coin_src+"\">\n" +
-    "                                    <p>"+coin_icon+"\n" +
-    "                                </div>\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
-    "                            " + amount + " "+coin_icon+"\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n";
+        "                    <div class=\"row\">\n" +
+        "                        <div class=\"col-sm-3\">\n" +
+        "                            <div class=\"card coinmark\">\n" +
+        "                                <div  class=\"coinmark-sub\">\n" +
+        "                                    <img class=\"coin-image\"\n" +
+        "                                         src=\"" + coin_src + "\">\n" +
+        "                                    <p>" + coin_icon + "\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                        </div>\n" +
+        "                        <div class=\"col-sm-9\" style=\"padding-top: 20px\">\n" +
+        "                            " + amount + " " + coin_icon + "\n" +
+        "                        </div>\n" +
+        "                    </div>\n" +
+        "                </div>\n";
 
 }
 
@@ -859,7 +1235,7 @@ function get_tokenlist() {
         var token_html = "";
         var sub_token_list = token_list[z];
         console.dir(sub_token_list)
-        for (item of sub_token_list){
+        for (item of sub_token_list) {
             token_html += make_token_html(item);
 
         }
@@ -889,21 +1265,21 @@ function send() {
 /**
  * 간편송금 실제 송금 실행
  */
-function transfer_token_execute(){
+function transfer_token_execute() {
 
     $('.loading').show(); // 펜딩을 걸어준다.
     $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
-    var _from   = $('#input_my_account_number').val();
-    var _to     = web3.fromAscii($('#input_account_nickname').val(),32); // 송금에 필요한 입력된 값들을 변수로 받아온다
-    var _token  = $('#select_coin').val();
+    var _from = $('#input_my_account_number').val();
+    var _to = web3.fromAscii($('#input_account_nickname').val(), 32); // 송금에 필요한 입력된 값들을 변수로 받아온다
+    var _token = $('#select_coin').val();
     var _amount = web3.toWei(parseFloat($('#input_num_token').val())); // 블록체인 네트워크에 등록하기 위해 eth -> wei 단위로 변경해준다.
 
-    console.log("보내는 사람의 주소 :" +_from);
-    console.log("받는사람의 주소 :" +_to);
-    console.log("보내는 토큰의 컨트랙트 주소 :" +_token);
-    console.log("보내는 수량(eth) :"  + $('#input_num_token').val());
-    console.log("보내는 수량(wei) :" +_amount);
+    console.log("보내는 사람의 주소 :" + _from);
+    console.log("받는사람의 주소 :" + _to);
+    console.log("보내는 토큰의 컨트랙트 주소 :" + _token);
+    console.log("보내는 수량(eth) :" + $('#input_num_token').val());
+    console.log("보내는 수량(wei) :" + _amount);
 
     contractInstance.transferFrom(_from, _to, _token, _amount, function (err, res) { // 송금실행
         if (err) {
@@ -918,7 +1294,7 @@ function transfer_token_execute(){
                 console.log("err : " + err);
                 return;
             }
-            else{
+            else {
                 alert('완료되었습니다.');
                 $(location).attr('href', '/send');
             }
@@ -926,12 +1302,9 @@ function transfer_token_execute(){
         });
 
 
-
     });
 
 }
-
-
 
 
 /**
@@ -1013,7 +1386,17 @@ function check_session() {
 
                 if (current_page.indexOf('account_manage') != -1) {
                     get_accounts();
-                } else if (current_page.indexOf('send') != -1) {
+                }
+
+                else if (current_page.indexOf('send') != -1) {
+                    get_accounts_for_send();
+                }
+
+                else if (current_page.indexOf('deposit_token') != -1) {
+                    get_accounts_for_send();
+                }
+
+                else if (current_page.indexOf('withdraw_token') != -1) {
                     get_accounts_for_send();
                 }
 
