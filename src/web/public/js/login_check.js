@@ -847,7 +847,9 @@ function make_token_html(res){
     if(res[1] == '0x0000000000000000000000000000000000000000'){ // 토큰 정보마다 코인을 구별해줌
         coin_icon = 'ETH';
         coin_src = '../img/side_logo_bitcoin_on.png';
-        amount = web3.fromWei(res[2]);
+        console.log(" 변환전 : "+res[2]);
+        console.log(" 변환후 : "+web3.fromWei(parseInt(res[2])));
+        amount = web3.fromWei(parseInt(res[2]));
     }
 
     else if(res[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {

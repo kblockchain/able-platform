@@ -37,6 +37,9 @@ router.get('/main', function (req, res, next) {
     res.render('html/main.html');
 });
 
+router.get('/dummy', function (req, res, next) {
+    res.render('html/dummy.html');
+});
 
 /* ==========================================================================
     DB) Able user insert
