@@ -653,14 +653,15 @@ function transfer_token_execute(){
     console.log($('#input_account_nickname').val())
     var _to     = web3.fromAscii($('#input_account_nickname').val(),32); // 송금에 필요한 입력된 값들을 변수로 받아온다
 
+
     var _token  = $('#select_coin').val();
     //var _token  = '0xB5b4b627ad1C2C78440607E9Db15c64DB7Dc6dc5';
     var _amount = web3.toWei(parseFloat($('#input_num_token').val()));
 
-    console.log(_from);
-    console.log(_to);
-    console.log(_token);
-    console.log(_amount);
+    console.log("보내는 사람의 주소 :" +_from);
+    console.log("받는사람의 주소 :" +_to);
+    console.log("보내는 토큰의 컨트랙트 주소 :" +_token);
+    console.log("보내는 수량 :" +_amount);
 
     contractInstance.transferFrom(_from, _to, _token, _amount, function (err, res) { // 송금실행
         if (err) {
