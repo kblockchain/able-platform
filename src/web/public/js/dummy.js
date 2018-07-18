@@ -987,7 +987,6 @@ function buy_token(){
 
     contractInstance.buyToken( _accountNumber , _token, _priceInWei, _amount, function (err, res){
         console.log(res);
-
     });
 }
 
