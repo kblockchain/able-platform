@@ -28,6 +28,7 @@
     <script src="../js/bootstrap-select.min.js"></script>
     <script src="../js/select2.full.min.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/vue.js"></script>
     <script src="../js/login_check.js"></script>
 
     <script>
@@ -35,19 +36,26 @@
 
             console.log("ready");
             check_session();
-            setTimeout(function(){
-                get_nicklist();
-            },2000);
-
-            setTimeout(function(){
-                get_tokenlist();
-            },3000);
 
         });
 
+        function copy (i){
+            var account_number = $('#account_number'+i).text();
+            var $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val($('#account_number'+i).text()).select();
+            document.execCommand('copy');
+            $temp.remove();
+            //alert('copy complete'); //Optional Alert, 삭제해도 됨
+            console.log(account_number);
+            //var parent = target.parentElement;
+            //$.parent //
+            //console.log(target);
+        }
+
         function welcome() {
             $('#welcomeModal').modal('show').css({
-                'margin-top': function(){
+                'margin-top': function () {
                     return 200; //($(this).height()/2) // 작동안함;;
                 }
             });
@@ -62,7 +70,7 @@
         <div class="modal-content" style="border-radius: 30px; ">
             <div class="modal-header" style="border-bottom: none; ">
                 <p class="font-weight-bold"></p>
-                <span class="font-weight-bold" > Wellcome to ABLE! </span>
+                <span class="font-weight-bold"> Wellcome to ABLE! </span>
                 <button type="button" style=" border:none; background: transparent;" data-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="margin-left: 50px; margin-right: 50px;">
@@ -76,7 +84,7 @@
                 <br>
                 <div style="text-align: center;">
                     <p></p>
-                    <button class="modal-btn" type="button" > Okay!
+                    <button class="modal-btn" type="button"> Okay!
                     </button>
                 </div>
             </div>
@@ -94,7 +102,7 @@
         </p>
     </section>
 </div>
-<header class="site-header" >
+<header class="site-header">
     <div class="container-fluid">
         <a href="/" class="site-logo">
             <img class="hidden-md-down" src="../img/logo-3.png" alt="">
@@ -109,7 +117,7 @@
         <div class="site-header-content">
             <div class="site-header-content-in">
                 <button class="hamburger hamburger--htla">
-                <span>toggle menu</span></button>
+                    <span>toggle menu</span></button>
 
                 <div class="site-header-collapsed">
                 </div><!--.site-header-collapsed-->
@@ -129,13 +137,15 @@
                                 <a class="nav-link active" href="#"><span class="current"></span>Bank Service</a>
                             </li>
                             <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
-                                <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
+                                <a id="btn_login" class="btn btn-nav btn-rounded btn-inline site-header-address"
+                                   href="#">
                                     <span></span>
                                 </a>
                             </li>
                             <!-- 로그아웃 버튼 -->
                             <li class="nav-item">
-                                <a class="nav-link" active href="#" id="btn_logout"><span class="glyphicon glyphicon-share"></span></a>
+                                <a class="nav-link" active href="#" id="btn_logout"><span
+                                        class="glyphicon glyphicon-share"></span></a>
                             </li>
 
                         </ul>
@@ -189,10 +199,9 @@
 </div>
 <br><br><br><br><br><br><br><br><br>
 <h2 style="text-align: center" class="intro-title">Account Manage</h2><br><br>
-<div class="container" style="width: 600px;" id = "account_list">
+<div class="container" style="width: 600px;" id="account_list">
 
 </div>
-
 
 
 <div class="container" style="width: 600px;">
@@ -200,7 +209,7 @@
     <!--계좌 -->
     <br>
     <div class="box-typical box-typical-padding new-account">
-        <div  style="margin-left: 10px;">
+        <div style="margin-left: 10px;">
             <div class="row">
                 <div class="col-sm-3"><img style=" margin-top: 10px; height: 25px;"
                                            src="../img/logo_able_gray_horizontal.png"></div>
@@ -212,13 +221,14 @@
             <br><br>
             <div class="row">
                 <div style="font-size: 14px" class="col-sm-12">
-                    <label class="form-label input" >Account Nickname</label>
+                    <label class="form-label input">Account Nickname</label>
                     <div style="margin-top: 5px">
-                        <input type="text" class="form-control" id="input_account_number" placeholder="ex) first account">
+                        <input type="text" class="form-control" id="input_account_number"
+                               placeholder="ex) first account">
                     </div>
 
                     <br>
-                    <label class="form-label input" >Account password</label>
+                    <label class="form-label input">Account password</label>
                     <div style="margin-top: 5px">
                         <input type="password" class="form-control" id="input_account_password" placeholder="password">
                     </div>
@@ -233,7 +243,8 @@
             </div>
         </div>
 
-    </div><br><br><br>
+    </div>
+    <br><br><br>
 </div>
 
 </body>

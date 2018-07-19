@@ -646,6 +646,7 @@ function get_account_detail(account_number) {
  */
 /**************************************************************************************************************************************/
 var nick_list = new Array();
+var account_list = new Array();
 var token_list = new Array();
 
 async function get_accounts() {
@@ -675,7 +676,6 @@ async function get_accounts() {
                  (function(cntr2) {
                     contractInstance.getAbleUserAbleAccountAtIndex.call(user_address, i, async function (err, res) {
 
-
                          console.log(cntr2);
                         if (res != null) {
 
@@ -694,6 +694,7 @@ async function get_accounts() {
                                 console.log("user _accountType_" + account_info[4]);
                                 console.log("user _numToken_" + account_info[5]);
                                 nick_list.push(web3.toAscii(account_info[2])); // 닉네임 리스트에 넣는다. 닉베임은 계좌리스트를 만들때 필요한데 그 다음 과정인 상세정보에서 받아오기 때문에 전역변수에 넣어두고 후에 호출한다.
+                                account_list.push(account_info[2]);
 
 
                                 var sub_token_list = new Array();
@@ -717,7 +718,7 @@ async function get_accounts() {
                             });
                         }
                     });
-                     html += make_html(i , tokens_html);
+                     html += make_html(i, tokens_html);
                  })(i);
 
             }
@@ -726,11 +727,14 @@ async function get_accounts() {
 
             setTimeout(function(){
                 get_nicklist();
-            },3000);
+            },2000);
+            setTimeout(function(){
+                get_account_list();
+            },2000);
 
             setTimeout(function(){
                 get_tokenlist(); // 작업이 끝나면 닉네임과 토큰리스트를 불러와 화면에 넣어준다.
-            },3000);
+            },2000);
 
         } else {
             //todo 계좌가 없을 경우에 할것들 나중에 생각
@@ -744,7 +748,7 @@ async function get_accounts() {
  * 계좌관리 계좌리스트 화면 만들기
  */
 
-function make_html(i,tokens_html){
+function make_html(i, tokens_html){
     return "<div class=\"box-typical box-typical-padding my-account\" >\n" +
         "        <div style=\"margin-left: 10px;\">\n" +
         "            <div class=\"row\">\n" +
@@ -758,9 +762,9 @@ function make_html(i,tokens_html){
         "            <br><br>\n" +
         "            <div class=\"row\">\n" +
         "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
-        "                    <label class=\"form-label input\" >ABLE User Address</label>\n" +
+        "                    <label class=\"form-label input\" >Account Address</label>\n" +
         "                    <div style=\"margin-top: 5px\">\n" +
-        "                        \"" + user_address + "\" <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
+        "                        <div style='font-size: smaller' class='account_number' id='account_number"+i+"'></div> <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\"  href=\"javascript:copy("+i+");\" >\n" +
         "                        copy</a>\n" +
         "                    </div>\n" +
         "                </div>\n" +
@@ -768,7 +772,7 @@ function make_html(i,tokens_html){
         "            <br>\n" +
         "            <div class=\"row\">\n" +
         "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
-        "                    <label class=\"form-label input\" >BankAccount Nickname</label>\n" +
+        "                    <label class=\"form-label input\" >Account Nickname</label>\n" +
         "                    <div id=\"account_nickname" + i + "\" style=\"margin-top: 5px\">\n" +
         "                         " + "<a\n" +
         "                            class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\" href=\"#\" >\n" +
@@ -849,6 +853,15 @@ function get_nicklist() {
         $('#account_nickname' + z).text(nick_list[z]);
     }
 }
+
+function get_account_list() {
+    console.log("account_list : " + account_list.length);
+    for (z = 0; z < account_list.length; z++) {
+        console.log(account_list[z])
+        $('#account_number' + z).text(account_list[z]);
+    }
+}
+
 
 /**
  * 계좌관리 토큰 리스트 불러오기
@@ -1008,7 +1021,6 @@ function check_session() {
                 $('#btn_login').html('<span>' + user_address.substring(0, 8) + '.....' + user_address.substring(34, 42) + '</span>');
                 $('#btn_login').addClass('site-header-address');
 
-
                 var current_page = $(location).attr('href');
 
                 if (current_page.indexOf('account_manage') != -1) {
@@ -1016,7 +1028,6 @@ function check_session() {
                 } else if (current_page.indexOf('send') != -1) {
                     get_accounts_for_send();
                 }
-
 
             } else {
                 // alert('Please make sure to connect metamask rinkeby network');
