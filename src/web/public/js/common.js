@@ -87,7 +87,7 @@ function get_account_detail(account_number) {
                     coin_icon = 'ETH';
                 }
 
-                else if(token_info[1] == '0x295B3f39d7dAcbc58329112064A14186F9FAc786') {
+                else if(token_info[1] == '0x295b3f39d7dacbc58329112064a14186f9fac786') {
                     coin_icon = 'ABLER';
                 }
 
