@@ -934,12 +934,6 @@ function transfer_token_execute(){
                 $(location).attr('href', '/send');
             }
         });
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 19d4e78dc3fa0b4ff7facaf62f022ce0810f744d
     });
 
 }
