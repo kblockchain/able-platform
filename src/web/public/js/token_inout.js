@@ -149,7 +149,6 @@ function deposit_token() {
             able_platform_Contract.AbleDeposit().watch((err,res) => {
 
                 console.log("입금 확인 result : " + res);
-
                 $(location).attr('href', '/deposit_token');
 
                 //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
