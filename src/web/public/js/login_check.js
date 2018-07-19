@@ -1288,8 +1288,6 @@ function transfer_token_execute() {
         }
 
         contractInstance.AbleTransfer().watch((err, res) => { // 송금이 완료되면 리턴값을 받아 완료되었다고 알려준다
-
-
             if (err) {
                 console.log("err : " + err);
                 return;
@@ -1298,10 +1296,7 @@ function transfer_token_execute() {
                 alert('완료되었습니다.');
                 $(location).attr('href', '/send');
             }
-
         });
-
-
     });
 
 }
