@@ -68,8 +68,7 @@ async function get_accounts() {
                                             //tokens_html += make_token_html(res,cntr);
                                             await sub_token_list.push(res); // 토큰 리스트에 토큰 정보를 담고
 
-                                            console.log("result 123123123: " + res);
-
+                                            console.log("result : " + res);
 
                                             //console.log("token_info : "+j+" => " + res);
                                         });
@@ -292,6 +291,8 @@ function open_able_account() {
         // event listener
         // check AbleOpenAccount success or fail
         able_platform_Contract.AbleAccountOpened_Successful().watch((err, result) => {
+            console.log(err)
+            console.log(result)
 
             // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
             // if openaccount fail

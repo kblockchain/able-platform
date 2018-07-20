@@ -56,13 +56,13 @@ router.post('/create_new_account', function (req, res, next) {
     var q = "SELECT count(ableUser_address) AS count FROM AbleUser WHERE ableUser_address = '" + ableUser_address + "'";
     console.log('q : ' + q);
     connection.query(q, function (err, rows, fields) {
-        console.log('--------1---------' + rows[0].count);
+        console.log('user count : ' + rows[0].count);
         var count = Number(rows[0].count);
 
         // if there no ableUser_address in db
         if (count == 0) {
             // insert query start
-            regist_new_account(res, connection, ableUser_address, ableUser_nickname);
+            regist_new_account(req, res, connection, ableUser_address, ableUser_nickname);
         }
 
         // already exist ableUser_address in db
@@ -93,8 +93,8 @@ router.post('/open_new_account', function (req, res, next) {
 
 
     var connection = create_connection();
-    var insert_query = "INSERT INTO AbleAccount (ableAccount_number, ableUser_address, ableAccount_password, ableAccount_info, ableAccount_type) " +
-        "VALUES ('" + user_accountNumber + "','" + user_Address + "','" + ableAccount_password + "','" + ableAccount_info + "','" + user_accountType + "')";
+    var insert_query = "INSERT INTO AbleAccount (ableAccount_number, ableUser_address, ableAccount_password, ableAccount_info, ableAccount_type, reg_date) " +
+        "VALUES ('" + user_accountNumber + "','" + user_Address + "','" + ableAccount_password + "','" + ableAccount_info + "','" + user_accountType + "',now())";
 
     connection.query(insert_query, function (err, rows, fields) {
         console.log(err);
@@ -186,10 +186,10 @@ function create_connection() {
 
 // new account register
 function regist_new_account(req, res, connection, ableUser_address, ableUser_nickname) {
-    var insert_query = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "')";
+    console.log('222222222 '+ableUser_nickname);
+    var insert_query = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname, reg_date) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "',now())";
     console.log('insert_query : ' + insert_query);
     connection.query(insert_query, function (err, rows, fields) {
-        console.log(err);
         console.log(rows);
         if (!err) {
             connection.end();
@@ -197,6 +197,7 @@ function regist_new_account(req, res, connection, ableUser_address, ableUser_nic
             req.session.save();
             res.json({result: '200', message: '정상적으로 등록되었습니다.'});
         } else {
+            console.log(err);
             connection.end();
             res.json({result: '500', message: '오류가 발생되었습니다.'});
         }
@@ -273,20 +274,21 @@ router.post('/check_sum', function (req, res, next) {
     console.log("param : "+test);
     var ret = toChecksumAddress(test);
     console.log(ret);
+    res.json({result: ret});
 });
 
-const createKeccakHash = require('keccak')
+const createKeccakHash = require('keccak');
 
 function toChecksumAddress (address) {
-    address = address.toLowerCase().replace('0x', '')
-    var hash = createKeccakHash('keccak256').update(address).digest('hex')
-    var ret = '0x'
+    address = address.toLowerCase().replace('0x', '');
+    var hash = createKeccakHash('keccak256').update(address).digest('hex');
+    var ret = '0x';
 
     for (var i = 0; i < address.length; i++) {
         if (parseInt(hash[i], 16) >= 8) {
-            ret += address[i].toUpperCase()
+            ret += address[i].toUpperCase();
         } else {
-            ret += address[i]
+            ret += address[i];
         }
     }
 

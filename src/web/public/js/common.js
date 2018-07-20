@@ -194,15 +194,15 @@ function session_logout() {
 }
 
 
-function check_sum(res){
-
+function check_sum(param){
     $.ajax({
         method: "POST",
         url: "/check_sum",
         dataType: "json",
-        data : {"account" : res},
+        data : {"account" : param},
         success: function (res) {
+            console.log(res.result)
+            return res.result;
         }
-
     });
 }

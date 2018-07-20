@@ -165,67 +165,65 @@ function user_register() {
     // var bytes32_nickname = web3.fromAscii(input_nickname, 32);
     var bytes32_username = web3.fromAscii(user_name, 32);
     // console.log("fromAscii (input_username) : " + bytes32_username);
+    async () => {
+        bytes32_username = await check_sum(bytes32_username);
+    }
+
+    console.log(bytes32_username);
 
     $('.loading').show();
     $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
-    // registerAbleUser Function in solidity
-    able_platform_Contract.registerAbleUser(bytes32_username, function (err, result) {
 
-        // if there is an error => return;
-        if (err) {
-            console.log("registerAbleUser error:" + err);
-            $('.loading').hide();
-            return;
-        }
+    var formData = $("#able_regist_form").serialize();
 
-        // check result value
-        if (typeof result !== 'undefined') {
-            console.log("registerAbleUser result : " + result);
-            able_platform_Contract.AbleUserRegistered_Successful().watch((err, result) => {
+    $.ajax({ // 새로운 유저 정보 DB로 입력
+        method: "POST",
+        url: "/create_new_account",
+        data: formData
+        , success: function (res) {
+            console.log(res);
 
-                // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
-                // if openaccount fail
-                if (err) {
-                    console.log("registerAbleUser error:" + err);
-                    window.location.href = '/account_manage'; //실패했는데 왜 계좌 관리 페이지로 이동시키는지???
-                }
-
-                // todo 계좌가 생성될 때 까지는 사용자에게 계좌를 생성 중임을 알려야한다.
-
-                else { // success, get info
-                    // 유저
-                    var formData = $("#able_regist_form").serialize();
-
-                    $.ajax({ // 새로운 유저 정보 DB로 입력
-                        method: "POST",
-                        url: "/create_new_account",
-                        data: formData
-                        , success: function (res) {
-                            console.log(res);
-
-                            if (res.result == 200) {
-                                console.log(res.message);
-                                save_session(user_address);
-                                $('.loading').show();
-                                $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
-                                regist_ableuser(); // 스마트 컨트랙트 등록 모달
-
-                            } else if (res.result == 204) {
-                                console.log(res.message);
+            if (res.result == 200) {
+                // registerAbleUser Function in solidity
+                able_platform_Contract.registerAbleUser(bytes32_username, function (err, result) {
+                    // if there is an error => return;
+                    if (err) {
+                        console.log("registerAbleUser error:" + err);
+                        alert('에러가 발생하였습니다.');
+                        $('.loading').hide();
+                        return;
+                    }
+                    // check result value
+                    if (typeof result !== 'undefined') {
+                        console.log("registerAbleUser result : " + result);
+                        able_platform_Contract.AbleUserRegistered_Successful().watch((err, result) => {
+                            // todo 클라이언트 단에서 이미 존재하는 계좌번호 인지 아닌지 미리 체크하게 해주기 (만약, 중복일 경우 계좌 생성 버튼 활성화 막기)
+                            // if openaccount fail
+                            if (err) {
+                                console.log("registerAbleUser error:" + err);
+                                alert('에러가 발생하였습니다.');
+                                $('.loading').hide();
+                            } else { // success, get info
+                                console.log("registerAbleUser result userName: " + result.args.userName);
+                                alert('정상적으로 등록되었습니다.');
+                                window.location.href = '/account_manage';
                             }
 
-                        }
+                        });
+                    }
+                });
 
-                    });
-                    //todo 세션 추가
-                    console.log("registerAbleUser result userName: " + result.args.userName);
-                    window.location.href = '/account_manage';
-                }
+            } else if (res.result == 204) {
+                alert(res.message);
+                $('.loading').hide();
+                return;
+            }
 
-
-            });
         }
+
     });
+
+
 }
 
 /**************************************************************************************************************************************/
