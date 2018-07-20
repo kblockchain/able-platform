@@ -1,6 +1,7 @@
 /**
  * able Platform var
  */
+
 var able_platform_contract_address; // 스마트 컨트랙트 주소
 var able_platform_contract_abi; // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스
 
@@ -28,6 +29,7 @@ var able_coin_Contract = able_coin_StorageContract.at(able_coin_contract_address
 /**
  * able Dollar var
  */
+
 var able_dollar_contract_address;
 var able_dollar_contract_abi;
 

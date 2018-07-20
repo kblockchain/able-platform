@@ -90,10 +90,15 @@ function deposit_token() {
 
         console.log("input_account_number : " + input_account_number);
         console.log("input_num_token (wei) : " + input_num_token);
-
         console.log("ethereum");
 
+
         input_num_token = $('#input_num_token').val(); // 보내고자 하는 에이블 토큰 갯수 (eth -> wei)
+
+
+        $('.loading').show();
+        $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
+
 
         able_platform_Contract.deposit.sendTransaction(input_account_number, {
             from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
@@ -107,10 +112,13 @@ function deposit_token() {
                 return;
             }
 
-            $('.loading').show();
-            $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
+            able_platform_Contract.AbleDeposit().watch((err,res) => {
 
-            console.log(transactionHash);
+                console.log("eth 입금 확인 result : " + res);
+                $(location).attr('href', '/deposit_token');
+
+            });
+
         });
     }
 
@@ -148,7 +156,7 @@ function deposit_token() {
 
             able_platform_Contract.AbleDeposit().watch((err,res) => {
 
-                console.log("입금 확인 result : " + res);
+                console.log("able coin 입금 확인 result : " + res);
                 $(location).attr('href', '/deposit_token');
 
                 //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
@@ -200,7 +208,7 @@ function deposit_token() {
 
             able_platform_Contract.AbleDeposit().watch((err,res) => {
 
-                console.log("입금 확인 result : " + res);
+                console.log("able dollar 입금 확인 result : " + res);
 
                 $(location).attr('href', '/deposit_token');
 
@@ -243,6 +251,9 @@ function withdraw_token() {
         console.log("input_num_token (wei):" +input_num_token);
         console.log("user_address :" +user_address);
 
+        // pending status
+        $('.loading').show();
+        $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
         /**
          * @dev Function to withdraw token from _accountNumber
@@ -254,23 +265,25 @@ function withdraw_token() {
         able_platform_Contract.withdraw(input_account_number, input_num_token, function (err, result) {
             // if approve fail
             if (err) {
-                console.log("****************출금 실패*****************")
+                console.log("withdraw err : " + err);
             }
 
             able_platform_Contract.AbleWithdraw().watch((err,res) => {
 
-                console.log("출금 확인 result : " + res);
+                console.log("eth 출금 확인 result : " + res);
+                $(location).attr('href', '/withdraw_token');
+
 
                 //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
                 // var token = result.args.token;
-                var userAddress = result.args.userAddress;
-                var amount = result.args.amount;
-                var balance = result.args.balance;
+                // var userAddress = result.args.userAddress;
+                // var amount = result.args.amount;
+                // var balance = result.args.balance;
 
-                console.log("openAbleAccount result user_accountNumber: " + token);
-                console.log("openAbleAccount result user_Address: " + userAddress);
-                console.log("openAbleAccount result input_account_password: " + amount);
-                console.log("openAbleAccount result user_accountType: " + balance);
+                // console.log("openAbleAccount result user_accountNumber: " + token);
+                // console.log("openAbleAccount result user_Address: " + userAddress);
+                // console.log("openAbleAccount result input_account_password: " + amount);
+                // console.log("openAbleAccount result user_accountType: " + balance);
 
             });
 
@@ -282,6 +295,10 @@ function withdraw_token() {
         console.log("able coin");
         selected_coin_contract_address = able_coin_contract_address;
 
+        // pending status
+        $('.loading').show();
+        $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
+
         /**
          * @dev Function to withdraw token from _accountNumber
          * @param _accountNumber the bytes32 to withdraw.
@@ -292,12 +309,14 @@ function withdraw_token() {
         able_platform_Contract.withdrawToken(input_account_number, selected_coin_contract_address, input_num_token, function (err, result) {
             // if approve fail
             if (err) {
-                console.log("****************출금 실패*****************")
+                console.log("withdraw err : " + err);
             }
 
             able_platform_Contract.AbleWithdraw().watch((err,res) => {
 
-                console.log("출금 확인 result : " + res);
+                console.log("able coin 출금 확인 result : " + res);
+                $(location).attr('href', '/withdraw_token');
+
 
                 //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
                 // var token = result.args.token;
@@ -320,6 +339,10 @@ function withdraw_token() {
         console.log("able dollar");
         selected_coin_contract_address = able_dollar_contract_address;
 
+        // pending status
+        $('.loading').show();
+        $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
+
         /**
          * @dev Function to deposit token to _accountNumber
          * @param _accountNumber the bytes32 to deposit.
@@ -330,28 +353,26 @@ function withdraw_token() {
         able_platform_Contract.withdrawToken(input_account_number, selected_coin_contract_address, input_num_token, function (err, result) {
             // if approve fail
             if (err) {
-                console.log("****************저축 실패*****************")
+                console.log("withdraw err : " + err);
             }
 
             able_platform_Contract.AbleDeposit().watch((err,res) => {
 
-                console.log("입금 확인 result : " + res);
+                console.log("able dollar 입금 확인 result : " + res);
+                $(location).attr('href', '/withdraw_token');
+
 
                 //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
                 // var token = result.args.token;
-                var userAddress = result.args.userAddress;
-                var amount = result.args.amount;
-                var balance = result.args.balance;
+                // var userAddress = result.args.userAddress;
+                // var amount = result.args.amount;
+                // var balance = result.args.balance;
 
-                console.log("openAbleAccount result user_accountNumber: " + token);
-                console.log("openAbleAccount result user_Address: " + userAddress);
-                console.log("openAbleAccount result input_account_password: " + amount);
-                console.log("openAbleAccount result user_accountType: " + balance);
-
+                // console.log("openAbleAccount result user_accountNumber: " + token);
+                // console.log("openAbleAccount result user_Address: " + userAddress);
+                // console.log("openAbleAccount result input_account_password: " + amount);
+                // console.log("openAbleAccount result user_accountType: " + balance);
             });
-
         });
-
     }
-
 }

@@ -229,111 +229,111 @@
             </div>
         </div>
 
-<!--        <div class="col-md-3">
+        <!-- 오른쪽에 나타나는 계좌 정보 표시 -->
+        <div class="col-md-3">
             <div class="box-typical box-typical-padding my-info">
                 <b style="font-size:25px;  font-weight: 900">My ABLE Token</b>
                 <br><br>
                 <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
                 <div>
-                    <span class="my-info-label" >Address</spans><br>
-                    <span class="my-info-content">#ewqer2342!#rds2332424rsd23214</span><br><br>
-                    <span class="my-info-label" >Name</spans><br>
-                    <span class="my-info-content" >Kooseongbeom</span><br><br>
-                    <span class="my-info-label" >ABLE Account</spans><br>
-                    <span class="my-info-content" >Free Account</span><br><br>
-                    <span class="my-info-label" >ABLE</spans><br>
-                    <span class="my-info-content" >45326.3235346464</span><br><br>
-                    <span class="my-info-label" >ETH</spans><br>
-                    <span class="my-info-content" >56.0000000000</span><br><br>
+                    <span class="my-info-label" >User Address</spans><br>
+                    <span class="my-info-content" id="send_menu_user_address"></span><br><br>
+                    <span class="my-info-label" >Account Number</spans><br>
+                    <span class="my-info-content" id="send_menu_account_number"></span><br><br>
+                    <span class="my-info-label" >Account Type</spans><br>
+                    <span class="my-info-content" id="send_menu_account_type" >Free Account</span><br><br>
+                        <div id="send_menu_token_list"></div>
                 </div>
             </div>
-        </div>-->
-        <!--<br>-->
-        <!--<br><br><br><br><br>-->
+        </div>
+        <br>
+        <br><br><br><br><br>
+
+        
     </div>
-    <!--<hr>-->
-    <!--<div class="row" style=" width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">-->
-        <!--<div class="col-md-12">-->
-            <!--<h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>-->
-            <!--<br><br><br>-->
-        <!--</div>-->
-        <!--<div class="row" style="width: 100%">-->
-            <!--<div class="col-md-3"></div>-->
-            <!--<div class="col-md-6">-->
+    <hr>
+    <div class="row" style=" width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">
+        <div class="col-md-12">
+            <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
+            <br><br><br>
+        </div>
+        <div class="row" style="width: 100%">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
 
-                <!--<table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">-->
-                    <!--<thead style="font-size: 12px; font-weight: 800; color: #919fa9">-->
-                    <!--<tr>-->
-                        <!--<td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
+                <table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">
+                    <thead style="font-size: 12px; font-weight: 800; color: #919fa9">
+                    <tr>
+                        <td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>
+                    </tr>
+                    </thead>
 
-                    <!--<tbody>-->
-                    <!--<tr class="spacer"></tr>-->
-                    <!--<tr>-->
-                        <!--<td>10 minutes ago</td>-->
-                        <!--<td>Exchange. DAI > ETH</td>-->
-                        <!--<td>1 DAI = 0.001897 ETH</td>-->
-                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
-                        <!--<td class="proceeding"> <span class="glyphicon glyphicon-log-in" style="margin-right: 3px;"></span> Proceeding-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="spacer"></tr>-->
-                    <!--<tr>-->
-                        <!--<td>10 minutes ago</td>-->
-                        <!--<td>Exchange. DAI > ETH</td>-->
-                        <!--<td>1 DAI = 0.001897 ETH</td>-->
-                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
-                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="spacer"></tr>-->
-                    <!--<tr>-->
-                        <!--<td>10 minutes ago</td>-->
-                        <!--<td>Exchange. DAI > ETH</td>-->
-                        <!--<td>1 DAI = 0.001897 ETH</td>-->
-                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
-                        <!--<td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="spacer"></tr>-->
-                    <!--<tr>-->
-                        <!--<td>10 minutes ago</td>-->
-                        <!--<td>Exchange. DAI > ETH</td>-->
-                        <!--<td>1 DAI = 0.001897 ETH</td>-->
-                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
-                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="spacer"></tr>-->
-                    <!--<tr>-->
-                        <!--<td>10 minutes ago</td>-->
-                        <!--<td>Exchange. DAI > ETH</td>-->
-                        <!--<td>1 DAI = 0.001897 ETH</td>-->
-                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
-                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok-->
-<!--" style="margin-right: 3px;"></span> Complete-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="spacer"></tr>-->
-                    <!--<tr>-->
-                        <!--<td>10 minutes ago</td>-->
-                        <!--<td>Exchange. DAI > ETH</td>-->
-                        <!--<td>1 DAI = 0.001897 ETH</td>-->
-                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
-                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok-->
-<!--" style="margin-right: 3px;"></span> Complete-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
+                    <tbody>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="proceeding"> <span class="glyphicon glyphicon-log-in" style="margin-right: 3px;"></span> Proceeding
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok
+" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok
+" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    </tbody>
 
-                <!--</table><br><br><br><br><br><br>-->
-            <!--</div>-->
-            <!--<div class="col-md-3"></div>-->
-        <!--</div>-->
+                </table><br><br><br><br><br><br>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
 
-        <!--<br><br><br><br><br><br>-->
-    <!--</div>-->
+        <br><br><br><br><br><br>
+    </div>
 </div>
 </body>
 </html>
