@@ -206,3 +206,8 @@ function check_sum(param){
         }
     });
 }
+
+
+function showAlert() {
+    alert ("we do our best to make DEX ! See u soon!");
+}
