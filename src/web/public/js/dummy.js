@@ -942,8 +942,6 @@ function check_session_dummy() {
         }
 
     });
-
-
 }
 
 function get_account_dummy(){
@@ -970,10 +968,7 @@ function get_account_dummy(){
                         $('#select_account2').append("<option value="+res+">"+account_nickname+"</option>");
                     }
                 });
-
-
             }
-
         }
     });
 }
