@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>able</title>
+
+    <link rel="stylesheet" href="../css/tags_editor.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" href="../css/daterangepicker.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/tether.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/flatpickr.min.js"></script>
+    <script src="../js/daterangepicker.js"></script>
+    <script src="../js/jquery.caret.min.js"></script>
+    <script src="../js/jquery.tag-editor.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/select2.full.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/contract_address.js"></script>
+    <script src="../js/easy_transfer.js"></script>
+    <script src="../js/custom_token_add.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            check_session();
+
+            $('#payment_date').daterangepicker({
+                singleDatePicker: true,
+            });
+
+            $( "#select_account" ).change(function(){
+                get_account_detail($('#select_account').val());
+
+            });
+
+        });
+
+
+    </script>
+</head>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog " style="max-width: 600px">
+        <div class="modal-content" style="border-radius: 30px; ">
+            <div class="modal-header" style="border-bottom: none; ">
+                <p class="font-weight-bold"></p>
+                <span class="font-weight-bold"> Transfer Confirm </span>
+                <button type="button" class="dismiss" data-dismiss="modal"><img
+                        style="height: 30px;" src="../img/btn_close_black@3x.png"></button>
+            </div>
+            <div class="modal-body" style="margin-left: 50px; margin-right: 50px; text-align: center;">
+                <label  class="form-label" >To Able Account NickName</label>
+                <span id="modal_to_address"style="max-width: 30%;"></span>
+                <br><br>
+                <label  class="form-label" >From Able Account NickName</label>
+                <span id="modal_nickname"></span>
+                <br><br>
+                <label  class="form-label" >Amount to send</label>
+                <span id="modal_amount"></span>
+                <br><br>
+                <!--<label class="form-label" >Gas Limit</label>-->
+                <!--20-->
+                <!--<br><br>-->
+                <div style="text-align: center;">
+                    <p></p>
+                    <button onclick="javascript:transfer_token_execute();" class="text-center modal-btn" type="button" >
+                        SEND
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--site header-->
+<body class="horizontal-navigation chrome-browser menu-left-opened">
+<div id="wrap">
+    <!--loading-->
+    <section class="loading">
+        <p style="width: 600px;">
+            <img src="../img/loading2.svg"><br>
+            <span style="font-weight: 800; color : white">Transaction is processing. Please wait a moment.</span>
+        </p>
+    </section>
+</div>
+<header class="site-header" >
+    <div class="container-fluid">
+        <a href="/" class="site-logo">
+            <img class="hidden-md-down" src="../img/logo-3.png" alt="">
+            <img class="hidden-lg-down" src="../img/logo-2-mob.png" alt="">
+        </a>
+        <button style="margin-left: 20px; " id="show-hide-sidebar-toggle" class="show-hide-sidebar">
+            <span>toggle menu</span>
+        </button>
+        <button class="hamburger hamburger--htla">
+            <span>toggle menu</span>
+        </button>
+        <div class="site-header-content">
+            <div class="site-header-content-in">
+                <!--<button id="show-hide-sidebar-toggle" class="show-hide-sidebar">-->
+                <!--<span>toggle menu</span>-->
+                <!--</button>-->
+                <!--<button class="hamburger hamburger&#45;&#45;htla">-->
+                <!--<span>toggle menu</span>-->
+                <!--</button>-->
+                <div class="site-header-collapsed">
+                </div><!--.site-header-collapsed-->
+                <div class="mobile-menu-right-overlay">
+                </div>
+                <div class="site-header-shown">
+                    <div style="float: right">
+                        <ul class="nav ">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><span class="current"></span>Notice</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><span class="current"></span>About ABLE</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#"><span class="current"></span>Bank Service</a>
+                            </li>
+                            <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
+                                <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
+                                    <span></span>
+                                </a>
+                            </li>
+
+                            <!-- 로그아웃 버튼 -->
+                            <li class="nav-item">
+                                <a class="nav-link" active href="#" id="btn_logout"><span class="glyphicon glyphicon-share"></span></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div><!--.site-header-shown-->
+            </div><!--site-header-content-in-->
+        </div><!--.site-header-content-->
+    </div><!--.container-fluid-->
+</header><!--.site-header-->
+
+<!--top menu-->
+<div class="mobile-menu-left-overlay"></div>
+<div class="row" style="background-color: white">
+    <ul class="main-nav nav ">
+        <li class="nav-item">
+            <a class="nav-link " href="/p2pMatching">P2P Matching Engine</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showAlert()">ABLE DEX</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/send">Easy Transfer</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="/salary">Pay Salary</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="/account_manage">Account Manage</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " href="/deposit_token">Deposit</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/withdraw_token">Withdraw</a>
+        </li>
+
+        <!--임시 좌측 정렬 처리-->
+        <!--<li class="nav-item ">-->
+        <!--<a class="nav-link" href="#">-->
+        <!--<button type="button" style="margin-bottom: 3px" class="btn btn-inline">-->
+        <!--<img style="height: 12px;" src="../img/subnvi_ic_account.png">-->
+        <!--계좌관리-->
+        <!--</button>-->
+        <!--</a>-->
+        <!--</li>-->
+    </ul>
+</div>
+<!--.top menu-->
+
+<div style="background-color: white">
+    <br><br><br><br><br><br><br><br><br>
+    <h2 style="text-align: center; font-weight: 900; color: gray" class="intro-title" >Send ABLE Token</h2><br><br>
+    <div class="row" style="width: 100%;  border-bottom: 1px; background-color: white">
+
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="form-group" style=" align-self: center">
+
+                <label class="form-label input" >Select Your Account</label>
+                <p class="form-control-static">
+                <select class="form-control" id="select_account">
+                </select>
+                </p>
+
+                <label class="form-label input" >My Account Number</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_my_account_number" placeholder="" disabled></p>
+
+
+                <label class="form-label input" >To ABLE Account NickName</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_account_nickname" placeholder=""></p>
+
+                <!--<label class="form-label input">Address NickName(Optional)</label>-->
+                <!--<p class="form-control-static">-->
+                <!--<input type="text" class="form-control"-->
+                <!--placeholder="Ex) My Able"></p>-->
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label input" >Coin Select</label>
+                        <select class="form-control" id="select_coin">
+                            <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
+                            <option value="0x295b3f39d7dacbc58329112064a14186f9fac786">Able Coin</option>
+                            <option value="0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f">Able Dollar</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label input" >Amount to send</label>
+                        <p class="form-control-static">
+                            <input type="text" class="form-control" id="input_num_token" placeholder="0">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!--<div class="col-md-6">-->
+                    <!--<label class="form-label input" >Gas Limit</label>-->
+                    <!--<p class="form-control-static">-->
+                    <!--<input type="text" class="form-control"-->
+                    <!--id="inputPassword" placeholder="20">-->
+                    <!--</p>-->
+                    <!--</div>-->
+                    <div class="col-sm-12">
+                        <button type="button" onclick="javascript:send()" class="btn btn-inline transaction">Send Transaction</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box-typical box-typical-padding my-info">
+                <b style="font-size:25px;  font-weight: 900">My ABLE Token</b>
+                <br><br>
+                <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
+                <div>
+                    <span class="my-info-label" >User Address</spans><br>
+                    <span class="my-info-content" id="send_menu_user_address"></span><br><br>
+                    <!--<span class="my-info-label" >Name</spans><br>-->
+                    <!--<span class="my-info-content" >Kooseongbeom</span><br><br>-->
+                    <span class="my-info-label" >Account Number</spans><br>
+                    <span class="my-info-content" id="send_menu_account_number"></span><br><br>
+                    <span class="my-info-label" >Account Type</spans><br>
+                    <span class="my-info-content" id="send_menu_account_type" >Free Account</span><br><br>
+                        <div id="send_menu_token_list"></div>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <br><br><br><br><br>
+    </div>
+    <hr>
+    <div class="row" style=" width: 100%; text-align: center; border-color: gray; border-top: 1px; background-color: white">
+        <div class="col-md-12">
+            <h2 style="text-align: center; margin-left: auto; margin-right: auto; font-weight: 900; color: gray" class="intro-title" >Transaction history.</h2>
+
+
+            <br>
+            <label class="form-label input" >To ABLE User Address</label>
+            <br><br><br>
+        </div>
+        <div class="row" style="width: 100%">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+
+                <table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">
+                    <thead style="font-size: 12px; font-weight: 800; color: #919fa9">
+                    <tr>
+                        <td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="proceeding"> <span class="glyphicon glyphicon-log-in" style="margin-right: 3px;"></span> Proceeding
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok
+" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                    <tr>
+                        <td>10 minutes ago</td>
+                        <td>Exchange. DAI > ETH</td>
+                        <td>1 DAI = 0.001897 ETH</td>
+                        <td>110019.000 DAI - 2.086 ETH</td>
+                        <td class="complete"> <span class="glyphicon glyphicon-ok
+" style="margin-right: 3px;"></span> Complete
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table><br><br><br><br><br><br>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <br><br><br><br><br><br>
+    </div>
+</div>
+</body>
+</html>

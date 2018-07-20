@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>able-dex</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/tags_editor.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" href="../css/daterangepicker.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/tether.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/flatpickr.min.js"></script>
+    <script src="../js/daterangepicker.js"></script>
+    <script src="../js/jquery.caret.min.js"></script>
+    <script src="../js/jquery.tag-editor.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/select2.full.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/login_check.js"></script>
+    <script src="../js/dummy.js"></script>
+    <script src="../js/custom_token_add.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            check_session_dummy();
+        });
+    </script>
+</head>
+<body>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">더미 페이지</h1>
+</div>
+
+
+
+<div class="container">
+
+    <br>
+    <h5>1.구매주문</h5>
+    <br>
+    <div class="form-group" style=" align-self: center">
+
+        <label class="form-label input">Select Your Account</label>
+        <p class="form-control-static">
+            <select class="form-control" id="select_account">
+            </select>
+        </p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label input">Coin Select</label>
+                <select class="form-control" id="select_coin">
+                    <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
+                    <option value="0x295b3f39d7dacbc58329112064a14186f9fac786">Able Coin</option>
+                    <option value="0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f">Able Dollar</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label input">amount</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_num_token" placeholder="0">
+                </p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label input">price</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_price_token" placeholder="0">
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" onclick="javascript:buy_token()" class="btn btn-inline transaction">Send
+                    Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <h5>2.판매주문</h5>
+    <br>
+    <div class="form-group" style=" align-self: center">
+
+        <label class="form-label input">Select Your Account</label>
+        <p class="form-control-static">
+            <select class="form-control" id="select_account2">
+            </select>
+        </p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label input">Coin Select</label>
+                <select class="form-control" id="select_coin2">
+                    <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
+                    <option value="0x295b3f39d7dacbc58329112064a14186f9fac786">Able Coin</option>
+                    <option value="0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f">Able Dollar</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label input">amount</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_num_token2" placeholder="0">
+                </p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label input">price</label>
+                <p class="form-control-static">
+                    <input type="text" class="form-control" id="input_price_token2" placeholder="0">
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" onclick="javascript:sell_token()" class="btn btn-inline transaction">Send
+                    Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <h5>3.구매주문 불러오기</h5>
+    <br>
+    <div class="form-group" style=" align-self: center">
+        <div>
+            <div>
+                <button id="" onclick="javascript:get_buy_order_book();" type="button"
+                        class="btn btn-lg btn-block btn-outline-primary">register
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <h5>4.판매주문 불러오기 </h5>
+    <br>
+    <div class="form-group" style=" align-self: center">
+        <div>
+            <div>
+                <button id="" onclick="javascript:get_sell_order_book();" type="button"
+                        class="btn btn-lg btn-block btn-outline-primary">register
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
