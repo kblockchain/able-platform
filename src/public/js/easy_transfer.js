@@ -3,6 +3,15 @@
  */
 function send() {
 
+    if($('#input_account_nickname').val().trim() == ''){
+        alert('받는 계좌를 입력해주세요')
+        return;
+    }
+    if( $('#input_num_token').val() <= 0){
+        alert('보내는 금액을 확인해주세요')
+        return;
+    }
+
     // modal창
     $('#modal_to_address').text($('#input_account_nickname').val());
     $('#modal_amount').text($('#input_num_token').val());

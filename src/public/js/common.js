@@ -56,6 +56,20 @@ function get_accounts_info() { // 간편송금 페이지 진입시 세션 체크
  */
 function get_account_detail(account_number) {
 
+    $.ajax({
+        method: "POST",
+        url: "/get_username",
+        dataType: "json",
+        data: {"user_address": user_address},
+        success: function (res) {
+
+            console.log(res.data)
+            $('#send_menu_user_address').text(res.data[0].ableUser_nickname);
+
+        }
+
+    });
+
     able_platform_Contract.getAbleAccount.call(account_number, function (err, res) { // 계좌 정보를 파라메터로 호출
         if (err) {
             console.log("err : " + err);
@@ -64,14 +78,16 @@ function get_account_detail(account_number) {
 
         var account_info = res.toString().split(','); // 스트링으로 반환 받은 값을 배열로 저장
 
-        $('#modal_nickname').text(web3.toAscii(account_info[1]));
+        $('#modal_nickname').text(web3.toAscii(account_info[2]));
         console.log("user account name : " + web3.toAscii(account_info[1]));
 
         //console.log("token_list_length : " + account_info[4]);
         //nick_list.push(web3.toAscii(account_info[1]));
 
-        $('#send_menu_user_address').text(user_address.substring(0, 8) + '.....' + user_address.substring(34, 42));
-        $('#send_menu_account_number').text(account_info[1].substring(0, 8) + '.....' + account_info[1].substring(58, 66));
+        //$('#send_menu_user_address').text(user_address.substring(0, 8) + '.....' + user_address.substring(34, 42));
+        //$('#send_menu_user_address').text(web3.toAscii(user_address));
+        //$('#send_menu_account_number').text(account_info[1].substring(0, 8) + '.....' + account_info[1].substring(58, 66));
+        $('#send_menu_account_number').text(web3.toAscii(account_info[2]));
         $('#send_menu_account_type').text(account_info[3]);
         $('#input_my_account_number').val(account_info[2]);// 모달창과 우측 위젯에 필요정보를 넣어준다
 
@@ -205,9 +221,4 @@ function check_sum(param){
             return res.result;
         }
     });
-}
-
-
-function showAlert() {
-    alert ("we do our best to make DEX ! See u soon!");
 }

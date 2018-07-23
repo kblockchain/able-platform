@@ -242,6 +242,29 @@ router.post('/get_accounts', function (req, res, next) {
 
 });
 
+
+/* ==========================================================================
+    DB) Get User_Name
+    ========================================================================== */
+router.post('/get_username', function (req, res, next) {
+
+    var connection = create_connection();
+
+    q = "SELECT ableUser_nickname FROM AbleUser WHERE ableUser_address = '" + req.param('user_address') + "'";
+
+    console.log(q)
+    connection.query(q, function (err, rows, fields) {
+
+        account_list = rows;
+        res.json({result: '200', data: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+
+});
+
+
+
 router.post('/get_tokens', function (req, res, next) {
     var token_list;
 
@@ -253,7 +276,7 @@ router.post('/get_tokens', function (req, res, next) {
     //     account_count = Number(rows[0].count);
     // });
 
-    q = "SELECT * FROM TokenBalance WHERE ableAccount_number = '" + req.param("ableAccount_number") + "'";
+    q = "SELECT * FROM TokenBalance WHERE ableAccount_number = '" + ("ableAccount_number") + "'";
 
     console.log(q);
     connection.query(q, function (err, rows, fields) {

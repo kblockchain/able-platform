@@ -119,12 +119,12 @@ function make_html(i, tokens_html){
         "                                           src=\"../img/logo_able_black_horizontal.png\"></div>\n" +
         "                <div class=\"col-sm-6\"></div>\n" +
         "                <div class=\"col-sm-3\" style=\"color:#919fa9; font-size: 13px; text-align: right\">\n" +
-        "                    Registration Date<br>" + "수정되어야할부분" + "\n" +
+        "                    Registration Date<br>" + "2018.01.01" + "\n" +
         "                </div>\n" +
         "            </div>\n" +
         "            <br><br>\n" +
         "            <div class=\"row\">\n" +
-        "                <div style=\"font-size: 14px\" class=\"col-sm-12\">\n" +
+        "                <div style=\"font-size: 15px\" class=\"col-sm-12\">\n" +
         "                    <label class=\"form-label input\" >Account Address</label>\n" +
         "                    <div style=\"margin-top: 5px\">\n" +
         "                        <div style='font-size: smaller' class='account_number' id='account_number"+i+"'></div> <a class=\"btn btn-nav btn-rounded btn-inline btn-primary-outline my-account-copy-clipboard\"  href=\"javascript:copy("+i+");\" >\n" +
