@@ -193,7 +193,6 @@ function save_session(user_address) {
 }
 
 function session_logout() {
-
     console.log("session log out work1");
 
     $.ajax({
@@ -221,4 +220,8 @@ function check_sum(param){
             return res.result;
         }
     });
+}
+
+function alert_dexready() {
+    alert("DEX will be opend!")
 }
