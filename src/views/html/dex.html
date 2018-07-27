@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../css/flatpickr.min.css">
     <link rel="stylesheet" href="../css/daterangepicker.min.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/popper.min.js"></script>
@@ -143,114 +144,80 @@
     </ul>
 </div>
 
+<!-- example template http://webapplayers.com/inspinia_admin-v2.8/tabs.html-->
 <div class="col-md-12" style=" max-height:100%">
     <div class="row" style="height:1500px;">
         <div class="col-sm-3" style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
             <section>
-                <div class="container">
-                    <h5 style="margin-top: 20px; font-weight: bold">Market</h5>
+                 <div class="tabs-container">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active" data-toggle="tab" href="#tab-1">ETH</a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-2">ABLE</a></li>
+                        </ul>
 
-                    <div class="row">
-                        <div class="card coinmark">
-                            <div  class="coinmark-sub">
-                                <img class="coin-image" src="../img/side_logo_bitcoin_on.png">
-                                <p>ETH
+                        <div class="tab-content">
+                            <div role="tabpanel" id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="checkbox-detailed">
+                                        <input type="radio" name="detailed" id="check-det-1" checked="" style="float: right;">
+                                        <label for="check-det-1">
+                                            <span class="checkbox-detailed-tbl">
+                                                <span class="checkbox-detailed-cell">
+                                                    <span class="checkbox-detailed-title">ABLER</span>ABLER/ETH</span>
+                                            </span>
+                                        </label>
+
+                                        <input type="radio" name="detailed" id="check-det-2" checked="" style="float: right;">
+                                        <label for="check-det-2">
+                                            <span class="checkbox-detailed-tbl">
+                                                <span class="checkbox-detailed-cell">
+                                                    <span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span>
+                                            </span>
+                                        </label>
+
+                                        <input type="radio" name="detailed" id="check-det-3" checked="" style="float: right;">
+                                        <label for="check-det-3">
+                                            <span class="checkbox-detailed-tbl">
+                                                <span class="checkbox-detailed-cell">
+                                                    <span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>
+                                            </span>
+                                        </label>
+                                    </div> <!-- checkbox-detailed finish-->
+                                </div>
+                            </div>
+
+
+                                <div role="tabpanel" id="tab-2" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="checkbox-detailed">
+                                            <input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">
+                                            <label for="check-det-4">
+                                            <span class="checkbox-detailed-tbl">
+                                                <span class="checkbox-detailed-cell">
+                                                    <span class="checkbox-detailed-title">ABLE</span>ABLE/ETH</span>
+                                            </span>
+                                            </label>
+
+                                            <input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">
+                                            <label for="check-det-5">
+                                            <span class="checkbox-detailed-tbl">
+                                                <span class="checkbox-detailed-cell">
+                                                    <span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span>
+                                            </span>
+                                            </label>
+
+                                            <input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">
+                                            <label for="check-det-6">
+                                            <span class="checkbox-detailed-tbl">
+                                                <span class="checkbox-detailed-cell">
+                                                    <span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>
+                                            </span>
+                                            </label>
+                                        </div> <!-- checkbox-detailed finish-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div style="padding-left: 15px"></div>
-                        <div class="card coinmark">
-                            <div  class="coinmark-sub">
-                                <img class="coin-image" src="../img/side_logo_bitcoin_on.png">
-                                <p>ABLE
-                            </div>
-                        </div>
-
-                        <div style="padding-left: 15px"></div>
-                        <div class="card coinmark">
-                            <div  class="coinmark-sub">
-                                <img class="coin-image" src="../img/side_logo_bitcoin_on.png">
-                                <p>ABLE
-                            </div>
-                        </div>
-
-                        <div style="padding-left: 15px"></div>
-                        <div class="card coinmark">
-                            <div  class="coinmark-sub">
-                                <img class="coin-image" src="../img/side_logo_bitcoin_on.png">
-                                <p>ABLD
-                            </div>
-                        </div>
-                    </div> <!-- row finish -->
-                </div> <!-- container finish -->
-
-
-
-                    <!--<div class="checkbox-detailed-tbl">-->
-                        <!--<label for="check-det-2">-->
-                            <!--<span style="display: table-cell;">ETH</span>-->
-                            <!--ETH/BTC-->
-                            <!--<input type="radio" id="check-det-2" style="text-align: right; display: inline-block; float: right;"></label>-->
-                    <!--</div>-->
-
-
-                    <div class="checkbox-detailed">
-                        <!--<label for="check-det-1">-->
-								<!--<span class="checkbox-detailed-tbl">-->
-									<!--<span class="checkbox-detailed-cell">-->
-										<!--<span class="checkbox-detailed-title">Simple</span>-->
-										<!--1 Page Overview-->
-									<!--</span>-->
-								<!--</span>-->
-                        <!--<input type="radio" name="detailed" id="check-det-1" style="float: right;">-->
-                        <!--</label>-->
-
-
-
-
-
-                        <input type="radio" name="detailed" id="check-det-1" checked="" style="float: right;">
-                        <label for="check-det-1">
-								<span class="checkbox-detailed-tbl">
-									<span class="checkbox-detailed-cell">
-										<span class="checkbox-detailed-title">Simple</span>
-										1 Page Overview
-									</span>
-								</span>
-                        </label>
-
-                        <input type="radio" name="detailed" id="check-det-1" checked="" style="float: right;">
-                        <label for="check-det-1">
-								<span class="checkbox-detailed-tbl">
-									<span class="checkbox-detailed-cell">
-										<span class="checkbox-detailed-title">Simple</span>
-										1 Page Overview
-									</span>
-								</span>
-                        </label>
-
-                        <input type="radio" name="detailed" id="check-det-1" checked="" style="float: right;">
-                        <label for="check-det-1">
-								<span class="checkbox-detailed-tbl">
-									<span class="checkbox-detailed-cell">
-										<span class="checkbox-detailed-title">Simple</span>
-										1 Page Overview
-									</span>
-								</span>
-                        </label>
-
-                        <input type="radio" name="detailed" id="check-det-1" checked="" style="float: right;">
-                        <label for="check-det-1">
-								<span class="checkbox-detailed-tbl">
-									<span class="checkbox-detailed-cell">
-										<span class="checkbox-detailed-title">Simple</span>
-										1 Page Overview
-									</span>
-								</span>
-                        </label>
-
-                    </div>
-
             </section>
         </div>
 

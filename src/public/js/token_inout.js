@@ -159,16 +159,16 @@ function deposit_token() {
                 console.log("able coin 입금 확인 result : " + res);
                 $(location).attr('href', '/deposit_token');
 
-                //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
-                // var token = result.args.token;
-                // var userAddress = result.args.userAddress;
-                // var amount = result.args.amount;
-                // var balance = result.args.balance;
+                //todo db insert
+                var token = result.args.token;
+                var userAddress = result.args.userAddress;
+                var amount = result.args.amount;
+                var balance = result.args.balance;
 
-                // console.log("openAbleAccount result user_accountNumber: " + token);
-                // console.log("openAbleAccount result user_Address: " + userAddress);
-                // console.log("openAbleAccount result input_account_password: " + amount);
-                // console.log("openAbleAccount result user_accountType: " + balance);
+                console.log("openAbleAccount result user_accountNumber: " + token);
+                console.log("openAbleAccount result user_Address: " + userAddress);
+                console.log("openAbleAccount result input_account_password: " + amount);
+                console.log("openAbleAccount result user_accountType: " + balance);
 
             });
 
