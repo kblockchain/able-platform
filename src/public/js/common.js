@@ -162,6 +162,10 @@ function check_session() {
                     get_accounts_info();
                 }
 
+                else if (current_page.indexOf('dex') != -1) {
+                    get_accounts_info();
+                }
+
             } else {
                 // alert('Please make sure to connect metamask rinkeby network');
                 alert('메타마스크 Rinkeby 네트워크로 로그인 후 접근해 주세요.');

@@ -213,15 +213,15 @@ function deposit_token() {
                 $(location).attr('href', '/deposit_token');
 
                 //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
-                // var token = result.args.token;
-                // var userAddress = result.args.userAddress;
-                // var amount = result.args.amount;
-                // var balance = result.args.balance;
+                var _token = result.args._token;
+                var _userAddress = result.args._userAddress;
+                var _amount = result.args._amount;
+                var _balance = result.args._balance;
 
-                // console.log("openAbleAccount result user_accountNumber: " + token);
-                // console.log("openAbleAccount result user_Address: " + userAddress);
-                // console.log("openAbleAccount result input_account_password: " + amount);
-                // console.log("openAbleAccount result user_accountType: " + balance);
+                console.log("openAbleAccount result user_accountNumber: " + _token);
+                console.log("openAbleAccount result user_Address: " + _userAddress);
+                console.log("openAbleAccount result input_account_password: " + _amount);
+                console.log("openAbleAccount result user_accountType: " + _balance);
 
             });
 

@@ -258,7 +258,6 @@ function is_ableuser() {
 
 
             // session data send
-
             $(function () {
 
                 $.ajax({

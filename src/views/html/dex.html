@@ -29,8 +29,8 @@
     <script src="../js/bootstrap-select.min.js"></script>
     <script src="../js/select2.full.min.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/common.js"></script>
     <script src="../js/contract_address.js"></script>
-    <script src="../js/login_check.js"></script>
 
 
     <script>
@@ -38,16 +38,57 @@
             console.log("ready");
             check_session();
 
-        });
-
-        function welcome(){
-            $('#welcomeModal').modal('show').css({
-                'margin-top': function(){
-                    return 200; //($(this).height()/2) // 작동안함;;
-                }
+            // 에이블 계좌 변경시 작동하는 함수
+            $( "#select_account" ).change(function(){
+                get_account_detail($('#select_account').val());
             });
 
-        }
+            // BUY select box change
+            $("#select_type_buy").change(function () {
+                var type = $("#select_type_buy").val();
+
+
+                console.log("변경 !! 변수 : " + type);
+
+                if(type == "Limit") {
+                    $('#buy_price').show();
+                    $('#buy_amount').show();
+                    $('#buy_total').show();
+                }
+
+                else if(type == "Market") {
+                    $('#buy_price').hide();
+                    $('#buy_amount').show();
+                    $('#buy_total').hide();
+
+                }
+
+            });
+
+            // SELL select box change
+            $("#select_type_sell").change(function () {
+                var type = $("#select_type_sell").val();
+
+
+                console.log("변경 !! 변수 : " + type);
+
+                if(type == "Limit") {
+                    $('#sell_price').show();
+                    $('#sell_amount').show();
+                    $('#sell_total').show();
+                }
+
+                else if(type == "Market") {
+                    $('#sell_price').hide();
+                    $('#sell_amount').show();
+                    $('#sell_total').hide();
+
+                }
+
+            });
+        });
+
+
     </script>
 </head>
 
@@ -145,8 +186,8 @@
 </div>
 
 <!-- example template http://webapplayers.com/inspinia_admin-v2.8/tabs.html-->
-<div class="col-md-12" style=" max-height:100%">
-    <div class="row" style="height:1500px;">
+<div class="col-md-12">
+    <div class="row">
         <div class="col-sm-3" style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
             <section>
                  <div class="tabs-container">
@@ -156,6 +197,8 @@
                         </ul>
 
                         <div class="tab-content">
+
+                            <!-- TAB 1-->
                             <div role="tabpanel" id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
                                     <div class="checkbox-detailed">
@@ -187,44 +230,68 @@
                             </div>
 
 
-                                <div role="tabpanel" id="tab-2" class="tab-pane">
-                                    <div class="panel-body">
-                                        <div class="checkbox-detailed">
-                                            <input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">
-                                            <label for="check-det-4">
+                            <!-- TAB 2-->
+                            <div role="tabpanel" id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="checkbox-detailed">
+                                        <input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">
+                                        <label for="check-det-4">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
                                                     <span class="checkbox-detailed-title">ABLE</span>ABLE/ETH</span>
                                             </span>
-                                            </label>
+                                        </label>
 
-                                            <input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">
-                                            <label for="check-det-5">
+                                        <input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">
+                                        <label for="check-det-5">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
-                                                    <span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span>
-                                            </span>
-                                            </label>
-
-                                            <input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">
-                                            <label for="check-det-6">
+                                                    <span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span></span>
+                                        </label>
+                                        <input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">
+                                        <label for="check-det-6">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
                                                     <span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>
                                             </span>
-                                            </label>
-                                        </div> <!-- checkbox-detailed finish-->
-                                    </div>
+                                        </label>
+                                    </div> <!-- checkbox-detailed finish-->
                                 </div>
                             </div>
                         </div>
+                 </div>
+
+                <br>
+
+                <div>
+
+                    <label class="form-label input" >Select Your Account</label>
+                    <p class="form-control-static">
+                        <select class="form-control" id="select_account">
+                        </select>
+                    </p>
+
+                    <div class="box-typical box-typical-padding my-info2">
+                        <b style="font-size:25px;  font-weight: 900">My ABLE Token</b>
+                        <br><br>
+                        <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
+                        <div>
+                    <span class="my-info-label" >User Address</spans><br>
+                    <span class="my-info-content" id="send_menu_user_address"></span><br><br>
+                    <span class="my-info-label" >Account Number</spans><br>
+                    <span class="my-info-content" id="send_menu_account_number"></span><br><br>
+                    <span class="my-info-label" >Account Type</spans><br>
+                    <span class="my-info-content" id="send_menu_account_type" >Free Account</span><br><br>
+                        <div id="send_menu_token_list"></div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
 
         <div class="col-sm-9">
             <div class="row" style="padding-top: 150px;">
                 <div class="col-sm-12">
-
                     <div class="box-typical box-typical-padding">
                         <!-- TradingView Widget BEGIN -->
                         <div class="tradingview-widget-container">
@@ -255,16 +322,29 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg">Lend</h5>
+                        <h5 class="m-t-lg">BUY</h5>
                         <form>
+
                             <div class="form-group">
-                                <label class="form-label" style="padding-left: 14px">Interest Rate</label>
+                                <label class="form-label" style="padding-left: 14px">Amount</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <select type="text" class="form-control" id="select_type_buy" placeholder="">
+                                            <option selected="selected">Limit</option>
+                                            <option>Market</option>
+                                        </select></p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group" id="buy_price">
+                                <label class="form-label" style="padding-left: 14px">Price</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
                                         <input type="text" class="form-control" placeholder=""></p>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="buy_amount">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
@@ -272,28 +352,46 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                Calculate Interest
+                            <div class="form-group" id="buy_total">
+                                <label class="form-label" style="padding-left: 14px">Total</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <input type="text" class="form-control" placeholder=""></p>
+                                </div>
                             </div>
+
+
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline">LEND</button>
+                                <button type="button" style="width:100%" class="btn btn-inline">BUY</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >Borrow</h5>
+                        <h5 class="m-t-lg" >SELL</h5>
                         <form>
+
                             <div class="form-group">
-                                <label class="form-label" style="padding-left: 14px">Interest Rate</label>
+                                <label class="form-label" style="padding-left: 14px">Amount</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <select type="text" class="form-control" placeholder="" id="select_type_sell">
+                                            <option selected="selected">Limit</option>
+                                            <option>Market</option>
+                                        </select></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="sell_price">
+                                <label class="form-label" style="padding-left: 14px">Price</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
                                         <input type="text" class="form-control" placeholder=""></p>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="sell_amount">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
@@ -301,16 +399,294 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                Calculate Interest
+                            <div class="form-group" id="sell_total">
+                                <label class="form-label" style="padding-left: 14px">Total</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">
+                                        <input type="text" class="form-control" placeholder=""></p>
+                                </div>
                             </div>
+
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline">BORROW</button>
+                                <button type="button" style="width:100%" class="btn btn-inline">SELL</button>
                             </div>
                         </form>
                     </div>
                 </div>
+
+
+                <!-- ASKS -->
+                <div class="col-sm-6">
+                    <div class="box-typical box-typical-padding">
+                    <h5 class="m-t-lg" >ASKS</h5>
+                        <form>
+                            <div class="card" style="min-height: 500px; max-height: 500px">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">REM</th>
+                                            <th scope="col">ETH</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- BIDS -->
+                <div class="col-sm-6">
+                    <div class="box-typical box-typical-padding">
+                        <h5 class="m-t-lg" >BIDS</h5>
+                        <form >
+                            <div class="card" style="min-height: 500px; max-height: 500px">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">REM</th>
+                                            <th scope="col">ETH</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>0.00003346</td>
+                                            <td>26677.12</td>
+                                            <td>0.892636</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                <!-- MY OPEN ORDERS -->
+                <div class="col-sm-12">
+                    <div class="box-typical box-typical-padding">
+                        <h5 class="m-t-lg" >MY OPEN ORDERS</h5>
+                        <form>
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Amount (ABLE)</th>
+                                            <th scope="col">Total (ETH)</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr>
+                                            <td>Buy</td>
+                                            <td>0.00003363</td>
+                                            <td>107505.554</td>
+                                            <td>3.61541178</td>
+                                            <td>180730</td>
+                                            <td>NOT</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Buy</td>
+                                            <td>0.00003363</td>
+                                            <td>107505.554</td>
+                                            <td>3.61541178</td>
+                                            <td>180730</td>
+                                            <td>NOT</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Buy</td>
+                                            <td>0.00003363</td>
+                                            <td>107505.554</td>
+                                            <td>3.61541178</td>
+                                            <td>180730</td>
+                                            <td>NOT</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Buy</td>
+                                            <td>0.00003363</td>
+                                            <td>107505.554</td>
+                                            <td>3.61541178</td>
+                                            <td>180730</td>
+                                            <td>NOT</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- HISTORY-->
+                <div class="col-sm-12">
+                    <div class="box-typical box-typical-padding">
+                        <h5 class="m-t-lg" >ORDER HISTORY</h5>
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li><a class="nav-link active" data-toggle="tab" href="#tab-11">MARKET TRADRES</a></li>
+                                <li><a class="nav-link" data-toggle="tab" href="#tab-21">MY TRADES</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+
+                                <!-- TAB 1-->
+                                <div role="tabpanel" id="tab-11" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <form>
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Price (ETH)</th>
+                                                            <th scope="col">Amount (ABLE)</th>
+                                                            <th scope="col">Total (ETH)</th>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>2018-07-30 15:14:13</td>
+                                                            <td>Buy</td>
+                                                            <td>0.0000336</td>
+                                                            <td>82965.108</td>
+                                                            <td>2.78762763</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>2018-07-30 15:14:13</td>
+                                                            <td>Buy</td>
+                                                            <td>0.0000336</td>
+                                                            <td>82965.108</td>
+                                                            <td>2.78762763</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                                <!-- TAB 2-->
+                                <div role="tabpanel" id="tab-21" class="tab-pane">
+                                    <div class="panel-body">
+                                        <form>
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Price (ETH)</th>
+                                                            <th scope="col">Amount (ABLE)</th>
+                                                            <th scope="col">Total (ETH)</th>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>2018-07-30 15:14:13</td>
+                                                            <td>Buy</td>
+                                                            <td>0.0000336</td>
+                                                            <td>82965.108</td>
+                                                            <td>2.78762763</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>2018-07-30 15:14:13</td>
+                                                            <td>Buy</td>
+                                                            <td>0.0000336</td>
+                                                            <td>82965.108</td>
+                                                            <td>2.78762763</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>2018-07-30 15:14:13</td>
+                                                            <td>Buy</td>
+                                                            <td>0.0000336</td>
+                                                            <td>82965.108</td>
+                                                            <td>2.78762763</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
             </div>
         </div>
 
