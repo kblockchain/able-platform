@@ -34,7 +34,6 @@
     <script src="../js/login_check.js"></script>
     <script src="../js/vue.js"></script>
     <script src="../js/dummy.js"></script>
-    <script src="../js/custom_token_add.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -160,11 +159,14 @@
     <br>
     <div class="form-group" style=" align-self: center">
         <div>
-            <div>
-                <button id="" onclick="javascript:get_buy_order_book();" type="button"
-                        class="btn btn-lg btn-block btn-outline-primary">register
-                </button>
-            </div>
+            <label class="form-label input">Coin Select</label>
+            <select class="form-control" id="select_coin3">
+                <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
+                <option value="0x295b3f39d7dacbc58329112064a14186f9fac786">Able Coin</option>
+                <option value="0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f">Able Dollar</option>
+            </select>
+            <br>
+            <button id="" onclick="javascript:get_buy_order_book();" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
         </div>
     </div>
 
@@ -173,11 +175,14 @@
     <br>
     <div class="form-group" style=" align-self: center">
         <div>
-            <div>
-                <button id="" onclick="javascript:get_sell_order_book();" type="button"
-                        class="btn btn-lg btn-block btn-outline-primary">register
-                </button>
-            </div>
+            <label class="form-label input">Coin Select</label>
+            <select class="form-control" id="select_coin4">
+                <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
+                <option value="0x295b3f39d7dacbc58329112064a14186f9fac786">Able Coin</option>
+                <option value="0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f">Able Dollar</option>
+            </select>
+            <br>
+            <button id="" onclick="javascript:get_sell_order_book();" type="button" class="btn btn-lg btn-block btn-outline-primary">register</button>
         </div>
     </div>
 
