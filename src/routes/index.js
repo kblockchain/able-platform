@@ -94,6 +94,7 @@ router.post('/open_new_account', function (req, res, next) {
     var connection = create_connection();
     var insert_query = "INSERT INTO AbleAccount (ableAccount_number, ableUser_address, ableAccount_password, ableAccount_info, ableAccount_type, reg_date) " +
         "VALUES ('" + user_accountNumber + "','" + user_Address + "','" + ableAccount_password + "','" + ableAccount_info + "','" + user_accountType + "',now())";
+    console.log(insert_query);
 
     connection.query(insert_query, function (err, rows, fields) {
         console.log(err);
@@ -185,7 +186,7 @@ function create_connection() {
 
 // new account register
 function regist_new_account(req, res, connection, ableUser_address, ableUser_nickname) {
-    console.log('222222222 '+ableUser_nickname);
+
     var insert_query = "INSERT INTO AbleUser (ableUser_address, ableUser_nickname, reg_date) VALUES ('" + ableUser_address + "','" + ableUser_nickname + "',now())";
     console.log('insert_query : ' + insert_query);
     connection.query(insert_query, function (err, rows, fields) {
@@ -290,6 +291,132 @@ router.post('/get_tokens', function (req, res, next) {
 });
 
 
+
+/* ==========================================================================
+    DB) Input Tranfer History to DB
+    ========================================================================== */
+
+router.post('/add_transfer_history', function (req, res, next) {
+    var connection = create_connection();
+
+    var ableAccount_from    = req.param('ableAccount_from');
+    var ableAccount_to      = req.param('ableAccount_to');
+    var token_address       = req.param('token_address');
+    var token_amount        = req.param('token_amount');
+
+    var insert_query = "INSERT INTO TransferHistory (ableAccount_from, ableAccount_to, token_address, token_amount, transfer_time, st_cd) VALUES ('" + ableAccount_from + "','" + ableAccount_to + "','" + token_address + "','" + token_amount + "',now(), 'A01_10')";
+
+    console.log(insert_query)
+    connection.query(insert_query, function (err, result) {
+        console.log("result.insertId : "+result.insertId);
+        res.json({result: '200',  insertId : result.insertId,  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/update_transfer_history', function (req, res, next) {
+    var connection = create_connection();
+    var insertId    = req.param('insertId');
+    var update_query = "UPDATE TransferHistory SET st_cd = 'A01_30' WHERE thid = '"+ insertId +"'";
+    console.log(update_query)
+    connection.query(update_query, function (err, result) {
+        res.json({result: '200',  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/add_deposit_history', function (req, res, next) {
+    var connection = create_connection();
+
+    var ableAccount_number      = req.param('ableAccount_number');
+    var token_address           = req.param('token_address');
+    var token_amount            = req.param('token_amount');
+
+    var insert_query = "INSERT INTO DepositHistory (ableAccount_number, token_address, token_amount, deposit_time, st_cd) VALUES ('" + ableAccount_number + "','" + token_address + "','" + token_amount + "',now(), 'A02_10')";
+
+    console.log(insert_query)
+    connection.query(insert_query, function (err, result) {
+        res.json({result: '200',  insertId : result.insertId,  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/update_deposit_history', function (req, res, next) {
+    var connection = create_connection();
+    var insertId    = req.param('insertId');
+    var update_query = "UPDATE DepositHistory SET st_cd = 'A02_30' WHERE dhid = '"+ insertId +"'";
+    console.log(update_query)
+    connection.query(update_query, function (err, result) {
+        res.json({result: '200',  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/add_withdraw_history', function (req, res, next) {
+    var connection = create_connection();
+
+    var ableAccount_number      = req.param('ableAccount_number');
+    var token_address           = req.param('token_address');
+    var token_amount            = req.param('token_amount');
+
+    var insert_query = "INSERT INTO WithdrawHistory (ableAccount_number, token_address, token_amount, withdraw_time, st_cd) VALUES ('" + ableAccount_number + "','" + token_address + "','" + token_amount  + "',now(), 'A03_10')";
+
+    console.log(insert_query)
+    connection.query(insert_query, function (err, result) {
+        res.json({result: '200', insertId : result.insertId,  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/update_withdraw_history', function (req, res, next) {
+    var connection = create_connection();
+    var insertId    = req.param('insertId');
+    var update_query = "UPDATE WithdrawHistory SET st_cd = 'A03_30' WHERE whid = '"+ insertId +"'";
+    console.log(update_query)
+    connection.query(update_query, function (err, result) {
+        res.json({result: '200',  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/get_transfer_history', function (req, res, next){
+    var connection = create_connection();
+    var user_address = req.session.ableUser_address;
+
+    var select_query = "SELECT A.* FROM  TransferHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_from, 66,'0') OR RPAD(A.ableAccount_to, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY transfer_time DESC";
+
+    console.log(select_query)
+    connection.query(select_query, function (err, rows, fields) {
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/get_deposit_history', function (req, res, next){
+    var connection = create_connection();
+    var user_address = req.session.ableUser_address;
+
+    var select_query = "SELECT A.* FROM DepositHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')   WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY deposit_time DESC";
+
+    console.log(select_query)
+    connection.query(select_query, function (err, rows, fields) {
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+    connection.end();
+});
+
+router.post('/get_withdraw_history', function (req, res, next){
+    var connection = create_connection();
+    var user_address = req.session.ableUser_address;
+
+    var select_query = "SELECT A.* FROM  WithdrawHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY withdraw_time DESC";
+
+    console.log(select_query)
+    connection.query(select_query, function (err, rows, fields) {
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+    connection.end();
+});
 
 router.post('/check_sum', function (req, res, next) {
     var test = req.param('account');

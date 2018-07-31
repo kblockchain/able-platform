@@ -8,6 +8,17 @@ var token_list = new Array();
 $(function () {
     // add account
     $("#btn_add_account").click(function () {
+
+
+        if($('#input_account_number').val() ==''){
+            alert('계좌이름을 입력해주세요');
+            return;
+        }
+        if($('#input_account_password').val() ==''){
+            alert('계좌 비밀번호를 입력해주세요');
+            return;
+        }
+
         open_able_account();
     });
 
@@ -307,12 +318,12 @@ function open_able_account() {
             // success, get info
             else {
 
-                user_Address = result.args.userAddress;
-                user_accountNumber = result.args.accountNumber;
-                user_accountType = result.args.accountType;
+                user_Address = result.args._userAddress;
+                user_accountNumber = result.args._accountNumber;
+                user_accountType = result.args._accountType;
 
-                var ascii_account = web3.toAscii(user_accountNumber);
-                console.log("account !!!!!!!!!! " + ascii_account);
+                //var ascii_account = web3.toAscii(user_accountNumber);
+                //console.log("account !!!!!!!!!! " + ascii_account);
 
                 console.log("openAbleAccount result user_accountNumber: " + user_accountNumber);
                 console.log("openAbleAccount result user_Address: " + user_Address);
@@ -324,7 +335,7 @@ function open_able_account() {
                     url: "/open_new_account",
                     dataType: "json",
                     data: {
-                        "user_accountNumber": ascii_account,
+                        "user_accountNumber": user_accountNumber,
                         "user_Address": user_Address,
                         "ableAccount_password": input_account_password,
                         "user_accountType": user_accountType
