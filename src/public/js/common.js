@@ -71,6 +71,7 @@ function get_account_detail(account_number) {
     });
 
     able_platform_Contract.getAbleAccount.call(account_number, function (err, res) { // 계좌 정보를 파라메터로 호출
+
         if (err) {
             console.log("err : " + err);
             return;

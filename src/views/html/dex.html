@@ -31,6 +31,7 @@
     <script src="../js/app.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/contract_address.js"></script>
+    <script src="../js/dex.js"></script>
 
 
     <script>
@@ -42,6 +43,44 @@
             $( "#select_account" ).change(function(){
                 get_account_detail($('#select_account').val());
             });
+
+            // 토큰 변경시 작동하는 함수
+            $( 'input[type=radio][name=select_coin]' ).change(function(){
+                console.log("token value(name): " + this.value);
+                var coin_name = this.value;
+                selcted_coin(coin_name);
+            });
+
+            // 토큰 구매시 Total ETH 값 계산해 주는 함수
+            $("#input_buy_amount, #input_buy_priceInWei").on("input", function () {
+
+                var _amount = $("#input_buy_amount").val();
+                var _priceInWei = $("#input_buy_priceInWei").val();
+
+                var total = _amount * _priceInWei;
+
+                console.log("total : " + total);
+
+                $('#buy_total').text('' + total + '' + " ETH");
+
+
+            });
+
+            // 토큰 판매시 Total ETH 값 계산해 주는 함수
+            $("#input_sell_amount, #input_sell_priceInWei").on("input", function () {
+
+                var _amount = $("#input_sell_amount").val();
+                var _priceInWei = $("#input_sell_priceInWei").val();
+
+                var total = _amount * _priceInWei;
+
+                console.log("total : " + total);
+
+                $('#sell_total').text('' + total + '' + " ETH");
+
+
+            });
+
 
             // BUY select box change
             $("#select_type_buy").change(function () {
@@ -127,15 +166,19 @@
                 <div class="site-header-shown">
                     <div style="float: right">
                         <ul class="nav ">
+
                             <li class="nav-item">
                                 <a class="nav-link" href="#"><span class="current"></span>Notice</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="#"><span class="current"></span>About ABLE</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link active" href="#"><span class="current"></span>Bank Service</a>
                             </li>
+
                             <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
                                 <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
                                     <span></span>
@@ -193,7 +236,7 @@
                  <div class="tabs-container">
                         <ul class="nav nav-tabs" role="tablist">
                             <li><a class="nav-link active" data-toggle="tab" href="#tab-1">ETH</a></li>
-                            <li><a class="nav-link" data-toggle="tab" href="#tab-2">ABLE</a></li>
+                            <!--<li><a class="nav-link" data-toggle="tab" href="#tab-2">ABLE</a></li>-->
                         </ul>
 
                         <div class="tab-content">
@@ -201,8 +244,8 @@
                             <!-- TAB 1-->
                             <div role="tabpanel" id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
-                                    <div class="checkbox-detailed">
-                                        <input type="radio" name="detailed" id="check-det-1" checked="" style="float: right;">
+                                    <div class="checkbox-detailed" id="select_coin">
+                                        <input type="radio" value="able_coin" name="select_coin" id="check-det-1" checked="checked" style="float: right;">
                                         <label for="check-det-1">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
@@ -210,16 +253,8 @@
                                             </span>
                                         </label>
 
-                                        <input type="radio" name="detailed" id="check-det-2" checked="" style="float: right;">
+                                        <input type="radio" value="able_dollar" name="select_coin" id="check-det-2" style="float: right;">
                                         <label for="check-det-2">
-                                            <span class="checkbox-detailed-tbl">
-                                                <span class="checkbox-detailed-cell">
-                                                    <span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span>
-                                            </span>
-                                        </label>
-
-                                        <input type="radio" name="detailed" id="check-det-3" checked="" style="float: right;">
-                                        <label for="check-det-3">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
                                                     <span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>
@@ -231,33 +266,33 @@
 
 
                             <!-- TAB 2-->
-                            <div role="tabpanel" id="tab-2" class="tab-pane">
-                                <div class="panel-body">
-                                    <div class="checkbox-detailed">
-                                        <input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">
-                                        <label for="check-det-4">
-                                            <span class="checkbox-detailed-tbl">
-                                                <span class="checkbox-detailed-cell">
-                                                    <span class="checkbox-detailed-title">ABLE</span>ABLE/ETH</span>
-                                            </span>
-                                        </label>
+                            <!--<div role="tabpanel" id="tab-2" class="tab-pane">-->
+                                <!--<div class="panel-body">-->
+                                    <!--<div class="checkbox-detailed">-->
+                                        <!--<input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">-->
+                                        <!--<label for="check-det-4">-->
+                                            <!--<span class="checkbox-detailed-tbl">-->
+                                                <!--<span class="checkbox-detailed-cell">-->
+                                                    <!--<span class="checkbox-detailed-title">ABLE</span>ABLE/ETH</span>-->
+                                            <!--</span>-->
+                                        <!--</label>-->
 
-                                        <input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">
-                                        <label for="check-det-5">
-                                            <span class="checkbox-detailed-tbl">
-                                                <span class="checkbox-detailed-cell">
-                                                    <span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span></span>
-                                        </label>
-                                        <input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">
-                                        <label for="check-det-6">
-                                            <span class="checkbox-detailed-tbl">
-                                                <span class="checkbox-detailed-cell">
-                                                    <span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>
-                                            </span>
-                                        </label>
-                                    </div> <!-- checkbox-detailed finish-->
-                                </div>
-                            </div>
+                                        <!--<input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">-->
+                                        <!--<label for="check-det-5">-->
+                                            <!--<span class="checkbox-detailed-tbl">-->
+                                                <!--<span class="checkbox-detailed-cell">-->
+                                                    <!--<span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span></span>-->
+                                        <!--</label>-->
+                                        <!--<input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">-->
+                                        <!--<label for="check-det-6">-->
+                                            <!--<span class="checkbox-detailed-tbl">-->
+                                                <!--<span class="checkbox-detailed-cell">-->
+                                                    <!--<span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>-->
+                                            <!--</span>-->
+                                        <!--</label>-->
+                                    <!--</div> &lt;!&ndash; checkbox-detailed finish&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>--><!-- tab2 finish-->
                         </div>
                  </div>
 
@@ -322,9 +357,8 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg">BUY</h5>
+                        <h5 class="m-t-lg" id="buy_token_name">BUY (ABLE COIN)</h5>
                         <form>
-
                             <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
@@ -337,40 +371,39 @@
                             </div>
 
 
-                            <div class="form-group" id="buy_price">
-                                <label class="form-label" style="padding-left: 14px">Price</label>
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                        <input type="text" class="form-control" id="input_buy_priceInWei" placeholder=""></p>
                                 </div>
                             </div>
-                            <div class="form-group" id="buy_amount">
+                            <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                        <input type="text" class="form-control" id="input_buy_amount" placeholder=""></p>
                                 </div>
                             </div>
 
-                            <div class="form-group" id="buy_total">
+                            <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Total</label>
                                 <div class="col-sm-12">
-                                    <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                    <p class="form-control-static" id="buy_total">0 ETH</p>
                                 </div>
                             </div>
 
 
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline">BUY</button>
+                                <button type="button" style="width:100%" class="btn btn-inline" onclick="jajascript:buy_token()">BUY</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >SELL</h5>
+                        <h5 class="m-t-lg" id="sell_token_name">SELL (ABLE COIN)</h5>
                         <form>
 
                             <div class="form-group">
@@ -384,32 +417,31 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" id="sell_price">
-                                <label class="form-label" style="padding-left: 14px">Price</label>
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                        <input type="text" class="form-control" placeholder="" id="input_sell_priceInWei"></p>
                                 </div>
                             </div>
                             <div class="form-group" id="sell_amount">
-                                <label class="form-label" style="padding-left: 14px">Amount</label>
+                                <label class="form-label" style="padding-left: 14px">Amount (ABLE COIN)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                        <input type="text" class="form-control" placeholder="" id="input_sell_amount"></p>
                                 </div>
                             </div>
 
-                            <div class="form-group" id="sell_total">
+                            <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Total</label>
                                 <div class="col-sm-12">
-                                    <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                    <p class="form-control-static" id="sell_total">0 ETH</p>
                                 </div>
                             </div>
 
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline">SELL</button>
+                                <button type="button" style="width:100%" class="btn btn-inline" onclick="sell_token()">SELL</button>
                             </div>
                         </form>
                     </div>

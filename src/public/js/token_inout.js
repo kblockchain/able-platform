@@ -34,9 +34,7 @@ function check_approve() {
 
          able_coin_Contract.approve(able_platform_contract_address, input_num_token, function (err, result) {
 
-             if (err) {
-                 console.log("err : " + err);
-             }
+7
 
              // // event listener
              // // check AbleOpenAccount success or fail
