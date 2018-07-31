@@ -2985,7 +2985,9 @@ audio, canvas, img, video {
 }
 
 .m-l-lg {
-    margin-left: 30px
+    margin-left: 30px;
+    font-weight: bold;
+    text-align: left;
 }
 
 .m-t-lg {
@@ -15921,6 +15923,17 @@ body.sidebar-hidden .side-menu-addl + .page-content {
 /* 우측 내 계좌 정보 */
 .my-info {
     width: 300px;
+    margin-right: 10px;
+    background-color: #fafafa;
+    font-family: AppleSDGothicNeo;
+    color: #6b7a85;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px 0 #bec6cc;
+}
+
+/* 우측 내 계좌 정보 */
+.my-info2 {
+    width: 100%;
     margin-right: 10px;
     background-color: #fafafa;
     font-family: AppleSDGothicNeo;
