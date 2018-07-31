@@ -230,3 +230,20 @@ function check_sum(param){
 function alert_dexready() {
     alert("DEX will be opend!")
 }
+
+function recognize_coin(token){
+    var coin_icon = "ETC"
+    if(token == '0x0000000000000000000000000000000000000000'){ // 토큰 거래주소에 따라 각각 구분해준다.
+        coin_icon = 'ETH';
+    }
+
+    else if(token == '0x295B3f39d7dAcbc58329112064A14186F9FAc786') {
+        coin_icon = 'ABLER';
+    }
+
+    else if(token == '0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f'){
+        coin_icon = 'ABLDR';
+    }
+
+    return coin_icon;
+}

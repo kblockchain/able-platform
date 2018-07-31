@@ -31,12 +31,13 @@
     <script src="../js/common.js"></script>
     <script src="../js/contract_address.js"></script>
     <script src="../js/easy_transfer.js"></script>
-    <script src="../js/custom_token_add.js"></script>
 
 
     <script>
         $(document).ready(function () {
             check_session();
+
+            get_history();
 
             $('#payment_date').daterangepicker({
                 singleDatePicker: true,
@@ -231,9 +232,9 @@
                     <div class="col-md-6">
                         <label class="form-label input" >Coin Select</label>
                         <select class="form-control" id="select_coin">
-                            <option value="0x0000000000000000000000000000000000000000">Ethereum</option>
-                            <option value="0x295b3f39d7dacbc58329112064a14186f9fac786">Able Coin</option>
-                            <option value="0x8c2b240b0b89aa7ff9f767ad9e02afff823fed2f">Able Dollar</option>
+                            <option value="t001">Ethereum</option>
+                            <option value="t002">Able Coin</option>
+                            <option value="t003">Able Dollar</option>
                         </select>
                     </div>
 
@@ -292,78 +293,69 @@
             <br><br><br>
         </div>
         <div class="row" style="width: 100%">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
 
                 <table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">
                     <thead style="font-size: 12px; font-weight: 800; color: #919fa9">
                     <tr>
-                        <td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>
+                        <td width="20%">Date</td><td>From</td><td>To</td><td>Token</td><td>Amount</td><td></td>
                     </tr>
                     </thead>
+                    <tbody id="history_body">
 
-                    <tbody>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="proceeding"> <span class="glyphicon glyphicon-log-in" style="margin-right: 3px;"></span> Proceeding
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok
-" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok
-" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
+                    <!--<tr class="spacer"></tr>-->
+                    <!--<tr>-->
+                        <!--<td>10 minutes ago</td>-->
+                        <!--<td>Exchange. DAI > ETH</td>-->
+                        <!--<td>1 DAI = 0.001897 ETH</td>-->
+                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
+                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr class="spacer"></tr>-->
+                    <!--<tr>-->
+                        <!--<td>10 minutes ago</td>-->
+                        <!--<td>Exchange. DAI > ETH</td>-->
+                        <!--<td>1 DAI = 0.001897 ETH</td>-->
+                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
+                        <!--<td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr class="spacer"></tr>-->
+                    <!--<tr>-->
+                        <!--<td>10 minutes ago</td>-->
+                        <!--<td>Exchange. DAI > ETH</td>-->
+                        <!--<td>1 DAI = 0.001897 ETH</td>-->
+                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
+                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr class="spacer"></tr>-->
+                    <!--<tr>-->
+                        <!--<td>10 minutes ago</td>-->
+                        <!--<td>Exchange. DAI > ETH</td>-->
+                        <!--<td>1 DAI = 0.001897 ETH</td>-->
+                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
+                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok-->
+<!--" style="margin-right: 3px;"></span> Complete-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr class="spacer"></tr>-->
+                    <!--<tr>-->
+                        <!--<td>10 minutes ago</td>-->
+                        <!--<td>Exchange. DAI > ETH</td>-->
+                        <!--<td>1 DAI = 0.001897 ETH</td>-->
+                        <!--<td>110019.000 DAI - 2.086 ETH</td>-->
+                        <!--<td class="complete"> <span class="glyphicon glyphicon-ok-->
+<!--" style="margin-right: 3px;"></span> Complete-->
+                        <!--</td>-->
+                    <!--</tr>-->
                     </tbody>
 
                 </table><br><br><br><br><br><br>
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
         </div>
 
         <br><br><br><br><br><br>

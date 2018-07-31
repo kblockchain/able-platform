@@ -32,13 +32,23 @@
     <script src="../js/select2.full.min.js"></script>
     <script src="../js/app.js"></script>
     <script src="../js/login_check.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../js/vue.js"></script>
     <script src="../js/dummy.js"></script>
 
     <script>
         $(document).ready(function () {
             check_session_dummy();
+
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: '!'
+                } 
+            })
+
         });
+
+
     </script>
 </head>
 <body>
@@ -47,6 +57,10 @@
 </div>
 
 
+
+<div id="app">
+{{message}}
+</div>
 
 <div class="container">
 

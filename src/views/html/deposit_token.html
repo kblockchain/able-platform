@@ -36,6 +36,8 @@
         $(document).ready(function () {
             check_session();
 
+            get_deposit_history();
+
             // 에이블 계좌 변경시 작동하는 함수
             $( "#select_account" ).change(function(){
                 get_account_detail($('#select_account').val());
@@ -274,67 +276,11 @@
                 <table class="transaction_history" cellspacing="30px" style="border-color: white; width: 100%; ">
                     <thead style="font-size: 12px; font-weight: 800; color: #919fa9">
                     <tr>
-                        <td>Date</td><td>Description</td><td>Rate</td><td>Amount</td><td></td>
+                        <td width="20%">Date</td><td>Account</td><td>Token</td><td>Amount</td><td></td>
                     </tr>
                     </thead>
+                    <tbody id="history_body">
 
-                    <tbody>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="proceeding"> <span class="glyphicon glyphicon-log-in" style="margin-right: 3px;"></span> Proceeding
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="fail"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="margin-right: 3px;"></span> Fail
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok
-" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
-                    <tr class="spacer"></tr>
-                    <tr>
-                        <td>10 minutes ago</td>
-                        <td>Exchange. DAI > ETH</td>
-                        <td>1 DAI = 0.001897 ETH</td>
-                        <td>110019.000 DAI - 2.086 ETH</td>
-                        <td class="complete"> <span class="glyphicon glyphicon-ok
-" style="margin-right: 3px;"></span> Complete
-                        </td>
-                    </tr>
                     </tbody>
 
                 </table><br><br><br><br><br><br>
