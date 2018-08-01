@@ -23,7 +23,7 @@ function selcted_coin(coin_name) {
     }
 }
 
-// dex-토큰 구매
+
 function buy_token(){
 
     var _accountNumber = $('#select_account').val(); // 간편 계좌 번호
@@ -39,6 +39,13 @@ function buy_token(){
     $('.loading').show();
     $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
+    /**
+     * @dev Market Buy Order Function
+     * @param _accountNumber the bytes32 to buy token.
+     * @param _token the address to buy token.
+     * @param _priceInWei the uint to set buy price.
+     * @param _amount the uint to set buy volume.
+     */
     able_platform_Contract.buyToken(_accountNumber , _token, _priceInWei, _amount, function (err, res){
 
         if (err) {
@@ -79,7 +86,8 @@ function buy_token(){
     });
 }
 
-// dex-토큰 판매
+
+
 function sell_token(){
 
     var _accountNumber = $('#select_account').val();
@@ -95,6 +103,13 @@ function sell_token(){
     $('.loading').show();
     $('.loading p').css('top', (($(window).height() - $("#wrap").outerHeight()) / 2 + $(window).scrollTop()) + "px");
 
+    /**
+     * @dev Market Sell Order Function
+     * @param _accountNumber the bytes32 to sell token.
+     * @param _token the address to sell token.
+     * @param _priceInWei the uint to set sell price.
+     * @param _amount the uint to set sell volume.
+     */
     able_platform_Contract.sellToken(_accountNumber , _token, _priceInWei, _amount, function (err, res){
 
         if (err) {
@@ -136,9 +151,15 @@ function sell_token(){
 }
 
 
+
 function get_buy_order_book() {
     var _token = $('#select_coin3').val();
 
+    /**
+     * @dev Returns Buy Prices Array and Buy Volume Array for each of the Prices
+     * @param _token the address to get token buy orders.
+     * @return uint[] of _arrPricesBuy_, uint[] _arrVolumesBuy_.
+     */
     able_platform_Contract.getBuyOrderBook(_token, function (err, res) {
         console.log(res);
     });
@@ -147,6 +168,11 @@ function get_buy_order_book() {
 function get_sell_order_book() {
     var _token = $('#select_coin4').val();
 
+    /**
+     * @dev Returns Sell Prices Array and Sell Volume Array for each of the Prices
+     * @param _token the address to get token sell orders.
+     * @return uint[] of _arrPricesSell_, uint[] _arrVolumesSell_.
+     */
     able_platform_Contract.getSellOrderBook(_token, function (err, res) {
         console.log(res);
     });
