@@ -128,8 +128,8 @@ function get_history (){
 
             for(let i=0; i<res.history_list.length; i++){
                 var his = res.history_list[i];
-                console.log(i + " :: " +his.transfer_time)
-                html += make_history_body(his.transfer_time.substr(0,10)+ " "+his.transfer_time.substr(11,8), web3.toAscii(his.ableAccount_from), web3.toAscii(his.ableAccount_to), recognize_coin(his.token_address), web3.fromWei(parseFloat(his.token_amount)) , his.st_cd);
+                console.log(i + " :: " +his.reg_date)
+                html += make_history_body(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), web3.toAscii(his.ableAccount_from), web3.toAscii(his.ableAccount_to), recognize_coin(his.token_address), web3.fromWei(parseFloat(his.token_amount)) , his.st_cd2);
             }
 
             console.log("html : " + html)
@@ -149,7 +149,11 @@ function make_history_body(transfer_time, ableAccount_from, ableAccount_to, toke
     if(st_cd == 'A01_10'){
         st_html = "                        <td class=\"proceeding\"> <span class=\"glyphicon glyphicon-log-in\" style=\"margin-right: 3px;\"> Proceeding</span>\n" +
             "                        </td>\n";
-    }else if(st_cd == 'A01_30'){
+    }else if(st_cd == 'A01_20'){
+        st_html ="<td class=\"fail\"> <span class=\"glyphicon glyphicon-remove\" style=\"margin-right: 3px;\"></span> Fail\n" +
+            "    </td>";
+    }
+    else if(st_cd == 'A01_30'){
         st_html ="<td class=\"complete\"> <span class=\"glyphicon glyphicon-ok\" style=\"margin-right: 3px;\"></span> Complete\n" +
             "    </td>";
     }

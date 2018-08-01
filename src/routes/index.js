@@ -304,7 +304,7 @@ router.post('/add_transfer_history', function (req, res, next) {
     var token_address       = req.param('token_address');
     var token_amount        = req.param('token_amount');
 
-    var insert_query = "INSERT INTO TransferHistory (ableAccount_from, ableAccount_to, token_address, token_amount, transfer_time, st_cd) VALUES ('" + ableAccount_from + "','" + ableAccount_to + "','" + token_address + "','" + token_amount + "',now(), 'A01_10')";
+    var insert_query = "INSERT INTO TransferHistory (ableAccount_from, ableAccount_to, token_address, token_amount, reg_date, st_cd) VALUES ('" + ableAccount_from + "','" + ableAccount_to + "','" + token_address + "','" + token_amount + "',now(), 'A01_10')";
 
     console.log(insert_query)
     connection.query(insert_query, function (err, result) {
@@ -332,7 +332,7 @@ router.post('/add_deposit_history', function (req, res, next) {
     var token_address           = req.param('token_address');
     var token_amount            = req.param('token_amount');
 
-    var insert_query = "INSERT INTO DepositHistory (ableAccount_number, token_address, token_amount, deposit_time, st_cd) VALUES ('" + ableAccount_number + "','" + token_address + "','" + token_amount + "',now(), 'A02_10')";
+    var insert_query = "INSERT INTO DepositHistory (ableAccount_number, token_address, token_amount, reg_date, st_cd) VALUES ('" + ableAccount_number + "','" + token_address + "','" + token_amount + "',now(), 'A02_10')";
 
     console.log(insert_query)
     connection.query(insert_query, function (err, result) {
@@ -359,7 +359,7 @@ router.post('/add_withdraw_history', function (req, res, next) {
     var token_address           = req.param('token_address');
     var token_amount            = req.param('token_amount');
 
-    var insert_query = "INSERT INTO WithdrawHistory (ableAccount_number, token_address, token_amount, withdraw_time, st_cd) VALUES ('" + ableAccount_number + "','" + token_address + "','" + token_amount  + "',now(), 'A03_10')";
+    var insert_query = "INSERT INTO WithdrawHistory (ableAccount_number, token_address, token_amount, reg_date, st_cd) VALUES ('" + ableAccount_number + "','" + token_address + "','" + token_amount  + "',now(), 'A03_10')";
 
     console.log(insert_query)
     connection.query(insert_query, function (err, result) {
@@ -383,7 +383,7 @@ router.post('/get_transfer_history', function (req, res, next){
     var connection = create_connection();
     var user_address = req.session.ableUser_address;
 
-    var select_query = "SELECT A.* FROM  TransferHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_from, 66,'0') OR RPAD(A.ableAccount_to, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY transfer_time DESC";
+    var select_query = "SELECT A.*, if( st_cd = 'A01_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A01_20',st_cd ) AS st_cd2 FROM  TransferHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_from, 66,'0') OR RPAD(A.ableAccount_to, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC";
 
     console.log(select_query)
     connection.query(select_query, function (err, rows, fields) {
@@ -396,7 +396,7 @@ router.post('/get_deposit_history', function (req, res, next){
     var connection = create_connection();
     var user_address = req.session.ableUser_address;
 
-    var select_query = "SELECT A.* FROM DepositHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')   WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY deposit_time DESC";
+    var select_query = "SELECT A.* , if( st_cd = 'A02_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A02_20',st_cd ) AS st_cd2 FROM DepositHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')   WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC";
 
     console.log(select_query)
     connection.query(select_query, function (err, rows, fields) {
@@ -409,7 +409,7 @@ router.post('/get_withdraw_history', function (req, res, next){
     var connection = create_connection();
     var user_address = req.session.ableUser_address;
 
-    var select_query = "SELECT A.* FROM  WithdrawHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY withdraw_time DESC";
+    var select_query = "SELECT A.* , if( st_cd = 'A03_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A03_20',st_cd ) AS st_cd2 FROM  WithdrawHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC";
 
     console.log(select_query)
     connection.query(select_query, function (err, rows, fields) {
