@@ -41,10 +41,18 @@
             get_buy_order_book();
             get_sell_order_book();
 
+            setTimeout(function () {
+                get_my_order();
+            }, 1000);
 
             // 에이블 계좌 변경시 작동하는 함수
             $( "#select_account" ).change(function(){
                 get_account_detail($('#select_account').val());
+                get_buy_order_book();
+                get_sell_order_book();
+
+                get_my_order();
+
             });
 
             // 토큰 변경시 작동하는 함수
@@ -515,7 +523,7 @@
                                         </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody id="sell_order_book">
                                         <tr>
                                             <td>0.00003346</td>
                                             <td>26677.12</td>
@@ -551,7 +559,7 @@
                 <!-- MY OPEN ORDERS -->
                 <div class="col-sm-12">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >MY OPEN ORDERS</h5>
+                        <h5 class="m-t-lg" >MY BUY OPEN ORDERS</h5>
                         <form>
                             <div class="card">
                                 <div class="table-responsive">
@@ -603,6 +611,36 @@
                                             <td>180730</td>
                                             <td>NOT</td>
                                         </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- MY OPEN ORDERS -->
+                <div class="col-sm-12">
+                    <div class="box-typical box-typical-padding">
+                        <h5 class="m-t-lg" >MY SELL OPEN ORDERS</h5>
+                        <form>
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Amount (ABLE)</th>
+                                            <th scope="col">Total (ETH)</th>
+                                            <!--<th scope="col">Date</th>-->
+                                            <th scope="col"></th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody id="my_sell_open_orders">
+
+
+
                                         </tbody>
                                     </table>
                                 </div>

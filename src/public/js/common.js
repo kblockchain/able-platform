@@ -33,7 +33,7 @@ function get_accounts_info() { // 간편송금 페이지 진입시 세션 체크
                     if (res != null) { // 계좌 정보를 각각 가져와 셀렉트 박스 옵션으로 넣는다.
 
 
-                        console.log(res);
+                        //console.log(res);
                         check_sum(res);
 
                         var account_nickname = web3.toAscii(res);
@@ -221,7 +221,7 @@ function check_sum(param){
         dataType: "json",
         data : {"account" : param},
         success: function (res) {
-            console.log(res.result)
+            //console.log(res.result)
             return res.result;
         }
     });

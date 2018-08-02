@@ -267,7 +267,8 @@ function is_ableuser() {
                     data: {"user_address": user_address},
                     success: function (res) {
                         console.log("ajx loggin.check : " + JSON.stringify(res));
-                        $(location).attr('href', '/account_manage');
+                        // $(location).attr('href', '/account_manage');
+                        $(location).attr('href', '/dex');
 
                         console.log("able jquery");
 

@@ -164,7 +164,7 @@ function get_buy_order_book() {
      * @param _token the address to get token buy orders.
      * @return uint[] of _arrPricesBuy_, uint[] _arrVolumesBuy_.
      */
-    able_platform_Contract.getBuyOrderBook(_token, function (err, res) {
+    able_platform_Contract.getBuyOrderBook.call(_token, function (err, res) {
 
         if (err) {
             console.log("getBuyOrderBook err : " + err);
@@ -174,6 +174,13 @@ function get_buy_order_book() {
         console.log("getBuyOrderBook success");
         console.log("getBuyOrderBook res : " + res);
 
+        var buybook_price = res.toString().split(',');
+
+        var buybook_volume = buybook_price.splice(buybook_price.length/2,buybook_price.length/2)
+
+        console.log(buybook_price)
+
+        console.log(buybook_volume)
 
         //todo db insert & if success redirect or ???
         // var _arrPricesBuyAry = res.args._arrPricesBuy_;
@@ -203,7 +210,85 @@ function get_sell_order_book() {
             return;
         }
 
+        var sellbook_price = res.toString().split(',');
+
+        var sellbook_volume = sellbook_price.splice(sellbook_price.length/2,sellbook_price.length/2)
+
+        console.log(sellbook_price)
+
+        console.log(sellbook_volume)
+
+        var sell_book_html ="";
+
+        for( let i=0; i < sellbook_price.length ; i++){
+            sell_book_html += make_sell_order_book(sellbook_price[i], sellbook_volume[i]);
+        }
+
+        $('#sell_order_book').html(sell_book_html);
+
         console.log("getSellOrderBook success");
         console.log("getSellOrderBook : " + res);
     });
+}
+
+function make_sell_order_book( price, volume){
+    html = "<tr>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                        </tr>";
+
+    return html;
+}
+
+
+function make_my_buy_open_order_book(){
+    html = "<tr>\n" +
+        "                                            <td>0.00003363</td>\n" +
+        "                                            <td>107505.554</td>\n" +
+        "                                            <td>3.61541178</td>\n" +
+        "                                            <td><button></button>/td>\n" +
+        "                                        </tr>";
+}
+
+function make_my_sell_open_order_book( price, amount, offset){
+    html = "<tr>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "                                            <td><button offset='"+offset+"'></button>/td>\n" +
+        "                                        </tr>";
+    return html;
+}
+
+
+async function get_my_order(){
+    var _accountNumber = $('#select_account').val();
+    var _token = selected_coin_contract_address;
+
+    console.log(_accountNumber + " : ---------------- ::: "+selected_coin_contract_address)
+    await able_platform_Contract.getdexAccountSellCount(_accountNumber, _token, async function (err,res){
+        if (err) {
+            console.log("getBuyOrderBook err : " + err);
+            return;
+        }
+        var html = "";
+        for(let i=0; i < res ; i++){
+            able_platform_Contract.getAccountSellOrder(_accountNumber, _token , i, async function (err, res){
+                if (err) {
+                    console.log("getBuyOrderBook err : " + err);
+                    return;
+                }
+                var sell_order_info = res.toString().split(',');
+
+                html += await make_my_sell_open_order_book(sell_order_info[0],sell_order_info[1],sell_order_info[2]);
+                console.log(sell_order_info);
+            });
+        }
+        console.log(html);
+        $('#my_sell_open_orders').html(html);
+
+
+    });
+
 }
