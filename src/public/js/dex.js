@@ -240,7 +240,7 @@ function cancle_order(price,offset,order_type){
     }else if(order_type=='SELL'){
         _isSellOrder = true;
     }
-    var _priceInWei = price;
+    var _priceInWei = web3.toWei(parseFloat(price));
     var _offerKey = offset;
 
     console.log(_accountNumber)
