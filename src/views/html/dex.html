@@ -38,6 +38,9 @@
         $(document).ready(function () {
             console.log("ready");
             check_session();
+            get_buy_order_book();
+            get_sell_order_book();
+
 
             // 에이블 계좌 변경시 작동하는 함수
             $( "#select_account" ).change(function(){

@@ -12,6 +12,9 @@ function selcted_coin(coin_name) {
         $('#sell_token_name').text('SELL (ABLE COIN)');
 
         selected_coin_contract_address = able_coin_contract_address;
+
+        // order book 불러오기
+        get_buy_order_book(selected_coin_contract_address);
     }
 
     else if(coin_name == "able_dollar") {
@@ -19,6 +22,8 @@ function selcted_coin(coin_name) {
         $('#sell_token_name').text('SELL (ABLE DOLLAR)');
 
         selected_coin_contract_address = able_dollar_contract_address;
+
+        get_buy_order_book(selected_coin_contract_address);
 
     }
 }
@@ -151,9 +156,8 @@ function sell_token(){
 }
 
 
-
 function get_buy_order_book() {
-    var _token = $('#select_coin3').val();
+    var _token = selected_coin_contract_address;
 
     /**
      * @dev Returns Buy Prices Array and Buy Volume Array for each of the Prices
@@ -161,12 +165,31 @@ function get_buy_order_book() {
      * @return uint[] of _arrPricesBuy_, uint[] _arrVolumesBuy_.
      */
     able_platform_Contract.getBuyOrderBook(_token, function (err, res) {
-        console.log(res);
+
+        if (err) {
+            console.log("getBuyOrderBook err : " + err);
+            return;
+        }
+
+        console.log("getBuyOrderBook success");
+        console.log("getBuyOrderBook res : " + res);
+
+
+        //todo db insert & if success redirect or ???
+        // var _arrPricesBuyAry = res.args._arrPricesBuy_;
+        // var first = _arrPricesBuyAry[0];
+        // console.log("first : " + first);
+
+
+        // var _arrVolumesBuy = res.args.arrVolumesBuy;
+        //
+        // console.log("_arrPricesBuy : " + _arrPricesBuy);
+        // console.log("_arrVolumesBuy : " + _arrVolumesBuy);
     });
 }
 
 function get_sell_order_book() {
-    var _token = $('#select_coin4').val();
+    var _token = selected_coin_contract_address;
 
     /**
      * @dev Returns Sell Prices Array and Sell Volume Array for each of the Prices
@@ -174,6 +197,13 @@ function get_sell_order_book() {
      * @return uint[] of _arrPricesSell_, uint[] _arrVolumesSell_.
      */
     able_platform_Contract.getSellOrderBook(_token, function (err, res) {
-        console.log(res);
+
+        if (err) {
+            console.log("getBuyOrderBook err : " + err);
+            return;
+        }
+
+        console.log("getSellOrderBook success");
+        console.log("getSellOrderBook : " + res);
     });
 }
