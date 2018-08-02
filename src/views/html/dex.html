@@ -38,8 +38,7 @@
         $(document).ready(function () {
             console.log("ready");
             check_session();
-            get_buy_order_book();
-            get_sell_order_book();
+            get_order_book();
 
             setTimeout(function () {
                 get_my_order();
@@ -48,8 +47,7 @@
             // 에이블 계좌 변경시 작동하는 함수
             $( "#select_account" ).change(function(){
                 get_account_detail($('#select_account').val());
-                get_buy_order_book();
-                get_sell_order_book();
+                get_order_book();
 
                 get_my_order();
 
@@ -59,7 +57,7 @@
             $( 'input[type=radio][name=select_coin]' ).change(function(){
                 console.log("token value(name): " + this.value);
                 var coin_name = this.value;
-                selcted_coin(coin_name);
+                selected_coin(coin_name);
             });
 
             // 토큰 구매시 Total ETH 값 계산해 주는 함수
@@ -475,30 +473,8 @@
                                         </tr>
                                         </thead>
 
-                                        <tbody>
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
+                                        <tbody id="buy_order_book">
 
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -524,29 +500,7 @@
                                         </thead>
 
                                         <tbody id="sell_order_book">
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>0.00003346</td>
-                                            <td>26677.12</td>
-                                            <td>0.892636</td>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -566,51 +520,16 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Type</th>
                                             <th scope="col">Price</th>
                                             <th scope="col">Amount (ABLE)</th>
                                             <th scope="col">Total (ETH)</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Action</th>
+                                            <!--<th scope="col">Date</th>-->
+                                            <th scope="col"></th>
                                         </tr>
                                         </thead>
 
-                                        <tbody>
-                                        <tr>
-                                            <td>Buy</td>
-                                            <td>0.00003363</td>
-                                            <td>107505.554</td>
-                                            <td>3.61541178</td>
-                                            <td>180730</td>
-                                            <td>NOT</td>
-                                        </tr>
+                                        <tbody id="my_buy_open_orders">
 
-                                        <tr>
-                                            <td>Buy</td>
-                                            <td>0.00003363</td>
-                                            <td>107505.554</td>
-                                            <td>3.61541178</td>
-                                            <td>180730</td>
-                                            <td>NOT</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Buy</td>
-                                            <td>0.00003363</td>
-                                            <td>107505.554</td>
-                                            <td>3.61541178</td>
-                                            <td>180730</td>
-                                            <td>NOT</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Buy</td>
-                                            <td>0.00003363</td>
-                                            <td>107505.554</td>
-                                            <td>3.61541178</td>
-                                            <td>180730</td>
-                                            <td>NOT</td>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>

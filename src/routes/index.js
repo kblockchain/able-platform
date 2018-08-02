@@ -418,6 +418,30 @@ router.post('/get_withdraw_history', function (req, res, next){
     connection.end();
 });
 
+
+/*
+* order history DB insert
+*
+* */
+
+router.post('/add_order_history', function (req, res, next) {
+    var connection = create_connection();
+
+    var ableAccount_number      = req.param('ableAccount_number');
+    var order_type      = req.param('order_type');
+    var token_address           = req.param('token_address');
+    var token_amount            = req.param('token_amount');
+    var token_priceOfWei            = req.param('token_priceOfWei');
+
+    var insert_query = "INSERT INTO OrderHistory (ableAccount_number, order_type, token_address, token_amount,token_priceOfWei, reg_date ) VALUES ('" + ableAccount_number + "','" + order_type + "','" + token_address + "','" + token_amount  + "','" + token_priceOfWei + "',now())";
+    console.log(insert_query)
+    connection.query(insert_query, function (err, result) {
+        res.json({result: '200', insertId : result.insertId,  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+});
+
+
 router.post('/check_sum', function (req, res, next) {
     var test = req.param('account');
     console.log("param : "+test);

@@ -4,8 +4,8 @@
 // 기본값으로 able coin의 컨트랙트 주소 값 사용
 var selected_coin_contract_address = able_coin_contract_address;
 
-
-function selcted_coin(coin_name) {
+// 코인 선택시 이벤트
+function selected_coin(coin_name) {
 
     if(coin_name == "able_coin") {
         $('#buy_token_name').text('BUY (ABLE COIN)');
@@ -14,7 +14,7 @@ function selcted_coin(coin_name) {
         selected_coin_contract_address = able_coin_contract_address;
 
         // order book 불러오기
-        get_buy_order_book(selected_coin_contract_address);
+        get_order_book(selected_coin_contract_address);
     }
 
     else if(coin_name == "able_dollar") {
@@ -23,12 +23,12 @@ function selcted_coin(coin_name) {
 
         selected_coin_contract_address = able_dollar_contract_address;
 
-        get_buy_order_book(selected_coin_contract_address);
+        get_order_book(selected_coin_contract_address);
 
     }
 }
 
-
+// 코인 구매
 function buy_token(){
 
     var _accountNumber = $('#select_account').val(); // 간편 계좌 번호
@@ -92,7 +92,7 @@ function buy_token(){
 }
 
 
-
+// 코인 판매
 function sell_token(){
 
     var _accountNumber = $('#select_account').val();
@@ -131,13 +131,6 @@ function sell_token(){
                 return;
             }
 
-            console.log("LimitSellOrderCreated success");
-
-
-            //todo db insert & if success redirect or ???
-            $('.loading').hide();
-
-
             var _token = res.args._token;
             var _accountNumber = res.args._accountNumber;
             var _amountTokens = res.args._amountTokens;
@@ -150,145 +143,175 @@ function sell_token(){
             console.log("_priceInWei : " + _priceInWei);
             console.log("_orderKey : " + _orderKey);
 
+            // $.ajax({
+            //     method: "POST",
+            //     url: "/add_order_history",
+            //     dataType: "json",
+            //     data: {
+            //         "ableAccount_number": _accountNumber,
+            //         "order_type": 'SELL',
+            //         "token_address": _token,
+            //         "token_amount": _amount,
+            //         "token_priceOfWei" : _priceInWei
+            //     },
+            //     success: function (res) {
+            //
+            //         insertId = res.insertId;
+            //         console.log(res);
+            //     }
+            // });
+
+            console.log("LimitSellOrderCreated success");
+
+            //todo db insert & if success redirect or ???
+            $('.loading').hide();
+
         });
 
     });
 }
 
 
-function get_buy_order_book() {
+
+//
+function get_order_book() {
     var _token = selected_coin_contract_address;
-
-    /**
-     * @dev Returns Buy Prices Array and Buy Volume Array for each of the Prices
-     * @param _token the address to get token buy orders.
-     * @return uint[] of _arrPricesBuy_, uint[] _arrVolumesBuy_.
-     */
-    able_platform_Contract.getBuyOrderBook.call(_token, function (err, res) {
-
-        if (err) {
-            console.log("getBuyOrderBook err : " + err);
-            return;
-        }
-
-        console.log("getBuyOrderBook success");
-        console.log("getBuyOrderBook res : " + res);
-
-        var buybook_price = res.toString().split(',');
-
-        var buybook_volume = buybook_price.splice(buybook_price.length/2,buybook_price.length/2)
-
-        console.log(buybook_price)
-
-        console.log(buybook_volume)
-
-        //todo db insert & if success redirect or ???
-        // var _arrPricesBuyAry = res.args._arrPricesBuy_;
-        // var first = _arrPricesBuyAry[0];
-        // console.log("first : " + first);
-
-
-        // var _arrVolumesBuy = res.args.arrVolumesBuy;
-        //
-        // console.log("_arrPricesBuy : " + _arrPricesBuy);
-        // console.log("_arrVolumesBuy : " + _arrVolumesBuy);
-    });
-}
-
-function get_sell_order_book() {
-    var _token = selected_coin_contract_address;
-
     /**
      * @dev Returns Sell Prices Array and Sell Volume Array for each of the Prices
      * @param _token the address to get token sell orders.
      * @return uint[] of _arrPricesSell_, uint[] _arrVolumesSell_.
      */
     able_platform_Contract.getSellOrderBook(_token, function (err, res) {
-
         if (err) {
             console.log("getBuyOrderBook err : " + err);
             return;
         }
-
         var sellbook_price = res.toString().split(',');
-
         var sellbook_volume = sellbook_price.splice(sellbook_price.length/2,sellbook_price.length/2)
-
-        console.log(sellbook_price)
-
-        console.log(sellbook_volume)
-
+        var buy_book_html ="";
         var sell_book_html ="";
-
         for( let i=0; i < sellbook_price.length ; i++){
-            sell_book_html += make_sell_order_book(sellbook_price[i], sellbook_volume[i]);
+            sell_book_html += make_order_book(sellbook_price[i], sellbook_volume[i]);
         }
-
         $('#sell_order_book').html(sell_book_html);
-
-        console.log("getSellOrderBook success");
-        console.log("getSellOrderBook : " + res);
+    });
+    able_platform_Contract.getBuyOrderBook(_token, function (err, res) {
+        if (err) {
+            console.log("getBuyOrderBook err : " + err);
+            return;
+        }
+        var book_price = res.toString().split(',');
+        var book_volume = book_price.splice(book_price.length/2,book_price.length/2)
+        var buy_book_html ="";
+        for( let i=0; i < book_price.length ; i++){
+            buy_book_html += make_order_book(book_price[i], book_volume[i]);
+        }
+        $('#buy_order_book').html(buy_book_html);
     });
 }
 
-function make_sell_order_book( price, volume){
+function make_order_book( price, volume){
     html = "<tr>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                        </tr>";
-
     return html;
 }
 
 
-function make_my_buy_open_order_book(){
-    html = "<tr>\n" +
-        "                                            <td>0.00003363</td>\n" +
-        "                                            <td>107505.554</td>\n" +
-        "                                            <td>3.61541178</td>\n" +
-        "                                            <td><button></button>/td>\n" +
-        "                                        </tr>";
-}
 
-function make_my_sell_open_order_book( price, amount, offset){
+function make_my_open_order_book( price, amount, offset, order_type){
     html = "<tr>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(amount)) +"</td>\n" +
-        "                                            <td><button offset='"+offset+"'></button>/td>\n" +
+        "                                            <td><button type=\"button\" onclick=\"javascript:cancle_order('"+price+"','"+offset+"','"+order_type+"');\""+ " class=\"btn btn-inline btn-danger\" offset='"+offset+"'>cancel</button></td>\n" +
         "                                        </tr>";
     return html;
 }
 
-
-async function get_my_order(){
+function cancle_order(price,offset,order_type){
     var _accountNumber = $('#select_account').val();
     var _token = selected_coin_contract_address;
+    var _isSellOrder = '';
+    if(order_type=='BUY'){
+        _isSellOrder = false;
+    }else if(order_type=='SELL'){
+        _isSellOrder = true;
+    }
+    var _priceInWei = price;
+    var _offerKey = offset;
 
-    console.log(_accountNumber + " : ---------------- ::: "+selected_coin_contract_address)
-    await able_platform_Contract.getdexAccountSellCount(_accountNumber, _token, async function (err,res){
-        if (err) {
-            console.log("getBuyOrderBook err : " + err);
-            return;
-        }
-        var html = "";
-        for(let i=0; i < res ; i++){
-            able_platform_Contract.getAccountSellOrder(_accountNumber, _token , i, async function (err, res){
-                if (err) {
-                    console.log("getBuyOrderBook err : " + err);
-                    return;
-                }
-                var sell_order_info = res.toString().split(',');
+    console.log(_accountNumber)
+    console.log(_token)
+    console.log(_isSellOrder)
+    console.log(_priceInWei)
+    console.log(_offerKey)
 
-                html += await make_my_sell_open_order_book(sell_order_info[0],sell_order_info[1],sell_order_info[2]);
-                console.log(sell_order_info);
-            });
+    able_platform_Contract.cancelOrder(_accountNumber, _token, _isSellOrder, _priceInWei, _offerKey, function (err, res){
+        // sell
+        if (_isSellOrder == true) {
+            able_platform_Contract.SellOrderCanceled().watch(function(err,res ){
+                alert('판매 취소되었습니다.');
+                console.log(res)
+            })
         }
-        console.log(html);
-        $('#my_sell_open_orders').html(html);
+
+        // buy
+        else if (_isSellOrder == false) {
+            able_platform_Contract.BuyOrderCanceled().watch(function(err,res ){
+                alert('구매 취소되었습니다.');
+                console.log(res)
+            })
+        }
 
 
     });
+}
 
+var my_open_buy_order = new Array();
+var my_open_sell_order = new Array();
+
+function get_my_order(){
+    var _accountNumber = $('#select_account').val();
+    var _token = selected_coin_contract_address;
+    able_platform_Contract.getdexAccountSellCount(_accountNumber, _token, async function (err,res){
+        for(let i=0; i < res ; i++){
+            able_platform_Contract.getAccountSellOrder(_accountNumber, _token , i, async function (err, res){
+                my_open_sell_order.push(res);
+            });
+        }
+
+    });
+    able_platform_Contract.getdexAccountBuyCount(_accountNumber, _token, async function (err,res){
+        for(let i=0; i < res ; i++){
+            able_platform_Contract.getAccountBuyOrder(_accountNumber, _token , i, async function (err, res){
+                my_open_buy_order.push(res);
+            });
+        }
+
+    });
+    setTimeout(function(){
+        get_buy_sell_list();
+    },2000);
+
+
+}
+
+function get_buy_sell_list() {
+    var html="";
+    for (let z = 0; z < my_open_buy_order.length; z++) {
+        console.log(my_open_buy_order[z]);
+        var order_info = my_open_buy_order[z].toString().split(',');
+        html += make_my_open_order_book(order_info[0],order_info[1],order_info[2],'BUY');
+    }
+    $('#my_buy_open_orders').html(html);
+    var html2 ="";
+    for (let z = 0; z < my_open_sell_order.length; z++) {
+        console.log(my_open_sell_order[z]);
+        var order_info = my_open_sell_order[z].toString().split(',');
+        html += make_my_open_order_book(order_info[0],order_info[1],order_info[2],'SELL');
+    }
+    $('#my_sell_open_orders').html(html);
 }
