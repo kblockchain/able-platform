@@ -677,7 +677,7 @@ contract AblePlatform is Ownable {
      * @param _token the address to get token sell orders.
      * @return uint[] of _arrPricesSell_, uint[] _arrVolumesSell_.
      */
-    function getSellOrderBook(address _token) public view returns (uint[], uint[]) {
+    function getSellOrderBook(address _token) public view returns (uint[] _arrPricesSell_, uint[] _arrVolumesSell_) {
         uint[] memory arrPricesSell = new uint[](dexTokens[_token].sell_length);
         uint[] memory arrVolumesSell = new uint[](dexTokens[_token].sell_length);
         uint sellWhilePrice = dexTokens[_token].curSellPrice;
