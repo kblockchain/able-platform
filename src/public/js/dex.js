@@ -269,7 +269,7 @@ function cancle_order(price,offset,order_type){
     var _isSellOrder = '';
 
     if(order_type=='BUY'){
-        _isSellOrder = false;
+        _isSellOrder = false; // test
     }else if(order_type=='SELL'){
         _isSellOrder = true;
     }
