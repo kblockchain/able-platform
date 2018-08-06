@@ -776,6 +776,11 @@ contract AblePlatform is Ownable {
                         dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens = 0;
                         dexTokens[_token].sellBook[whilePrice].offers_key++;
 
+                        // Reset Accout Sell Order OfferKey.
+                        ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOffers[_priceInWei] = 0;
+                        ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferListPointer[_priceInWei]] = ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList.length-1];
+                        ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList.length--;
+
                         emit BuyOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, offers_key);
 
                         amountOfTokensNecessary = amountOfTokensNecessary.sub(volumeAtPriceFromAccount);
@@ -1026,6 +1031,11 @@ contract AblePlatform is Ownable {
                         dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens = 0;
                         // Move up one element in the Buy Book Offers Mapping (i.e. to the Next Buy Offer at the Current Buy Order Price)
                         dexTokens[_token].buyBook[whilePrice].offers_key++;
+
+                        // Reset Accout Buy Order OfferKey.
+                        ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOffers[_priceInWei] = 0;
+                        ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferListPointer[_priceInWei]] = ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList.length-1];
+                        ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList.length--;
 
                         // Emit Event
                         emit SellOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, offers_key);
