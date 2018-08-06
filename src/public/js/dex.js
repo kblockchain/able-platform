@@ -171,9 +171,7 @@ function sell_token(){
     });
 }
 
-
-
-//
+// 주문 내역 불러오는 부분
 function get_order_book() {
     var _token = selected_coin_contract_address;
     /**
@@ -210,7 +208,8 @@ function get_order_book() {
     });
 }
 
-function make_order_book( price, volume){
+// order book 부분 html 생성해주는 곳 (주문 가능한 목록)
+function make_order_book(price, volume){
     html = "<tr>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
@@ -221,61 +220,20 @@ function make_order_book( price, volume){
 
 
 
-function make_my_open_order_book( price, amount, offset, order_type){
-    html = "<tr>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(amount)) +"</td>\n" +
-        "                                            <td><button type=\"button\" onclick=\"javascript:cancle_order('"+price+"','"+offset+"','"+order_type+"');\""+ " class=\"btn btn-inline btn-danger\" offset='"+offset+"'>cancel</button></td>\n" +
-        "                                        </tr>";
-    return html;
-}
 
-function cancle_order(price,offset,order_type){
-    var _accountNumber = $('#select_account').val();
-    var _token = selected_coin_contract_address;
-    var _isSellOrder = '';
-    if(order_type=='BUY'){
-        _isSellOrder = false;
-    }else if(order_type=='SELL'){
-        _isSellOrder = true;
-    }
-    var _priceInWei = web3.toWei(parseFloat(price));
-    var _offerKey = offset;
-
-    console.log(_accountNumber)
-    console.log(_token)
-    console.log(_isSellOrder)
-    console.log(_priceInWei)
-    console.log(_offerKey)
-
-    able_platform_Contract.cancelOrder(_accountNumber, _token, _isSellOrder, _priceInWei, _offerKey, function (err, res){
-        // sell
-        if (_isSellOrder == true) {
-            able_platform_Contract.SellOrderCanceled().watch(function(err,res ){
-                alert('판매 취소되었습니다.');
-                console.log(res)
-            })
-        }
-
-        // buy
-        else if (_isSellOrder == false) {
-            able_platform_Contract.BuyOrderCanceled().watch(function(err,res ){
-                alert('구매 취소되었습니다.');
-                console.log(res)
-            })
-        }
-
-
-    });
-}
-
+// 나의 구매 / 판매 주문 내역을 담아둘 배열
 var my_open_buy_order = new Array();
 var my_open_sell_order = new Array();
 
+//
 function get_my_order(){
     var _accountNumber = $('#select_account').val();
     var _token = selected_coin_contract_address;
+
+    // 내가 등록해둔 판매 목록
+    // 1.블록체인 네트워크에서 getdexAccountSellCount 함수를 이용해 해당 계좌에 등록되어 있는 '판매 갯수'를 가져온다.
+    // 2.판매 갯수 만큼 반복문을 돌려서, 1.priceInWei 2.amount 3.offset 값을 리턴 받는다.
+    // 3.get_buy_sell_list 함수에서 Array에 저장된 값을 불러와 html에 뿌려준다.
     able_platform_Contract.getdexAccountSellCount(_accountNumber, _token, async function (err,res){
         for(let i=0; i < res ; i++){
             able_platform_Contract.getAccountSellOrder(_accountNumber, _token , i, async function (err, res){
@@ -284,6 +242,8 @@ function get_my_order(){
         }
 
     });
+
+    // 내가 등록해둔 구매 목록
     able_platform_Contract.getdexAccountBuyCount(_accountNumber, _token, async function (err,res){
         for(let i=0; i < res ; i++){
             able_platform_Contract.getAccountBuyOrder(_accountNumber, _token , i, async function (err, res){
@@ -292,6 +252,8 @@ function get_my_order(){
         }
 
     });
+
+    // 배열에 담은 값을 불러와 html로 불러들인다.
     setTimeout(function(){
         get_buy_sell_list();
     },2000);
@@ -299,6 +261,54 @@ function get_my_order(){
 
 }
 
+// my open order book에서 cancel 버튼 클릭 이벤트 함수
+function cancle_order(price,offset,order_type){
+
+    var _accountNumber = $('#select_account').val();
+    var _token = selected_coin_contract_address;
+    var _isSellOrder = '';
+
+    if(order_type=='BUY'){
+        _isSellOrder = false; // test
+    }else if(order_type=='SELL'){
+        _isSellOrder = true;
+    }
+    var _priceInWei = web3.toWei(parseFloat(price));
+    var _offerKey = offset;
+
+    console.log(_accountNumber);
+    console.log(_token);
+    console.log(_isSellOrder);
+    console.log(_priceInWei);
+    console.log(_offerKey);
+
+    /**
+     * @dev Canel ORDER
+     * @param _accountNumber the bytes32 to cancel token order.
+     * @param _token the address to cancel token order.
+     * @param _isSellOrder the boolean to check buy or sell.
+     * @param _priceInWei the uint to find order.
+     * @param _offerKey the uint to delete orderBook[_priceInWei] using offchain DB.
+     */
+    able_platform_Contract.cancelOrder(_accountNumber, _token, _isSellOrder, _priceInWei, _offerKey, function (err, res){
+        // sell
+        if (_isSellOrder == true) {
+            able_platform_Contract.SellOrderCanceled().watch(function(err,res ){
+                alert('판매 취소되었습니다.');
+                console.log(res);
+            })
+        }
+        // buy
+        else if (_isSellOrder == false) {
+            able_platform_Contract.BuyOrderCanceled().watch(function(err,res ){
+                alert('구매 취소되었습니다.');
+                console.log(res);
+            })
+        }
+    });
+}
+
+// 나의 주문 내역 (구매/판매)의 데이터를 입력해주는 곳
 function get_buy_sell_list() {
     var html="";
     for (let z = 0; z < my_open_buy_order.length; z++) {
@@ -307,11 +317,23 @@ function get_buy_sell_list() {
         html += make_my_open_order_book(order_info[0],order_info[1],order_info[2],'BUY');
     }
     $('#my_buy_open_orders').html(html);
+
     var html2 ="";
     for (let z = 0; z < my_open_sell_order.length; z++) {
         console.log(my_open_sell_order[z]);
         var order_info = my_open_sell_order[z].toString().split(',');
-        html += make_my_open_order_book(order_info[0],order_info[1],order_info[2],'SELL');
+        html2 += make_my_open_order_book(order_info[0],order_info[1],order_info[2],'SELL');
     }
-    $('#my_sell_open_orders').html(html);
+    $('#my_sell_open_orders').html(html2);
+}
+
+// my open order book 부분 html 생성해주는 곳 (나의 주문 내역)
+function make_my_open_order_book(price, amount, offset, order_type){
+    html = "<tr>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "                                            <td><button type=\"button\" onclick=\"javascript:cancle_order('"+price+"','"+offset+"','"+order_type+"');\""+ " class=\"btn btn-inline btn-danger\" offset='"+offset+"'>cancel</button></td>\n" +
+        "                                        </tr>";
+    return html;
 }
