@@ -34,7 +34,9 @@ function buy_token(){
     var _accountNumber = $('#select_account').val(); // 간편 계좌 번호
     var _token = selected_coin_contract_address; // 토큰 컨트랙트 주소
     var _priceInWei = web3.toWei(parseFloat($('#input_buy_priceInWei').val())); // 구매할 토큰 가격
-    var _amount = web3.toWei(parseFloat($('#input_buy_amount').val())); // 구매할 토큰 양
+    // var _amount = web3.toWei(parseFloat($('#input_buy_amount').val())); // 구매할 토큰 양
+    var _amount = $('#input_buy_amount').val();
+
 
     console.log("account number : " + _accountNumber);
     console.log("_token : " + _token);
@@ -67,7 +69,7 @@ function buy_token(){
                 return;
             }
 
-            console.log("BuyOrderFulfilled success");
+            console.log("LimitBuyOrderCreated success");
 
 
             //todo db insert & if success redirect or ???
@@ -89,6 +91,49 @@ function buy_token(){
         });
 
     });
+
+    able_platform_Contract.BuyOrderFulfilled().watch((err,res) => {
+
+        if (err) {
+            $('.loading').hide();
+            console.log("BuyOrderFulfilled err : " + err);
+            return;
+        }
+
+        var _token = res.args._token;
+        var _amountTokens = res.args._amountTokens;
+        var _priceInWei = res.args._priceInWei;
+        var _orderKey = res.args._orderKey;
+
+        console.log("BuyOrderFulfilled _token : " + _token);
+        console.log("BuyOrderFulfilled _amountTokens : " + _amountTokens);
+        console.log("BuyOrderFulfilled _priceInWei : " + _priceInWei);
+        console.log("BuyOrderFulfilled _orderKey : " + _orderKey);
+
+        // $.ajax({
+        //     method: "POST",
+        //     url: "/add_order_history",
+        //     dataType: "json",
+        //     data: {
+        //         "ableAccount_number": _accountNumber,
+        //         "order_type": 'SELL',
+        //         "token_address": _token,
+        //         "token_amount": _amount,
+        //         "token_priceOfWei" : _priceInWei
+        //     },
+        //     success: function (res) {
+        //
+        //         insertId = res.insertId;
+        //         console.log(res);
+        //     }
+        // });
+
+        console.log("BuyOrderFulfilled success");
+
+        //todo db insert & if success redirect or ???
+        $('.loading').hide();
+
+    });
 }
 
 
@@ -98,7 +143,8 @@ function sell_token(){
     var _accountNumber = $('#select_account').val();
     var _token = selected_coin_contract_address;
     var _priceInWei = web3.toWei(parseFloat($('#input_sell_priceInWei').val()));
-    var _amount = web3.toWei(parseFloat($('#input_sell_amount').val()));
+    // var _amount = web3.toWei(parseFloat($('#input_sell_amount').val()));
+    var _amount = $('#input_sell_amount').val();
 
     console.log("account number : " + _accountNumber);
     console.log("_token : " + _token);
@@ -168,6 +214,50 @@ function sell_token(){
 
         });
 
+        able_platform_Contract.SellOrderFulfilled().watch((err,res) => {
+
+            if (err) {
+                $('.loading').hide();
+                console.log("SellOrderFulfilled err : " + err);
+                return;
+            }
+
+            var _token = res.args._token;
+            var _amountTokens = res.args._amountTokens;
+            var _priceInWei = res.args._priceInWei;
+            var _orderKey = res.args._orderKey;
+
+            console.log("SellOrderFulfilled _token : " + _token);
+            console.log("SellOrderFulfilled _amountTokens : " + _amountTokens);
+            console.log("SellOrderFulfilled _priceInWei : " + _priceInWei);
+            console.log("SellOrderFulfilled _orderKey : " + _orderKey);
+
+            // $.ajax({
+            //     method: "POST",
+            //     url: "/add_order_history",
+            //     dataType: "json",
+            //     data: {
+            //         "ableAccount_number": _accountNumber,
+            //         "order_type": 'SELL',
+            //         "token_address": _token,
+            //         "token_amount": _amount,
+            //         "token_priceOfWei" : _priceInWei
+            //     },
+            //     success: function (res) {
+            //
+            //         insertId = res.insertId;
+            //         console.log(res);
+            //     }
+            // });
+
+            console.log("SellOrderFulfilled success");
+
+            //todo db insert & if success redirect or ???
+            $('.loading').hide();
+
+        });
+
+
     });
 }
 
@@ -231,10 +321,10 @@ function get_my_order(){
     var _token = selected_coin_contract_address;
 
     // 내가 등록해둔 판매 목록
-    // 1.블록체인 네트워크에서 getdexAccountSellCount 함수를 이용해 해당 계좌에 등록되어 있는 '판매 갯수'를 가져온다.
+    // 1.블록체인 네트워크에서 getAccountBuyCount 함수를 이용해 해당 계좌에 등록되어 있는 '판매 갯수'를 가져온다.
     // 2.판매 갯수 만큼 반복문을 돌려서, 1.priceInWei 2.amount 3.offset 값을 리턴 받는다.
     // 3.get_buy_sell_list 함수에서 Array에 저장된 값을 불러와 html에 뿌려준다.
-    able_platform_Contract.getdexAccountSellCount(_accountNumber, _token, async function (err,res){
+    able_platform_Contract.getAccountSellCount(_accountNumber, _token, async function (err,res){
         for(let i=0; i < res ; i++){
             able_platform_Contract.getAccountSellOrder(_accountNumber, _token , i, async function (err, res){
                 my_open_sell_order.push(res);
@@ -244,7 +334,7 @@ function get_my_order(){
     });
 
     // 내가 등록해둔 구매 목록
-    able_platform_Contract.getdexAccountBuyCount(_accountNumber, _token, async function (err,res){
+    able_platform_Contract.getAccountBuyCount(_accountNumber, _token, async function (err,res){
         for(let i=0; i < res ; i++){
             able_platform_Contract.getAccountBuyOrder(_accountNumber, _token , i, async function (err, res){
                 my_open_buy_order.push(res);
