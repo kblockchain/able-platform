@@ -389,6 +389,8 @@ function get_my_order(){
     // 2.판매 갯수 만큼 반복문을 돌려서, 1.priceInWei 2.amount 3.offset 값을 리턴 받는다.
     // 3.get_buy_sell_list 함수에서 Array에 저장된 값을 불러와 html에 뿌려준다.
     able_platform_Contract.getAccountSellCount(_accountNumber, _token, async function (err,res){
+
+        console.log("getAccountSellCount res : " + res);
         for(let i=0; i < res ; i++){
             able_platform_Contract.getAccountSellOrder(_accountNumber, _token , i, async function (err, res){
                 my_open_sell_order.push(res);
@@ -399,6 +401,9 @@ function get_my_order(){
 
     // 내가 등록해둔 구매 목록
     able_platform_Contract.getAccountBuyCount(_accountNumber, _token, async function (err,res){
+
+        console.log("getAccountBuyCount res : " + res);
+
         for(let i=0; i < res ; i++){
             able_platform_Contract.getAccountBuyOrder(_accountNumber, _token , i, async function (err, res){
                 my_open_buy_order.push(res);
