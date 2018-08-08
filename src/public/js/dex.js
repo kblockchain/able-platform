@@ -28,13 +28,60 @@ function selected_coin(coin_name) {
     }
 }
 
+function buy(){
+
+    var price = $('#input_buy_priceInWei').val();
+    var amount = $('#input_buy_amount').val();
+
+    if(price == 0 || amount == 0){
+        alert('0이상의 값을 입력해 주세요.');
+        return false;
+    }
+    if(forceInt(amount) != amount){
+        alert('갯수에 소수점이 들어갈 수 없습니다.');
+        return false;
+    }
+
+    buy_token();
+}
+
+
+function sell(){
+
+    var price = $('#input_sell_priceInWei').val();
+    var amount = $('#input_sell_amount').val();
+
+    if(price == 0 || amount == 0){
+        alert('0이상의 값을 입력해 주세요.');
+        return false;
+    }
+    if(forceInt(amount) != amount){
+        alert('갯수에 소수점이 들어갈 수 없습니다.');
+        return false;
+    }
+
+    sell_token();
+}
+
+function forceInt(i)
+{
+    switch(typeof(i))
+    {
+        case 'number':
+            return parseInt(i);
+        case 'string':
+            return parseInt(Number(i.replace(/[^0-9\.]+/g,"")));
+        default:
+            return 0;
+    }
+}
 // 코인 구매
 function buy_token(){
 
     var _accountNumber = $('#select_account').val(); // 간편 계좌 번호
     var _token = selected_coin_contract_address; // 토큰 컨트랙트 주소
     var _priceInWei = web3.toWei(parseFloat($('#input_buy_priceInWei').val())); // 구매할 토큰 가격
-    var _amount = web3.toWei(parseFloat($('#input_buy_amount').val())); // 구매할 토큰 양
+    var _amount = parseFloat($('#input_buy_amount').val()); // 구매할 토큰 양
 
     console.log("account number : " + _accountNumber);
     console.log("_token : " + _token);
@@ -98,7 +145,7 @@ function sell_token(){
     var _accountNumber = $('#select_account').val();
     var _token = selected_coin_contract_address;
     var _priceInWei = web3.toWei(parseFloat($('#input_sell_priceInWei').val()));
-    var _amount = web3.toWei(parseFloat($('#input_sell_amount').val()));
+    var _amount = parseFloat($('#input_sell_amount').val());
 
     console.log("account number : " + _accountNumber);
     console.log("_token : " + _token);
@@ -189,9 +236,14 @@ function get_order_book() {
         var buy_book_html ="";
         var sell_book_html ="";
         for( let i=0; i < sellbook_price.length ; i++){
-            sell_book_html += make_order_book(sellbook_price[i], sellbook_volume[i]);
+            sell_book_html += make_sell_order_book(sellbook_price[i], sellbook_volume[i]);
         }
         $('#sell_order_book').html(sell_book_html);
+
+        $('.sell_order').click( function (){
+            console.log($(this).text());
+            $('#input_sell_priceInWei').val($(this).text())
+        });
     });
     able_platform_Contract.getBuyOrderBook(_token, function (err, res) {
         if (err) {
@@ -202,22 +254,35 @@ function get_order_book() {
         var book_volume = book_price.splice(book_price.length/2,book_price.length/2)
         var buy_book_html ="";
         for( let i=0; i < book_price.length ; i++){
-            buy_book_html += make_order_book(book_price[i], book_volume[i]);
+            buy_book_html += make_buy_order_book(book_price[i], book_volume[i]);
         }
         $('#buy_order_book').html(buy_book_html);
+
+        $('.buy_order').click( function (){
+            console.log($(this).text());
+            $('#input_buy_priceInWei').val($(this).text())
+        });
     });
 }
 
 // order book 부분 html 생성해주는 곳 (주문 가능한 목록)
-function make_order_book(price, volume){
+function make_sell_order_book(price, volume){
     html = "<tr>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
+        "                                            <td class='sell_order' >"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                        </tr>";
     return html;
 }
 
+function make_buy_order_book(price, volume){
+    html = "<tr>\n" +
+        "                                            <td class='buy_order' >"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
+        "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                        </tr>";
+    return html;
+}
 
 
 
