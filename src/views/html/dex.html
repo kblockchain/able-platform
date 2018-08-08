@@ -134,6 +134,7 @@
                 }
 
             });
+
         });
 
 
@@ -384,14 +385,14 @@
                                 <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" id="input_buy_priceInWei" placeholder=""></p>
+                                        <input type="number" class="form-control" id="input_buy_priceInWei"  placeholder="" min="0"></p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" id="input_buy_amount" placeholder=""></p>
+                                        <input type="number" class="form-control" id="input_buy_amount" placeholder="" pattern="[0-9]{10}" min="0" ></p>
                                 </div>
                             </div>
 
@@ -405,7 +406,7 @@
 
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline" onclick="jajascript:buy_token()">BUY</button>
+                                <button type="button" style="width:100%" class="btn btn-inline" onclick="jajascript:buy()">BUY</button>
                             </div>
                         </form>
                     </div>
@@ -430,14 +431,14 @@
                                 <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder="" id="input_sell_priceInWei"></p>
+                                        <input type="number" class="form-control" placeholder="" id="input_sell_priceInWei" min="0"></p>
                                 </div>
                             </div>
                             <div class="form-group" id="sell_amount">
                                 <label class="form-label" style="padding-left: 14px">Amount (ABLE COIN)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder="" id="input_sell_amount"></p>
+                                        <input type="number" class="form-control" placeholder="" id="input_sell_amount" pattern="[0-9]{10}" min="0" ></p>
                                 </div>
                             </div>
 
@@ -450,7 +451,7 @@
 
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline" onclick="sell_token()">SELL</button>
+                                <button type="button" style="width:100%" class="btn btn-inline" onclick="sell()">SELL</button>
                             </div>
                         </form>
                     </div>
