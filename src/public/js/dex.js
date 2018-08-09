@@ -121,7 +121,6 @@ function buy_token(){
             //todo db insert & if success redirect or ???
             $('.loading').hide();
 
-
             var _token = res.args._token;
             var _accountNumber = res.args._accountNumber;
             var _amountTokens = res.args._amountTokens;
@@ -146,19 +145,18 @@ function buy_token(){
             return;
         }
 
-        var _token = res.args._token;
+        var _accountNumber = $('#select_account').val();
+        var _token = res.args._token; // token contract address
         var _amountTokens = res.args._amountTokens;
         var _priceInWei = res.args._priceInWei;
-        var _orderKey = res.args._orderKey;
 
         console.log("BuyOrderFulfilled _token : " + _token);
         console.log("BuyOrderFulfilled _amountTokens : " + _amountTokens);
         console.log("BuyOrderFulfilled _priceInWei : " + _priceInWei);
-        console.log("BuyOrderFulfilled _orderKey : " + _orderKey);
 
         // $.ajax({
         //     method: "POST",
-        //     url: "/add_order_history",
+        //     url: "/add_marketorder_history",
         //     dataType: "json",
         //     data: {
         //         "ableAccount_number": _accountNumber,
@@ -169,15 +167,22 @@ function buy_token(){
         //     },
         //     success: function (res) {
         //
-        //         insertId = res.insertId;
-        //         console.log(res);
+        //         if (res.result == 200) {
+        //             alert('완료되었습니다.');
+        //             $(location).attr('href', '/send');
+        //
+        //         } else if (res.result == 204) {
+        //             alert("에러가 발생 하였습니다.");
+        //             $('.loading').hide();
+        //             console.log(res.message);
+        //         }
         //     }
         // });
-
-        console.log("BuyOrderFulfilled success");
-
-        //todo db insert & if success redirect or ???
-        $('.loading').hide();
+        //
+        // console.log("SellOrderFulfilled success");
+        //
+        // //todo db insert & if success redirect or ???
+        // $('.loading').hide();
 
     });
 }
@@ -235,31 +240,12 @@ function sell_token(){
             console.log("_priceInWei : " + _priceInWei);
             console.log("_orderKey : " + _orderKey);
 
-            // $.ajax({
-            //     method: "POST",
-            //     url: "/add_order_history",
-            //     dataType: "json",
-            //     data: {
-            //         "ableAccount_number": _accountNumber,
-            //         "order_type": 'SELL',
-            //         "token_address": _token,
-            //         "token_amount": _amount,
-            //         "token_priceOfWei" : _priceInWei
-            //     },
-            //     success: function (res) {
-            //
-            //         insertId = res.insertId;
-            //         console.log(res);
-            //     }
-            // });
-
             console.log("LimitSellOrderCreated success");
-
-            //todo db insert & if success redirect or ???
             $('.loading').hide();
 
         });
 
+        // event SellOrderFulfilled(address _token, uint _amountTokens, uint _priceInWei, uint _orderKey);
         able_platform_Contract.SellOrderFulfilled().watch((err,res) => {
 
             if (err) {
@@ -268,33 +254,39 @@ function sell_token(){
                 return;
             }
 
-            var _token = res.args._token;
+            var _accountNumber = $('#select_account').val();
+            var _token = res.args._token; // token contract address
             var _amountTokens = res.args._amountTokens;
             var _priceInWei = res.args._priceInWei;
-            var _orderKey = res.args._orderKey;
 
             console.log("SellOrderFulfilled _token : " + _token);
             console.log("SellOrderFulfilled _amountTokens : " + _amountTokens);
             console.log("SellOrderFulfilled _priceInWei : " + _priceInWei);
-            console.log("SellOrderFulfilled _orderKey : " + _orderKey);
 
-            // $.ajax({
-            //     method: "POST",
-            //     url: "/add_order_history",
-            //     dataType: "json",
-            //     data: {
-            //         "ableAccount_number": _accountNumber,
-            //         "order_type": 'SELL',
-            //         "token_address": _token,
-            //         "token_amount": _amount,
-            //         "token_priceOfWei" : _priceInWei
-            //     },
-            //     success: function (res) {
-            //
-            //         insertId = res.insertId;
-            //         console.log(res);
-            //     }
-            // });
+            $.ajax({
+                method: "POST",
+                url: "/add_marketorder_history",
+                dataType: "json",
+                data: {
+                    "ableAccount_number": _accountNumber,
+                    "order_type": 'SELL',
+                    "token_address": _token,
+                    "token_amount": _amount,
+                    "token_priceOfWei" : _priceInWei
+                },
+                success: function (res) {
+
+                    if (res.result == 200) {
+                        alert('완료되었습니다.');
+                        $(location).attr('href', '/send');
+
+                    } else if (res.result == 204) {
+                        alert("에러가 발생 하였습니다.");
+                        $('.loading').hide();
+                        console.log(res.message);
+                    }
+                }
+            });
 
             console.log("SellOrderFulfilled success");
 
@@ -358,7 +350,7 @@ function get_order_book() {
 function make_sell_order_book(price, volume){
     html = "<tr>\n" +
         "                                            <td class='sell_order' >"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                            <td>"+ volume +"</td>\n" +
         "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                        </tr>";
     return html;
@@ -367,7 +359,7 @@ function make_sell_order_book(price, volume){
 function make_buy_order_book(price, volume){
     html = "<tr>\n" +
         "                                            <td class='buy_order' >"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                            <td>"+ volume +"</td>\n" +
         "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                        </tr>";
     return html;
@@ -496,3 +488,45 @@ function make_my_open_order_book(price, amount, offset, order_type){
         "                                        </tr>";
     return html;
 }
+
+
+// Order History 조회
+function get_marketorder_history() {
+
+    $.ajax({
+        method: "POST",
+        url: "/get_marketorder_history",
+        dataType: "json",
+        data: {
+        },
+        success: function (res) {
+
+            console.log("get_marketorder_history res : " + res);
+            console.log("get_marketorder_history res.history_list : " + res.history_list);
+
+            var html = "";
+
+            for(let i=0; i<res.history_list.length; i++){
+                var his = res.history_list[i];
+                console.log(i + " :: " +his.reg_date)
+                html += make_history_body(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), web3.toAscii(his.ableAccount_from), web3.toAscii(his.ableAccount_to), recognize_coin(his.token_address), web3.fromWei(parseFloat(his.token_amount)) , his.st_cd2);
+            }
+
+            console.log("html : " + html)
+            $('#history_body').html(html);
+
+            if (res.result == 200) {
+
+            } else if (res.result == 204) {
+                console.log(res.message);
+            }
+        }
+    });
+}
+
+// 나의 주문 내역 히스토리
+// function get_orderhistory_list() {
+//     var market_history_html = "";
+//
+//     for (let i=0; )
+// }
