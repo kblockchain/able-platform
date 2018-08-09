@@ -5,7 +5,7 @@
 var able_platform_contract_address; // 스마트 컨트랙트 주소
 var able_platform_contract_abi; // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스
 
-able_platform_contract_address = "0x58562a56ac82dE22F246FFD0DD5552c3Db2aedEa";
+able_platform_contract_address = "0xc47Ec9aD134A9b4DA5280b4505353D45a3191e51";
 able_platform_contract_abi =[
     {
         "anonymous": false,
