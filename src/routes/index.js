@@ -474,19 +474,20 @@ function toChecksumAddress (address) {
     ========================================================================== */
 
 // INSERT market trades order history
-router.post('/add_marketorder_history', function (req, res, next) {
+router.post('/add_market_history', function (req, res, next) {
+
     var connection = create_connection();
 
     var ableAccount_number      = req.param('ableAccount_number');
     var order_type      = req.param('order_type');
     var token_address           = req.param('token_address');
     var token_amount            = req.param('token_amount');
-    var token_priceOfWei            = req.param('token_priceOfWei');
+    // var token_priceOfWei            = req.param('token_priceOfWei');
 
     var insert_query = "INSERT INTO OrderHistory (ableAccount_number, order_type, token_address, token_amount, token_priceOfWei, reg_date) " +
-        "VALUES ('" + ableAccount_number + "','" + order_type + "','" + token_address + "','" + token_amount  + "','" + token_priceOfWei + "',now())";
+        "VALUES ('" + ableAccount_number + "','" + order_type + "','" + token_address + "','" + token_amount  + "','" + "123123" + "',now())";
 
-    console.log(insert_query);
+    console.log("add_market_history : " + insert_query);
     connection.query(insert_query, function (err, result) {
         res.json({result: '200', insertId : result.insertId,  message: '정상적으로 입력 되었습니다.'});
     });
@@ -500,11 +501,11 @@ router.post('/get_marketorder_history', function (req, res, next) {
     var connection = create_connection();
 
     // todo id값의 역순대로 해줘야함
-    var select_query = "SELECT * FROM OrderHistory ";
+    var select_query = "SELECT * FROM OrderHistory";
     console.log("get_marketorder_history : " + select_query);
 
     connection.query(select_query, function (err, rows, fields) {
-        account_list = rows;
+        history_list = rows;
         res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
     });
 
@@ -521,7 +522,7 @@ router.post('/get_myorder_history', function (req, res, next) {
     console.log("get_myorder_history : " + select_query);
 
     connection.query(select_query, function (err, rows, fields) {
-        account_list = rows;
+        history_list = rows;
         res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
     });
 

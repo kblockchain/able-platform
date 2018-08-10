@@ -40,7 +40,7 @@
             check_session();
             get_order_book();
             get_marketorder_history();
-            // get_myorder_history();
+            get_myorder_history();
 
             setTimeout(function () {
                 get_my_order();
@@ -382,7 +382,6 @@
                                 </div>
                             </div>
 
-
                             <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
@@ -476,7 +475,7 @@
                                         </tr>
                                         </thead>
 
-                                        <tbody id="buy_order_book">
+                                        <tbody id="sell_order_book">
 
                                         </tbody>
                                     </table>
@@ -502,7 +501,7 @@
                                         </tr>
                                         </thead>
 
-                                        <tbody id="sell_order_book">
+                                        <tbody id="buy_order_book">
 
                                         </tbody>
                                     </table>
@@ -599,24 +598,7 @@
                                                             <th scope="col">Total (ETH)</th>
                                                         </tr>
                                                         </thead>
-
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>2018-07-30 15:14:13</td>
-                                                            <td>Buy</td>
-                                                            <td>0.0000336</td>
-                                                            <td>82965.108</td>
-                                                            <td>2.78762763</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>2018-07-30 15:14:13</td>
-                                                            <td>Buy</td>
-                                                            <td>0.0000336</td>
-                                                            <td>82965.108</td>
-                                                            <td>2.78762763</td>
-                                                        </tr>
-                                                        </tbody>
+                                                        <tbody id="market_order_history"> </tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -641,32 +623,7 @@
                                                             <th scope="col">Total (ETH)</th>
                                                         </tr>
                                                         </thead>
-
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>2018-07-30 15:14:13</td>
-                                                            <td>Buy</td>
-                                                            <td>0.0000336</td>
-                                                            <td>82965.108</td>
-                                                            <td>2.78762763</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>2018-07-30 15:14:13</td>
-                                                            <td>Buy</td>
-                                                            <td>0.0000336</td>
-                                                            <td>82965.108</td>
-                                                            <td>2.78762763</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>2018-07-30 15:14:13</td>
-                                                            <td>Buy</td>
-                                                            <td>0.0000336</td>
-                                                            <td>82965.108</td>
-                                                            <td>2.78762763</td>
-                                                        </tr>
-                                                        </tbody>
+                                                        <tbody id="my_order_history"> </tbody>
                                                     </table>
                                                 </div>
                                             </div>

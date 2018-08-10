@@ -154,35 +154,35 @@ function buy_token(){
         console.log("BuyOrderFulfilled _amountTokens : " + _amountTokens);
         console.log("BuyOrderFulfilled _priceInWei : " + _priceInWei);
 
-        // $.ajax({
-        //     method: "POST",
-        //     url: "/add_marketorder_history",
-        //     dataType: "json",
-        //     data: {
-        //         "ableAccount_number": _accountNumber,
-        //         "order_type": 'SELL',
-        //         "token_address": _token,
-        //         "token_amount": _amount,
-        //         "token_priceOfWei" : _priceInWei
-        //     },
-        //     success: function (res) {
-        //
-        //         if (res.result == 200) {
-        //             alert('완료되었습니다.');
-        //             $(location).attr('href', '/send');
-        //
-        //         } else if (res.result == 204) {
-        //             alert("에러가 발생 하였습니다.");
-        //             $('.loading').hide();
-        //             console.log(res.message);
-        //         }
-        //     }
-        // });
-        //
-        // console.log("SellOrderFulfilled success");
-        //
-        // //todo db insert & if success redirect or ???
-        // $('.loading').hide();
+        $.ajax({
+            method: "POST",
+            url: "/add_market_history",
+            dataType: "json",
+            data: {
+                "ableAccount_number": _accountNumber,
+                "order_type": 'BUY',
+                "token_address": _token,
+                "token_amount": _amount,
+                // "token_priceOfWei" : _priceInWei
+            },
+            success: function (res) {
+
+                if (res.result == 200) {
+                    alert('완료되었습니다.');
+                    $(location).attr('href', '/send');
+
+                } else if (res.result == 204) {
+                    alert("에러가 발생 하였습니다.");
+                    $('.loading').hide();
+                    console.log(res.message);
+                }
+            }
+        });
+
+        console.log("SellOrderFulfilled success");
+
+        //todo db insert & if success redirect or ???
+        $('.loading').hide();
 
     });
 }
@@ -259,26 +259,27 @@ function sell_token(){
             var _amountTokens = res.args._amountTokens;
             var _priceInWei = res.args._priceInWei;
 
+            console.log("_accountNumber _token : " + _accountNumber);
             console.log("SellOrderFulfilled _token : " + _token);
             console.log("SellOrderFulfilled _amountTokens : " + _amountTokens);
             console.log("SellOrderFulfilled _priceInWei : " + _priceInWei);
 
             $.ajax({
                 method: "POST",
-                url: "/add_marketorder_history",
+                url: "/add_market_history",
                 dataType: "json",
                 data: {
                     "ableAccount_number": _accountNumber,
                     "order_type": 'SELL',
                     "token_address": _token,
                     "token_amount": _amount,
-                    "token_priceOfWei" : _priceInWei
+                    // "token_priceOfWei" : _priceInWei
                 },
                 success: function (res) {
 
                     if (res.result == 200) {
                         alert('완료되었습니다.');
-                        $(location).attr('href', '/send');
+                        $(location).attr('href', '/dex');
 
                     } else if (res.result == 204) {
                         alert("에러가 발생 하였습니다.");
@@ -480,6 +481,7 @@ function get_buy_sell_list() {
 
 // my open order book 부분 html 생성해주는 곳 (나의 주문 내역)
 function make_my_open_order_book(price, amount, offset, order_type){
+
     html = "<tr>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
@@ -487,12 +489,12 @@ function make_my_open_order_book(price, amount, offset, order_type){
         "                                            <td><button type=\"button\" onclick=\"javascript:cancle_order('"+price+"','"+offset+"','"+order_type+"');\""+ " class=\"btn btn-inline btn-danger\" offset='"+offset+"'>cancel</button></td>\n" +
         "                                        </tr>";
     return html;
+
 }
 
 
-// Order History 조회
+// Market Order History 조회
 function get_marketorder_history() {
-
     $.ajax({
         method: "POST",
         url: "/get_marketorder_history",
@@ -501,19 +503,20 @@ function get_marketorder_history() {
         },
         success: function (res) {
 
-            console.log("get_marketorder_history res : " + res);
-            console.log("get_marketorder_history res.history_list : " + res.history_list);
-
             var html = "";
 
             for(let i=0; i<res.history_list.length; i++){
                 var his = res.history_list[i];
-                console.log(i + " :: " +his.reg_date)
-                html += make_history_body(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), web3.toAscii(his.ableAccount_from), web3.toAscii(his.ableAccount_to), recognize_coin(his.token_address), web3.fromWei(parseFloat(his.token_amount)) , his.st_cd2);
+                console.log("get_marketorder_history reg_date: " + his.reg_date);
+                console.log("get_marketorder_history order_type: " + his.order_type);
+                console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
+                console.log("get_marketorder_history token_amount: " + his.token_amount);
+
+                html += make_marketorde_history(his.reg_date, his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
             }
 
             console.log("html : " + html)
-            $('#history_body').html(html);
+            $('#market_order_history').html(html);
 
             if (res.result == 200) {
 
@@ -524,9 +527,69 @@ function get_marketorder_history() {
     });
 }
 
-// 나의 주문 내역 히스토리
-// function get_orderhistory_list() {
-//     var market_history_html = "";
-//
-//     for (let i=0; )
-// }
+function make_marketorde_history(date, type, price, amount) {
+
+    html = "<tr>\n" +
+        "    <td>"+ date +"</td>\n" +
+        "    <td>"+ type +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) * web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "   </tr>";
+
+    return html;
+}
+
+
+// My Order History 조회
+function get_myorder_history() {
+
+    var _accountNumber = $('#select_account').val();
+    console.log("계좌 받아 오나요!? : " + _accountNumber);
+
+
+    $.ajax({
+        method: "POST",
+        url: "/get_marketorder_history",
+        dataType: "json",
+        data: {
+            "ableAccount_number": _accountNumber
+        },
+        success: function (res) {
+
+            var html = "";
+
+            for(let i=0; i<res.history_list.length; i++){
+                var his = res.history_list[i];
+                console.log("get_marketorder_history reg_date: " + his.reg_date);
+                console.log("get_marketorder_history order_type: " + his.order_type);
+                console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
+                console.log("get_marketorder_history token_amount: " + his.token_amount);
+
+                html += make_myorder_history(his.reg_date, his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
+            }
+
+            console.log("html : " + html)
+            $('#my_order_history').html(html);
+
+            if (res.result == 200) {
+
+            } else if (res.result == 204) {
+                console.log(res.message);
+            }
+        }
+    });
+}
+
+function make_myorder_history(date, type, price, amount) {
+
+    html = "<tr>\n" +
+        "    <td>"+ date +"</td>\n" +
+        "    <td>"+ type +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) * web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "   </tr>";
+
+    return html;
+}
