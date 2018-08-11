@@ -593,3 +593,74 @@ function make_myorder_history(date, type, price, amount) {
 
     return html;
 }
+
+// todo DB에서 데이터 불러오기, reload 시간 설정 해주기
+// 조건: 1h, 6h 12h, 24h (이더델타 참고)
+// 강수님 피드백으로는 봉의 갯수가 많으면 좀 더 차트 같아 보이지 않을까 라는 의견을 주심
+function drawChart() {
+
+    // 선택되어져 있는 코인 컨트랙트 주소
+    var _token = selected_coin_contract_address;
+
+    console.log("drawChart coin: " + _token);
+
+/*    $.ajax({
+        method: "POST",
+        url: "/get_chartdata",
+        dataType: "json",
+        data: {
+            "token_address": _token, // 코인 컨트랙트 주소
+            "token_timecheck" : _priceInWei // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
+        },
+
+        // todo 데이터 불러오기 성공하면???
+        success: function (res) {
+
+            if (res.result == 200) {
+                alert('완료되었습니다.');
+                // $(location).attr('href', '/dex');
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Mon', 20, 28, 38, 45],
+                    ['Tue', 31, 38, 55, 66],
+                    ['Wed', 50, 55, 77, 80],
+                    ['Thu', 77, 77, 66, 50],
+                    ['Fri', 68, 66, 22, 15]
+                    // Treat first row as data as well.
+                ], true);
+
+                var options = {
+                    legend:'none'
+                };
+
+                var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+
+            } else if (res.result == 204) {
+                alert("에러가 발생 하였습니다.");
+                // $('.loading').hide();
+                // console.log(res.message);
+            }
+        }
+    });*/
+
+    var data = google.visualization.arrayToDataTable([
+        ['Mon', 20, 28, 38, 45],
+        ['Tue', 31, 38, 55, 66],
+        ['Wed', 50, 55, 77, 80],
+        ['Thu', 77, 77, 66, 50],
+        ['Fri', 68, 66, 22, 15]
+        // Treat first row as data as well.
+    ], true);
+
+    var options = {
+        legend:'none'
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+
+
+}

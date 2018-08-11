@@ -530,6 +530,27 @@ router.post('/get_myorder_history', function (req, res, next) {
 
 });
 
+/* ==========================================================================
+    DB) Chart Data
+    ========================================================================== */
+
+// SELECT chart data
+router.post('/get_chartdata', function (req, res, next) {
+
+    var connection = create_connection();
+
+    // todo id값의 역순대로 해줘야함
+    var select_query = "SELECT * FROM OrderHistory";
+    console.log("get_marketorder_history : " + select_query);
+
+    connection.query(select_query, function (err, rows, fields) {
+        history_list = rows;
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+
+});
 
 
 module.exports = router;
