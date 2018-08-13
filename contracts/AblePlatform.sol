@@ -175,9 +175,13 @@ contract AblePlatform is Ownable {
         mapping(address => uint) tokenCheck;
         address[] tokenList;
 
-        //DEX order list of account.
+        // DEX order list of account.
         mapping(address => dexAccountOrder) dexAccountBuyOrders;
         mapping(address => dexAccountOrder) dexAccountSellOrders;
+
+        // MATCH order list of account.
+        mapping(address => matchAccountOrder) matchAccountLoanOrders;
+        mapping(address => matchAccountOrder) matchAccountBorrowOrders;
     }
         
     mapping(bytes32 => ableAccount) private ableAccounts;
@@ -186,9 +190,9 @@ contract AblePlatform is Ownable {
     // DEX order structure 
     //TODO: delete mapping accountOffers function is required.
     struct dexAccountOrder {
-        // uint: priceInWei, uint offset.
+        // uint: interestInWei, uint offset.
         mapping(uint => uint) accountOffers;
-        // uint: priceInWei, uint index of offer. needed to delete a "accountOffer"
+        // uint: interestInWei, uint index of offer. needed to delete a "accountOffer"
         mapping(uint => uint) accountOfferListPointer;
         uint[] accountOfferList;
     }
@@ -231,6 +235,55 @@ contract AblePlatform is Ownable {
 
     // Dex token list
     mapping (address => dexToken) dexTokens;
+
+    // MATCH order structure 
+    //TODO: delete mapping accountOffers function is required.
+    struct matchAccountOrder {
+        // uint: interestInWei, uint offset.
+        mapping(uint => uint) accountOffers;
+        // uint: interestInWei, uint index of offer. needed to delete a "accountOffer"
+        mapping(uint => uint) accountOfferListPointer;
+        uint[] accountOfferList;
+    }
+
+    //TODO: delete mapping offers function is required.
+    struct matchOffer {
+        uint amountTokens;
+        bytes32 accountNumber;
+    }
+
+    struct matchOrderBook {
+        uint higherInterest;
+        uint lowerInterest;
+        
+        // All Keys are Initialised by Default in Solidity
+        mapping (uint => matchOffer) offers;
+        
+        // Store in `offers_key` where we are in the Linked List
+        uint offers_key;
+
+        // Store amount of offers that we have
+        uint offers_length;
+    }
+
+    struct matchToken {
+        // Note: Solidity Mappings have initialised state by default
+        // (i.e. offers_length is initially 0)
+        mapping (uint => matchOrderBook) loanBook;
+
+        uint curLoanInterest;
+        uint lowestLoanInterest;
+        uint loan_length;
+
+        mapping (uint => matchOrderBook) borrowBook;
+
+        uint curBorrowInterest;
+        uint highestBorrowInterest;
+        uint borrow_length;
+    }
+
+    // Dex token list
+    mapping (address => matchToken) matchTokens;
     
     
     /* -------- Constructor -------- */
@@ -258,11 +311,22 @@ contract AblePlatform is Ownable {
     event LimitBuyOrderCreated(address _token, bytes32 _accountNumber, uint _amountTokens, uint _priceInWei, uint _orderKey);
     event LimitSellOrderCreated(address _token, bytes32 _accountNumber, uint _amountTokens, uint _priceInWei, uint _orderKey);
     // Fulfillment of Buy / Sell Order
-    event BuyOrderFulfilled(address _token, uint _amountTokens, uint _priceInWei, uint _orderKey);
-    event SellOrderFulfilled(address _token, uint _amountTokens, uint _priceInWei, uint _orderKey);
+    event BuyOrderFulfilled(address _token, uint _amountTokens, uint _priceInWei, bytes32 _accountBuy, bytes32 _accountSell, uint _orderKey);
+    event SellOrderFulfilled(address _token, uint _amountTokens, uint _priceInWei, bytes32 _accountSell, bytes32 _accountBuy, uint _orderKey);
     // Cancellation of Buy / Sell Order
     event BuyOrderCanceled(address _token, uint _priceInWei, uint _orderKey);
     event SellOrderCanceled(address _token, uint _priceInWei, uint _orderKey);
+
+    // MATCH
+    // Creation of Loan / Borrow Limit Orders
+    event LimitLoanOrderCreated(address _token, bytes32 _accountNumber, uint _amountTokens, uint _interestInWei, uint _orderKey);
+    event LimitBorrowOrderCreated(address _token, bytes32 _accountNumber, uint _amountTokens, uint _interestInWei, uint _orderKey);
+    // Fulfillment of Loan / Borrow Order
+    event LoanOrderFulfilled(address _token, uint _amountTokens, uint _interestInWei, bytes32 _accountLoan, bytes32 _accountSell, uint _orderKey);
+    event BorrowOrderFulfilled(address _token, uint _amountTokens, uint _interestInWei, bytes32 _accountBuy, bytes32 _accountLoan, uint _orderKey);
+    // Cancellation of Loan / Borrow Order
+    event LoanOrderCanceled(address _token, uint _interestInWei, uint _orderKey);
+    event BorrowOrderCanceled(address _token, uint _interestInWei, uint _orderKey);
 
 
     /* -------- Modifiers -------- */
@@ -616,7 +680,7 @@ contract AblePlatform is Ownable {
     /**
      * @dev Returns Buy Prices Array and Buy Volume Array for each of the Prices
      * @param _token the address to get token buy orders.
-     * @return uint[] of _arrPricesBuy_, uint[] _arrVolumesBuy_.
+     * @return uint[] _arrPricesBuy_, uint[] _arrVolumesBuy_.
      */
     function getBuyOrderBook(address _token) public view returns (uint[] _arrPricesBuy_, uint[] _arrVolumesBuy_) {
         // Initialise New Memory Arrays with the Exact Amount of Buy Prices in the Buy Order Book (not a Dynamic Array) 
@@ -680,7 +744,7 @@ contract AblePlatform is Ownable {
     /**
      * @dev Returns Sell Prices Array and Sell Volume Array for each of the Prices
      * @param _token the address to get token sell orders.
-     * @return uint[] of _arrPricesSell_, uint[] _arrVolumesSell_.
+     * @return uint[] _arrPricesSell_, uint[] _arrVolumesSell_.
      */
     function getSellOrderBook(address _token) public view returns (uint[] _arrPricesSell_, uint[] _arrVolumesSell_) {
         uint[] memory arrPricesSell = new uint[](dexTokens[_token].sell_length);
@@ -728,6 +792,7 @@ contract AblePlatform is Ownable {
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
         if(ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOffers[_priceInWei]!=0) revert();
+        //TODO: check minimum amount and minimum priceInWei.
         
         uint totalAmountOfEtherNecessary = 0;
         uint amountOfTokensNecessary = _amount;
@@ -758,7 +823,7 @@ contract AblePlatform is Ownable {
                     // 5 <= 5
                     if (volumeAtPriceFromAccount <= amountOfTokensNecessary) {
                         // 20000000000000000 = 5 * 4000000000000000
-                        totalAmountOfEtherAvailable = volumeAtPriceFromAccount.mul(whilePrice);
+                        totalAmountOfEtherAvailable = volumeAtPriceFromAccount.mul(whilePrice).div(10**18);
         
                         // Overflow Check
                         // 09 Unit Test: `ableAccounts[_accountNumber]` is initially 3000000000000000000 (3 ETH)
@@ -786,7 +851,7 @@ contract AblePlatform is Ownable {
                         ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferListPointer[_priceInWei]] = ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList.length-1];
                         ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList.length--;
 
-                        emit BuyOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, offers_key);
+                        emit BuyOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber, offers_key);
         
                         amountOfTokensNecessary = amountOfTokensNecessary.sub(volumeAtPriceFromAccount);
                     } 
@@ -794,7 +859,7 @@ contract AblePlatform is Ownable {
                     else {
                         require(dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens > amountOfTokensNecessary);
         
-                        totalAmountOfEtherNecessary = amountOfTokensNecessary.mul(whilePrice);
+                        totalAmountOfEtherNecessary = amountOfTokensNecessary.mul(whilePrice).div(10**18);
         
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[address(0)] >= totalAmountOfEtherNecessary);
@@ -816,7 +881,7 @@ contract AblePlatform is Ownable {
                         dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens = dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens.sub(amountOfTokensNecessary);
                         amountOfTokensNecessary = 0;
 
-                        emit BuyOrderFulfilled(_token, amountOfTokensNecessary, whilePrice, offers_key);
+                        emit BuyOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber, offers_key);
                     }
         
                     // offer of whilePrice is complete
@@ -850,7 +915,7 @@ contract AblePlatform is Ownable {
      */
     function createBuyLimitOrderForTokensUnableToMatchWithSellOrderForBuyer(bytes32 _accountNumber, address _token, uint _priceInWei, uint _amountOfTokensNecessary) internal {
         // Calculate Ether Balance necessary to Buy the Token Symbol Name.
-        uint totalAmountOfEtherNecessary = _amountOfTokensNecessary.mul(_priceInWei);
+        uint totalAmountOfEtherNecessary = _amountOfTokensNecessary.mul(_priceInWei).div(10**18);
 
         // Overflow Checks
         require(totalAmountOfEtherNecessary >= _amountOfTokensNecessary);
@@ -980,7 +1045,8 @@ contract AblePlatform is Ownable {
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
         if(ableAccounts[_accountNumber].dexAccountSellOrders[_token].accountOffers[_priceInWei]!=0) revert();
-        
+        //TODO: check minimum amount and minimum priceInWei.
+
         uint totalAmountOfEtherNecessary = 0;
         uint totalAmountOfEtherAvailable = 0;
         // Given `amount` Volume of tokens to find necessary to fulfill the current Sell Order
@@ -1011,7 +1077,7 @@ contract AblePlatform is Ownable {
                     // i.e. Sell Order amount is for 1000 tokens but Current Buy Order is for 500 tokens at Current Buy Price 
                     if (volumeAtPriceFromAccount <= amountOfTokensNecessary) {
                         // Amount of Ether available to be exchanged in the Current Buy Book Offers Entry at the Current Buy Price 
-                        totalAmountOfEtherAvailable = volumeAtPriceFromAccount.mul(whilePrice);
+                        totalAmountOfEtherAvailable = volumeAtPriceFromAccount.mul(whilePrice).div(10**18);
         
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[_token] >= volumeAtPriceFromAccount);
@@ -1043,7 +1109,7 @@ contract AblePlatform is Ownable {
                         ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList.length--;
         
                         // Emit Event
-                        emit SellOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, offers_key);
+                        emit SellOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber, offers_key);
         
                         // Decrease the amount necessary to be sold from the Seller's Offer by the amount of of tokens just exchanged for ETH with the Buyer at the Current Buy Order Price
                         amountOfTokensNecessary = amountOfTokensNecessary.sub(volumeAtPriceFromAccount);
@@ -1057,7 +1123,7 @@ contract AblePlatform is Ownable {
                         require(volumeAtPriceFromAccount.sub(amountOfTokensNecessary) > 0);
         
                         // Calculate amount in ETH necessary to buy the Seller's tokens based on the Current Buy Price
-                        totalAmountOfEtherNecessary = amountOfTokensNecessary.mul(whilePrice);
+                        totalAmountOfEtherNecessary = amountOfTokensNecessary.mul(whilePrice).div(10**18);
         
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[_token] >= amountOfTokensNecessary);
@@ -1079,7 +1145,7 @@ contract AblePlatform is Ownable {
                         dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens = dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens.sub(amountOfTokensNecessary);
                         
                         // Emit Event
-                        emit SellOrderFulfilled(_token, amountOfTokensNecessary, whilePrice, offers_key);
+                        emit SellOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber, offers_key);
         
                         // Set the remaining amount necessary to be sold by the Sell Order to zero 0 since we have fulfilled the Sell Offer
                         amountOfTokensNecessary = 0;
@@ -1130,7 +1196,7 @@ contract AblePlatform is Ownable {
      */
     function createSellLimitOrderForTokensUnableToMatchWithBuyOrderForSeller(bytes32 _accountNumber, address _token, uint _priceInWei, uint _amountOfTokensNecessary) internal {
         // Calculate Ether Balance necessary on the Buy-side to Sell all tokens of Token Symbol Name.
-        uint totalAmountOfEtherNecessary = _amountOfTokensNecessary.mul(_priceInWei);
+        uint totalAmountOfEtherNecessary = _amountOfTokensNecessary.mul(_priceInWei).div(10**18);
 
         // Overflow Check
         require(totalAmountOfEtherNecessary >= _amountOfTokensNecessary);
