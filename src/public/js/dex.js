@@ -638,7 +638,12 @@ function drawChart() {
                 var data = google.visualization.arrayToDataTable(arr, true);
                 console.log(data)
                 var options = {
-                    legend:'none'
+                    legend:'none',
+                    bar: { groupWidth: '100%' }, // Remove space between bars.
+                    candlestick: {
+                        fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+                        risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+                    }
                 };
 
                 var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));

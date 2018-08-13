@@ -579,8 +579,8 @@ router.get('/insert_dummy_chartdata', function (req, res, next) {
     var connection = create_connection();
 
     // todo id값의 역순대로 해줘야함
-    for(i=0;i<30;i++) {
-var price = parseInt(10)+parseInt(i*100);
+    for(i=15;i<30;i++) {
+var price = parseInt(2000)-parseInt(i*1500)/2;
         var select_query = "\n" +
             "INSERT INTO OrderHistory \n" +
             "(\n" +
