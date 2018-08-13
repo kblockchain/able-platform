@@ -121,7 +121,6 @@ function buy_token(){
             //todo db insert & if success redirect or ???
             $('.loading').hide();
 
-
             var _token = res.args._token;
             var _accountNumber = res.args._accountNumber;
             var _amountTokens = res.args._amountTokens;
@@ -146,35 +145,41 @@ function buy_token(){
             return;
         }
 
-        var _token = res.args._token;
+        var _accountNumber = $('#select_account').val();
+        var _token = res.args._token; // token contract address
         var _amountTokens = res.args._amountTokens;
         var _priceInWei = res.args._priceInWei;
-        var _orderKey = res.args._orderKey;
 
         console.log("BuyOrderFulfilled _token : " + _token);
         console.log("BuyOrderFulfilled _amountTokens : " + _amountTokens);
         console.log("BuyOrderFulfilled _priceInWei : " + _priceInWei);
-        console.log("BuyOrderFulfilled _orderKey : " + _orderKey);
 
-        // $.ajax({
-        //     method: "POST",
-        //     url: "/add_order_history",
-        //     dataType: "json",
-        //     data: {
-        //         "ableAccount_number": _accountNumber,
-        //         "order_type": 'SELL',
-        //         "token_address": _token,
-        //         "token_amount": _amount,
-        //         "token_priceOfWei" : _priceInWei
-        //     },
-        //     success: function (res) {
-        //
-        //         insertId = res.insertId;
-        //         console.log(res);
-        //     }
-        // });
+        $.ajax({
+            method: "POST",
+            url: "/add_market_history",
+            dataType: "json",
+            data: {
+                "ableAccount_number": _accountNumber,
+                "order_type": 'BUY',
+                "token_address": _token,
+                "token_amount": _amount,
+                // "token_priceOfWei" : _priceInWei
+            },
+            success: function (res) {
 
-        console.log("BuyOrderFulfilled success");
+                if (res.result == 200) {
+                    alert('완료되었습니다.');
+                    $(location).attr('href', '/send');
+
+                } else if (res.result == 204) {
+                    alert("에러가 발생 하였습니다.");
+                    $('.loading').hide();
+                    console.log(res.message);
+                }
+            }
+        });
+
+        console.log("SellOrderFulfilled success");
 
         //todo db insert & if success redirect or ???
         $('.loading').hide();
@@ -235,31 +240,12 @@ function sell_token(){
             console.log("_priceInWei : " + _priceInWei);
             console.log("_orderKey : " + _orderKey);
 
-            // $.ajax({
-            //     method: "POST",
-            //     url: "/add_order_history",
-            //     dataType: "json",
-            //     data: {
-            //         "ableAccount_number": _accountNumber,
-            //         "order_type": 'SELL',
-            //         "token_address": _token,
-            //         "token_amount": _amount,
-            //         "token_priceOfWei" : _priceInWei
-            //     },
-            //     success: function (res) {
-            //
-            //         insertId = res.insertId;
-            //         console.log(res);
-            //     }
-            // });
-
             console.log("LimitSellOrderCreated success");
-
-            //todo db insert & if success redirect or ???
             $('.loading').hide();
 
         });
 
+        // event SellOrderFulfilled(address _token, uint _amountTokens, uint _priceInWei, uint _orderKey);
         able_platform_Contract.SellOrderFulfilled().watch((err,res) => {
 
             if (err) {
@@ -268,33 +254,40 @@ function sell_token(){
                 return;
             }
 
-            var _token = res.args._token;
+            var _accountNumber = $('#select_account').val();
+            var _token = res.args._token; // token contract address
             var _amountTokens = res.args._amountTokens;
             var _priceInWei = res.args._priceInWei;
-            var _orderKey = res.args._orderKey;
 
+            console.log("_accountNumber _token : " + _accountNumber);
             console.log("SellOrderFulfilled _token : " + _token);
             console.log("SellOrderFulfilled _amountTokens : " + _amountTokens);
             console.log("SellOrderFulfilled _priceInWei : " + _priceInWei);
-            console.log("SellOrderFulfilled _orderKey : " + _orderKey);
 
-            // $.ajax({
-            //     method: "POST",
-            //     url: "/add_order_history",
-            //     dataType: "json",
-            //     data: {
-            //         "ableAccount_number": _accountNumber,
-            //         "order_type": 'SELL',
-            //         "token_address": _token,
-            //         "token_amount": _amount,
-            //         "token_priceOfWei" : _priceInWei
-            //     },
-            //     success: function (res) {
-            //
-            //         insertId = res.insertId;
-            //         console.log(res);
-            //     }
-            // });
+            $.ajax({
+                method: "POST",
+                url: "/add_market_history",
+                dataType: "json",
+                data: {
+                    "ableAccount_number": _accountNumber,
+                    "order_type": 'SELL',
+                    "token_address": _token,
+                    "token_amount": _amount,
+                    // "token_priceOfWei" : _priceInWei
+                },
+                success: function (res) {
+
+                    if (res.result == 200) {
+                        alert('완료되었습니다.');
+                        $(location).attr('href', '/dex');
+
+                    } else if (res.result == 204) {
+                        alert("에러가 발생 하였습니다.");
+                        $('.loading').hide();
+                        console.log(res.message);
+                    }
+                }
+            });
 
             console.log("SellOrderFulfilled success");
 
@@ -358,7 +351,7 @@ function get_order_book() {
 function make_sell_order_book(price, volume){
     html = "<tr>\n" +
         "                                            <td class='sell_order' >"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                            <td>"+ volume +"</td>\n" +
         "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                        </tr>";
     return html;
@@ -367,7 +360,7 @@ function make_sell_order_book(price, volume){
 function make_buy_order_book(price, volume){
     html = "<tr>\n" +
         "                                            <td class='buy_order' >"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
-        "                                            <td>"+ web3.fromWei(parseFloat(volume)) +"</td>\n" +
+        "                                            <td>"+ volume +"</td>\n" +
         "                                            <td>" + web3.fromWei(parseFloat(price)) * web3.fromWei(parseFloat(volume)) +"</td>\n" +
         "                                        </tr>";
     return html;
@@ -488,6 +481,7 @@ function get_buy_sell_list() {
 
 // my open order book 부분 html 생성해주는 곳 (나의 주문 내역)
 function make_my_open_order_book(price, amount, offset, order_type){
+
     html = "<tr>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(price)) + "</td>\n" +
         "                                            <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
@@ -495,4 +489,178 @@ function make_my_open_order_book(price, amount, offset, order_type){
         "                                            <td><button type=\"button\" onclick=\"javascript:cancle_order('"+price+"','"+offset+"','"+order_type+"');\""+ " class=\"btn btn-inline btn-danger\" offset='"+offset+"'>cancel</button></td>\n" +
         "                                        </tr>";
     return html;
+
+}
+
+
+// Market Order History 조회
+function get_marketorder_history() {
+    $.ajax({
+        method: "POST",
+        url: "/get_marketorder_history",
+        dataType: "json",
+        data: {
+        },
+        success: function (res) {
+
+            var html = "";
+
+            for(let i=0; i<res.history_list.length; i++){
+                var his = res.history_list[i];
+                console.log("get_marketorder_history reg_date: " + his.reg_date);
+                console.log("get_marketorder_history order_type: " + his.order_type);
+                console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
+                console.log("get_marketorder_history token_amount: " + his.token_amount);
+
+                html += make_marketorde_history(his.reg_date, his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
+            }
+
+            console.log("html : " + html)
+            $('#market_order_history').html(html);
+
+            if (res.result == 200) {
+
+            } else if (res.result == 204) {
+                console.log(res.message);
+            }
+        }
+    });
+}
+
+function make_marketorde_history(date, type, price, amount) {
+
+    html = "<tr>\n" +
+        "    <td>"+ date +"</td>\n" +
+        "    <td>"+ type +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) * web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "   </tr>";
+
+    return html;
+}
+
+
+// My Order History 조회
+function get_myorder_history() {
+
+    var _accountNumber = $('#select_account').val();
+    console.log("계좌 받아 오나요!? : " + _accountNumber);
+
+
+    $.ajax({
+        method: "POST",
+        url: "/get_marketorder_history",
+        dataType: "json",
+        data: {
+            "ableAccount_number": _accountNumber
+        },
+        success: function (res) {
+
+            var html = "";
+
+            for(let i=0; i<res.history_list.length; i++){
+                var his = res.history_list[i];
+                console.log("get_marketorder_history reg_date: " + his.reg_date);
+                console.log("get_marketorder_history order_type: " + his.order_type);
+                console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
+                console.log("get_marketorder_history token_amount: " + his.token_amount);
+
+                html += make_myorder_history(his.reg_date, his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
+            }
+
+            console.log("html : " + html)
+            $('#my_order_history').html(html);
+
+            if (res.result == 200) {
+
+            } else if (res.result == 204) {
+                console.log(res.message);
+            }
+        }
+    });
+}
+
+function make_myorder_history(date, type, price, amount) {
+
+    html = "<tr>\n" +
+        "    <td>"+ date +"</td>\n" +
+        "    <td>"+ type +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
+        "    <td>"+ web3.fromWei(parseFloat(amount)) * web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "   </tr>";
+
+    return html;
+}
+
+// todo DB에서 데이터 불러오기, reload 시간 설정 해주기
+// 조건: 1h, 6h 12h, 24h (이더델타 참고)
+// 강수님 피드백으로는 봉의 갯수가 많으면 좀 더 차트 같아 보이지 않을까 라는 의견을 주심
+function drawChart() {
+
+    // 선택되어져 있는 코인 컨트랙트 주소
+    var _token = selected_coin_contract_address;
+
+    console.log("drawChart coin: " + _token);
+
+/*    $.ajax({
+        method: "POST",
+        url: "/get_chartdata",
+        dataType: "json",
+        data: {
+            "token_address": _token, // 코인 컨트랙트 주소
+            "token_timecheck" : _priceInWei // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
+        },
+
+        // todo 데이터 불러오기 성공하면???
+        success: function (res) {
+
+            if (res.result == 200) {
+                alert('완료되었습니다.');
+                // $(location).attr('href', '/dex');
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Mon', 20, 28, 38, 45],
+                    ['Tue', 31, 38, 55, 66],
+                    ['Wed', 50, 55, 77, 80],
+                    ['Thu', 77, 77, 66, 50],
+                    ['Fri', 68, 66, 22, 15]
+                    // Treat first row as data as well.
+                ], true);
+
+                var options = {
+                    legend:'none'
+                };
+
+                var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+
+            } else if (res.result == 204) {
+                alert("에러가 발생 하였습니다.");
+                // $('.loading').hide();
+                // console.log(res.message);
+            }
+        }
+    });*/
+
+    var data = google.visualization.arrayToDataTable([
+        ['Mon', 20, 28, 38, 45],
+        ['Tue', 31, 38, 55, 66],
+        ['Wed', 50, 55, 77, 80],
+        ['Thu', 77, 77, 66, 50],
+        ['Fri', 68, 66, 22, 15]
+        // Treat first row as data as well.
+    ], true);
+
+    var options = {
+        legend:'none'
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+
+
 }

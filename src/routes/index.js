@@ -385,7 +385,7 @@ router.post('/get_transfer_history', function (req, res, next){
 
     var select_query = "SELECT A.*, if( st_cd = 'A01_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A01_20',st_cd ) AS st_cd2 FROM  TransferHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_from, 66,'0') OR RPAD(A.ableAccount_to, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC";
 
-    console.log(select_query)
+    console.log(select_query);
     connection.query(select_query, function (err, rows, fields) {
         res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
     });
@@ -467,6 +467,90 @@ function toChecksumAddress (address) {
 
     return ret
 }
+
+
+/* ==========================================================================
+    DB) Order History to DB
+    ========================================================================== */
+
+// INSERT market trades order history
+router.post('/add_market_history', function (req, res, next) {
+
+    var connection = create_connection();
+
+    var ableAccount_number      = req.param('ableAccount_number');
+    var order_type      = req.param('order_type');
+    var token_address           = req.param('token_address');
+    var token_amount            = req.param('token_amount');
+    // var token_priceOfWei            = req.param('token_priceOfWei');
+
+    var insert_query = "INSERT INTO OrderHistory (ableAccount_number, order_type, token_address, token_amount, token_priceOfWei, reg_date) " +
+        "VALUES ('" + ableAccount_number + "','" + order_type + "','" + token_address + "','" + token_amount  + "','" + "123123" + "',now())";
+
+    console.log("add_market_history : " + insert_query);
+    connection.query(insert_query, function (err, result) {
+        res.json({result: '200', insertId : result.insertId,  message: '정상적으로 입력 되었습니다.'});
+    });
+    connection.end();
+
+});
+
+// SELECT market trades order history
+router.post('/get_marketorder_history', function (req, res, next) {
+
+    var connection = create_connection();
+
+    // todo id값의 역순대로 해줘야함
+    var select_query = "SELECT * FROM OrderHistory";
+    console.log("get_marketorder_history : " + select_query);
+
+    connection.query(select_query, function (err, rows, fields) {
+        history_list = rows;
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+
+});
+
+// SELECT my trades order history
+router.post('/get_myorder_history', function (req, res, next) {
+
+    var connection = create_connection();
+
+    var select_query = "SELECT * FROM OrderHistory WHERE ableAccount_number = '" + req.param('ableAccount_number') + "'";
+    console.log("get_myorder_history : " + select_query);
+
+    connection.query(select_query, function (err, rows, fields) {
+        history_list = rows;
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+
+});
+
+/* ==========================================================================
+    DB) Chart Data
+    ========================================================================== */
+
+// SELECT chart data
+router.post('/get_chartdata', function (req, res, next) {
+
+    var connection = create_connection();
+
+    // todo id값의 역순대로 해줘야함
+    var select_query = "SELECT * FROM OrderHistory";
+    console.log("get_marketorder_history : " + select_query);
+
+    connection.query(select_query, function (err, rows, fields) {
+        history_list = rows;
+        res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
+    });
+
+    connection.end();
+
+});
 
 
 module.exports = router;

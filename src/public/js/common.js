@@ -127,8 +127,6 @@ function get_account_detail(account_number) {
 
             });
         }
-
-
     });
 }
 
