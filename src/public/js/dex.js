@@ -604,31 +604,39 @@ function drawChart() {
 
     console.log("drawChart coin: " + _token);
 
-/*    $.ajax({
+    $.ajax({
         method: "POST",
         url: "/get_chartdata",
         dataType: "json",
         data: {
-            "token_address": _token, // 코인 컨트랙트 주소
-            "token_timecheck" : _priceInWei // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
+            //"token_address": _token, // 코인 컨트랙트 주소
+            //"token_timecheck" : _priceInWei // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
         },
 
         // todo 데이터 불러오기 성공하면???
         success: function (res) {
 
             if (res.result == 200) {
-                alert('완료되었습니다.');
                 // $(location).attr('href', '/dex');
 
-                var data = google.visualization.arrayToDataTable([
-                    ['Mon', 20, 28, 38, 45],
-                    ['Tue', 31, 38, 55, 66],
-                    ['Wed', 50, 55, 77, 80],
-                    ['Thu', 77, 77, 66, 50],
-                    ['Fri', 68, 66, 22, 15]
-                    // Treat first row as data as well.
-                ], true);
+                var result_list = res.history_list;
+                var d = ""
+                var arr = [];
+                for(i=0;i<result_list.length;i++){
+                    d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
+                    if(i!=result_list.length-1){
+                        d+=",";
+                    }
+                }
+                for(i=0;i<result_list.length;i++){
 
+                    var temp = [result_list[i].DATE,result_list[i].저가,result_list[i].시가,result_list[i].종가,result_list[i].고가];
+                    arr.push(temp);
+                    //d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
+                }
+                console.log(arr)
+                var data = google.visualization.arrayToDataTable(arr, true);
+                console.log(data)
                 var options = {
                     legend:'none'
                 };
@@ -643,24 +651,25 @@ function drawChart() {
                 // console.log(res.message);
             }
         }
-    });*/
+    });
 
-    var data = google.visualization.arrayToDataTable([
-        ['Mon', 20, 28, 38, 45],
-        ['Tue', 31, 38, 55, 66],
-        ['Wed', 50, 55, 77, 80],
-        ['Thu', 77, 77, 66, 50],
-        ['Fri', 68, 66, 22, 15]
-        // Treat first row as data as well.
-    ], true);
 
-    var options = {
-        legend:'none'
-    };
-
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-    chart.draw(data, options);
+    // var data = google.visualization.arrayToDataTable([
+    //     ['Mon', 20, 28, 38, 45],
+    //     ['Tue', 31, 38, 55, 66],
+    //     ['Wed', 50, 55, 77, 80],
+    //     ['Thu', 77, 77, 66, 50],
+    //     ['Fri', 68, 66, 22, 15]
+    //     // Treat first row as data as well.
+    // ], true);
+    //
+    // var options = {
+    //     legend:'none'
+    // };
+    //
+    // var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    //
+    // chart.draw(data, options);
 
 
 }

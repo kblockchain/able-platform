@@ -540,17 +540,90 @@ router.post('/get_chartdata', function (req, res, next) {
     var connection = create_connection();
 
     // todo id값의 역순대로 해줘야함
-    var select_query = "SELECT * FROM OrderHistory";
+    var select_query = "SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +
+        ", MIN(CONCAT(reg_date, token_priceOfWei)) AS dd\n" +
+        ", CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가\n" +
+        ", CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가 ,\n" +
+        "MID( reg_date, 1,10)\n" +
+        "\n" +
+        "  FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' \n" +
+        "GROUP BY MID( reg_date, 1,10)\n" +
+        "\n";
     console.log("get_marketorder_history : " + select_query);
+
+
+    // Treat first row as data as well.
 
     connection.query(select_query, function (err, rows, fields) {
         history_list = rows;
+        // console.log(rows)
+        // var json = JSON.parse(rows);
+        // console.log(JSON.stringify(rows)
+        //
+        // )
+        // console.log("///////////////////// "+json.length)
+        // var data = "[";
+        // for (i=0;i<rows.length();i++){
+        //     data += "["+rows[i].DATE + "]"
+        // }
+
         res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
     });
 
     connection.end();
 
 });
+
+router.get('/insert_dummy_chartdata', function (req, res, next) {
+
+    var connection = create_connection();
+
+    // todo id값의 역순대로 해줘야함
+    for(i=0;i<30;i++) {
+var price = parseInt(10)+parseInt(i*100);
+        var select_query = "\n" +
+            "INSERT INTO OrderHistory \n" +
+            "(\n" +
+            "ableAccount_number,\n" +
+            "order_type,\n" +
+            "token_address,\n" +
+            "token_amount,\n" +
+            "token_priceOfWei,\n" +
+            "reg_date\n" +
+            "\n" +
+            ") \n" +
+            "VALUES (\n" +
+            "'0x3132333132000000000000000000000000000000000000000000000000000000',\n" +
+            "'SELL',\n" +
+            "'0x295b3f39d7dacbc58329112064a14186f9fac786',\n" +
+            "'5',\n" +
+            +price+",\n" +
+            "date_add(now(), interval +"+i+" day)\n" +
+            "\n" +
+            ") ";
+        console.log("get_marketorder_history : " + select_query);
+
+
+        // Treat first row as data as well.
+
+        connection.query(select_query, function (err, rows, fields) {
+            // console.log(rows)
+            // var json = JSON.parse(rows);
+            // console.log(JSON.stringify(rows)
+            //
+            // )
+            // console.log("///////////////////// "+json.length)
+            // var data = "[";
+            // for (i=0;i<rows.length();i++){
+            //     data += "["+rows[i].DATE + "]"
+            // }
+
+        });
+    }
+    connection.end();
+
+});
+
 
 
 module.exports = router;
