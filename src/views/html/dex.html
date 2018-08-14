@@ -37,7 +37,7 @@
 
     <script>
 
-        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
 
@@ -53,7 +53,7 @@
             }, 3000);
 
             // 에이블 계좌 변경시 작동하는 함수
-            $( "#select_account" ).change(function(){
+            $("#select_account").change(function () {
                 get_account_detail($('#select_account').val());
                 get_order_book();
 
@@ -62,7 +62,7 @@
             });
 
             // 토큰 변경시 작동하는 함수
-            $( 'input[type=radio][name=select_coin]' ).change(function(){
+            $('input[type=radio][name=select_coin]').change(function () {
                 console.log("token value(name): " + this.value);
                 var coin_name = this.value;
                 selected_coin(coin_name);
@@ -106,13 +106,13 @@
 
                 console.log("변경 !! 변수 : " + type);
 
-                if(type == "Limit") {
+                if (type == "Limit") {
                     $('#buy_price').show();
                     $('#buy_amount').show();
                     $('#buy_total').show();
                 }
 
-                else if(type == "Market") {
+                else if (type == "Market") {
                     $('#buy_price').hide();
                     $('#buy_amount').show();
                     $('#buy_total').hide();
@@ -128,13 +128,13 @@
 
                 console.log("변경 !! 변수 : " + type);
 
-                if(type == "Limit") {
+                if (type == "Limit") {
                     $('#sell_price').show();
                     $('#sell_amount').show();
                     $('#sell_total').show();
                 }
 
-                else if(type == "Market") {
+                else if (type == "Market") {
                     $('#sell_price').hide();
                     $('#sell_amount').show();
                     $('#sell_total').hide();
@@ -160,7 +160,7 @@
         </p>
     </section>
 </div>
-<header class="site-header" >
+<header class="site-header">
     <div class="container-fluid">
         <a href="/" class="site-logo">
             <img class="hidden-md-down" src="../img/logo-3.png" alt="">
@@ -175,7 +175,7 @@
         <div class="site-header-content">
             <div class="site-header-content-in">
                 <button class="hamburger hamburger--htla">
-                <span>toggle menu</span>
+                    <span>toggle menu</span>
                 </button>
                 <div class="site-header-collapsed">
                 </div><!--.site-header-collapsed-->
@@ -198,14 +198,16 @@
                             </li>
 
                             <li style="box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);">
-                                <a id="btn_login"  class="btn btn-nav btn-rounded btn-inline site-header-address" href="#">
+                                <a id="btn_login" class="btn btn-nav btn-rounded btn-inline site-header-address"
+                                   href="#">
                                     <span></span>
                                 </a>
                             </li>
 
                             <!-- 로그아웃 버튼 -->
                             <li class="nav-item">
-                                <a class="nav-link" active href="#" id="btn_logout"><span class="glyphicon glyphicon-share"></span></a>
+                                <a class="nav-link" active href="#" id="btn_logout"><span
+                                        class="glyphicon glyphicon-share"></span></a>
                             </li>
 
                         </ul>
@@ -249,76 +251,79 @@
 <!-- example template http://webapplayers.com/inspinia_admin-v2.8/tabs.html-->
 <div class="col-md-12">
     <div class="row">
-        <div class="col-sm-3" style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
+        <div class="col-sm-3"
+             style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
             <section>
-                 <div class="tabs-container">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li><a class="nav-link active" data-toggle="tab" href="#tab-1">ETH</a></li>
-                            <!--<li><a class="nav-link" data-toggle="tab" href="#tab-2">ABLE</a></li>-->
-                        </ul>
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li><a class="nav-link active" data-toggle="tab" href="#tab-1">ETH</a></li>
+                        <!--<li><a class="nav-link" data-toggle="tab" href="#tab-2">ABLE</a></li>-->
+                    </ul>
 
-                        <div class="tab-content">
+                    <div class="tab-content">
 
-                            <!-- TAB 1-->
-                            <div role="tabpanel" id="tab-1" class="tab-pane active">
-                                <div class="panel-body">
-                                    <div class="checkbox-detailed" id="select_coin">
-                                        <input type="radio" value="able_coin" name="select_coin" id="check-det-1" checked="checked" style="float: right;">
-                                        <label for="check-det-1">
+                        <!-- TAB 1-->
+                        <div role="tabpanel" id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <div class="checkbox-detailed" id="select_coin">
+                                    <input type="radio" value="able_coin" name="select_coin" id="check-det-1"
+                                           checked="checked" style="float: right;">
+                                    <label for="check-det-1">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
                                                     <span class="checkbox-detailed-title">ABLER</span>ABLER/ETH</span>
                                             </span>
-                                        </label>
+                                    </label>
 
-                                        <input type="radio" value="able_dollar" name="select_coin" id="check-det-2" style="float: right;">
-                                        <label for="check-det-2">
+                                    <input type="radio" value="able_dollar" name="select_coin" id="check-det-2"
+                                           style="float: right;">
+                                    <label for="check-det-2">
                                             <span class="checkbox-detailed-tbl">
                                                 <span class="checkbox-detailed-cell">
                                                     <span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>
                                             </span>
-                                        </label>
-                                    </div> <!-- checkbox-detailed finish-->
-                                </div>
+                                    </label>
+                                </div> <!-- checkbox-detailed finish-->
                             </div>
-
-
-                            <!-- TAB 2-->
-                            <!--<div role="tabpanel" id="tab-2" class="tab-pane">-->
-                                <!--<div class="panel-body">-->
-                                    <!--<div class="checkbox-detailed">-->
-                                        <!--<input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">-->
-                                        <!--<label for="check-det-4">-->
-                                            <!--<span class="checkbox-detailed-tbl">-->
-                                                <!--<span class="checkbox-detailed-cell">-->
-                                                    <!--<span class="checkbox-detailed-title">ABLE</span>ABLE/ETH</span>-->
-                                            <!--</span>-->
-                                        <!--</label>-->
-
-                                        <!--<input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">-->
-                                        <!--<label for="check-det-5">-->
-                                            <!--<span class="checkbox-detailed-tbl">-->
-                                                <!--<span class="checkbox-detailed-cell">-->
-                                                    <!--<span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span></span>-->
-                                        <!--</label>-->
-                                        <!--<input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">-->
-                                        <!--<label for="check-det-6">-->
-                                            <!--<span class="checkbox-detailed-tbl">-->
-                                                <!--<span class="checkbox-detailed-cell">-->
-                                                    <!--<span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>-->
-                                            <!--</span>-->
-                                        <!--</label>-->
-                                    <!--</div> &lt;!&ndash; checkbox-detailed finish&ndash;&gt;-->
-                                <!--</div>-->
-                            <!--</div>--><!-- tab2 finish-->
                         </div>
-                 </div>
+
+
+                        <!-- TAB 2-->
+                        <!--<div role="tabpanel" id="tab-2" class="tab-pane">-->
+                        <!--<div class="panel-body">-->
+                        <!--<div class="checkbox-detailed">-->
+                        <!--<input type="radio" name="detailed" id="check-det-4" checked="" style="float: right;">-->
+                        <!--<label for="check-det-4">-->
+                        <!--<span class="checkbox-detailed-tbl">-->
+                        <!--<span class="checkbox-detailed-cell">-->
+                        <!--<span class="checkbox-detailed-title">ABLE</span>ABLE/ETH</span>-->
+                        <!--</span>-->
+                        <!--</label>-->
+
+                        <!--<input type="radio" name="detailed" id="check-det-5" checked="" style="float: right;">-->
+                        <!--<label for="check-det-5">-->
+                        <!--<span class="checkbox-detailed-tbl">-->
+                        <!--<span class="checkbox-detailed-cell">-->
+                        <!--<span class="checkbox-detailed-title">ABLEX</span>ABLEX/ETH</span></span>-->
+                        <!--</label>-->
+                        <!--<input type="radio" name="detailed" id="check-det-6" checked="" style="float: right;">-->
+                        <!--<label for="check-det-6">-->
+                        <!--<span class="checkbox-detailed-tbl">-->
+                        <!--<span class="checkbox-detailed-cell">-->
+                        <!--<span class="checkbox-detailed-title">ABLED</span>ABLED/ETH</span>-->
+                        <!--</span>-->
+                        <!--</label>-->
+                        <!--</div> &lt;!&ndash; checkbox-detailed finish&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>--><!-- tab2 finish-->
+                    </div>
+                </div>
 
                 <br>
 
                 <div>
 
-                    <label class="form-label input" >Select Your Account</label>
+                    <label class="form-label input">Select Your Account</label>
                     <p class="form-control-static">
                         <select class="form-control" id="select_account">
                         </select>
@@ -329,12 +334,12 @@
                         <br><br>
                         <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
                         <div>
-                    <span class="my-info-label" >User Address</spans><br>
+                    <span class="my-info-label">User Address</spans><br>
                     <span class="my-info-content" id="send_menu_user_address"></span><br><br>
-                    <span class="my-info-label" >Account Number</spans><br>
+                    <span class="my-info-label">Account Number</spans><br>
                     <span class="my-info-content" id="send_menu_account_number"></span><br><br>
-                    <span class="my-info-label" >Account Type</spans><br>
-                    <span class="my-info-content" id="send_menu_account_type" >Free Account</span><br><br>
+                    <span class="my-info-label">Account Type</spans><br>
+                    <span class="my-info-content" id="send_menu_account_type">Free Account</span><br><br>
                         <div id="send_menu_token_list"></div>
                         </div>
                     </div>
@@ -347,7 +352,23 @@
                 <div class="col-sm-12">
                     <div class="box-typical box-typical-padding">
                         <!-- TradingView Widget BEGIN -->
-                        <div id="chart_div" style="width: 100%; height: 100%;">
+                        <div id="chartPrice">
+                            <div class="chart-quote">
+                                <div class="down"><h4>ABLER/ETH</h4><span class="chart-quote-price"><i
+                                        class="fa fa-caret-down"></i>&nbsp;0.013333</span><span
+                                        class="chart-quote-change">-2.564%</span></div>
+                            </div>
+                            <div class="component-tabs nav-header">
+                                <ul class="nav" role="tablist">
+                                    <li class="nav-item"><a class="nav-link trn" href="javascript:drawChart('1');">1H</a></li>
+                                    <li class="nav-item"><a class="nav-link trn" href="javascript:drawChart('6');">6H</a></li>
+                                    <li class="nav-item"><a class="nav-link trn" href="javascript:drawChart('24');">24H</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="chart-container" id="chart_div">
+                                </div>
+                            </div>
                         </div>
                         <!-- TradingView Widget END -->
                     </div>
@@ -371,14 +392,16 @@
                                 <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="number" class="form-control" id="input_buy_priceInWei"  placeholder="" min="0"></p>
+                                        <input type="number" class="form-control" id="input_buy_priceInWei"
+                                               placeholder="" min="0"></p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="number" class="form-control" id="input_buy_amount" placeholder="" pattern="[0-9]{10}" min="0" ></p>
+                                        <input type="number" class="form-control" id="input_buy_amount" placeholder=""
+                                               pattern="[0-9]{10}" min="0"></p>
                                 </div>
                             </div>
 
@@ -392,7 +415,9 @@
 
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline" onclick="jajascript:buy()">BUY</button>
+                                <button type="button" style="width:100%" class="btn btn-inline"
+                                        onclick="jajascript:buy()">BUY
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -417,14 +442,16 @@
                                 <label class="form-label" style="padding-left: 14px">Price (ETH)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="number" class="form-control" placeholder="" id="input_sell_priceInWei" min="0"></p>
+                                        <input type="number" class="form-control" placeholder=""
+                                               id="input_sell_priceInWei" min="0"></p>
                                 </div>
                             </div>
                             <div class="form-group" id="sell_amount">
                                 <label class="form-label" style="padding-left: 14px">Amount (ABLE COIN)</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="number" class="form-control" placeholder="" id="input_sell_amount" pattern="[0-9]{10}" min="0" ></p>
+                                        <input type="number" class="form-control" placeholder="" id="input_sell_amount"
+                                               pattern="[0-9]{10}" min="0"></p>
                                 </div>
                             </div>
 
@@ -437,7 +464,8 @@
 
                             <br>
                             <div class="col-sm-12">
-                                <button type="button" style="width:100%" class="btn btn-inline" onclick="sell()">SELL</button>
+                                <button type="button" style="width:100%" class="btn btn-inline" onclick="sell()">SELL
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -447,7 +475,7 @@
                 <!-- ASKS -->
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                    <h5 class="m-t-lg" >ASKS</h5>
+                        <h5 class="m-t-lg">ASKS</h5>
                         <form>
                             <div class="card" style="min-height: 500px; max-height: 500px">
                                 <div class="table-responsive">
@@ -473,8 +501,8 @@
                 <!-- BIDS -->
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >BIDS</h5>
-                        <form >
+                        <h5 class="m-t-lg">BIDS</h5>
+                        <form>
                             <div class="card" style="min-height: 500px; max-height: 500px">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
@@ -500,7 +528,7 @@
                 <!-- MY OPEN ORDERS -->
                 <div class="col-sm-12">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >MY BUY OPEN ORDERS</h5>
+                        <h5 class="m-t-lg">MY BUY OPEN ORDERS</h5>
                         <form>
                             <div class="card">
                                 <div class="table-responsive">
@@ -528,7 +556,7 @@
                 <!-- MY OPEN ORDERS -->
                 <div class="col-sm-12">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >MY SELL OPEN ORDERS</h5>
+                        <h5 class="m-t-lg">MY SELL OPEN ORDERS</h5>
                         <form>
                             <div class="card">
                                 <div class="table-responsive">
@@ -546,7 +574,6 @@
                                         <tbody id="my_sell_open_orders">
 
 
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -558,7 +585,7 @@
                 <!-- HISTORY-->
                 <div class="col-sm-12">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg" >ORDER HISTORY</h5>
+                        <h5 class="m-t-lg">ORDER HISTORY</h5>
                         <div class="tabs-container">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li><a class="nav-link active" data-toggle="tab" href="#tab-11">MARKET TRADRES</a></li>
@@ -583,7 +610,7 @@
                                                             <th scope="col">Total (ETH)</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody id="market_order_history"> </tbody>
+                                                        <tbody id="market_order_history"></tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -608,7 +635,7 @@
                                                             <th scope="col">Total (ETH)</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody id="my_order_history"> </tbody>
+                                                        <tbody id="my_order_history"></tbody>
                                                     </table>
                                                 </div>
                                             </div>

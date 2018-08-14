@@ -610,7 +610,7 @@ function drawChart() {
         dataType: "json",
         data: {
             //"token_address": _token, // 코인 컨트랙트 주소
-            //"token_timecheck" : _priceInWei // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
+            //"time_base" : hour // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
         },
 
         // todo 데이터 불러오기 성공하면???
@@ -676,5 +676,55 @@ function drawChart() {
     //
     // chart.draw(data, options);
 
+
+}
+
+function drawChart(hour) {
+    var _token = selected_coin_contract_address;
+    console.log("drawChart coin: " + _token);
+    $.ajax({
+        method: "POST",
+        url: "/get_chartdata",
+        dataType: "json",
+        data: {
+            //"token_address": _token, // 코인 컨트랙트 주소
+            "time_base" : hour // 몇 분봉인지 체크 (분봉을 뭐라고 나타낼 수 있을까..)
+        },
+        // todo 데이터 불러오기 성공하면???
+        success: function (res) {
+
+            if (res.result == 200) {
+                var result_list = res.history_list;
+                var d = ""
+                var arr = [];
+                for(i=0;i<result_list.length;i++){
+                    d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
+                    if(i!=result_list.length-1){
+                        d+=",";
+                    }
+                }
+                for(i=0;i<result_list.length;i++){
+                    var temp = [result_list[i].DATE,result_list[i].저가,result_list[i].시가,result_list[i].종가,result_list[i].고가];
+                    arr.push(temp);
+                }
+                console.log(arr)
+                var data = google.visualization.arrayToDataTable(arr, true);
+                console.log(data)
+                var options = {
+                    legend:'none',
+                    bar: { groupWidth: '100%' }, // Remove space between bars.
+                    candlestick: {
+                        fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+                        risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+                    }
+                };
+                var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+
+            } else if (res.result == 204) {
+                alert("에러가 발생 하였습니다.");
+            }
+        }
+    });
 
 }
