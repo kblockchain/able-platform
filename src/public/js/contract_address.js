@@ -5,7 +5,7 @@
 var able_platform_contract_address; // 스마트 컨트랙트 주소
 var able_platform_contract_abi; // abi => 블록체인 컨트랙트에 올려져있는 비즈니스 로직 코드에 액세스 하기 위한 인터페이스
 
-able_platform_contract_address = "0x8dDB78fD3c4FDfb77d281c479D42c30e6ec591b3";
+able_platform_contract_address = "0x2d313755bb9b59571b1f3607174ae044aa669f73";
 able_platform_contract_abi = [
     {
         "anonymous": false,
@@ -178,188 +178,6 @@ able_platform_contract_abi = [
         "type": "function"
     },
     {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_amountTokens",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_interestInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_accountBuy",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_accountLoan",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "BorrowOrderFulfilled",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_amountTokens",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_interestInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_accountLoan",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_accountSell",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "LoanOrderFulfilled",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_amountTokens",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_interestInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "LimitBorrowOrderCreated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_amountTokens",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_interestInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "LimitLoanOrderCreated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_priceInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "SellOrderCanceled",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_priceInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "BuyOrderCanceled",
-        "type": "event"
-    },
-    {
         "constant": false,
         "inputs": [
             {
@@ -386,90 +204,49 @@ able_platform_contract_abi = [
         "type": "function"
     },
     {
-        "anonymous": false,
+        "constant": false,
         "inputs": [
             {
-                "indexed": true,
-                "name": "previousOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipRenounced",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
+                "name": "_from",
+                "type": "bytes32"
+            },
             {
-                "indexed": false,
+                "name": "_to",
+                "type": "bytes32"
+            },
+            {
                 "name": "_token",
                 "type": "address"
             },
             {
-                "indexed": false,
-                "name": "_amountTokens",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_priceInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_accountSell",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_accountBuy",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
+                "name": "_amount",
                 "type": "uint256"
             }
         ],
-        "name": "SellOrderFulfilled",
-        "type": "event"
+        "name": "transferFrom",
+        "outputs": [
+            {
+                "name": "isIndeed",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        "anonymous": false,
+        "constant": false,
         "inputs": [
             {
-                "indexed": false,
-                "name": "_token",
+                "name": "_newOwner",
                 "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_amountTokens",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_priceInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_accountBuy",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_accountSell",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
             }
         ],
-        "name": "BuyOrderFulfilled",
-        "type": "event"
+        "name": "transferOwnership",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
         "anonymous": false,
@@ -501,28 +278,6 @@ able_platform_contract_abi = [
             }
         ],
         "name": "LimitSellOrderCreated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_interestInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "BorrowOrderCanceled",
         "type": "event"
     },
     {
@@ -590,6 +345,41 @@ able_platform_contract_abi = [
         "type": "event"
     },
     {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_accountNumber",
+                "type": "bytes32"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [
+            {
+                "name": "isIndeed",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "previousOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipRenounced",
+        "type": "event"
+    },
+    {
         "anonymous": false,
         "inputs": [
             {
@@ -614,28 +404,6 @@ able_platform_contract_abi = [
             }
         ],
         "name": "AbleWithdraw",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "_interestInWei",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "name": "_orderKey",
-                "type": "uint256"
-            }
-        ],
-        "name": "LoanOrderCanceled",
         "type": "event"
     },
     {
@@ -692,6 +460,28 @@ able_platform_contract_abi = [
         "inputs": [
             {
                 "indexed": false,
+                "name": "_token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "_priceInWei",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_orderKey",
+                "type": "uint256"
+            }
+        ],
+        "name": "SellOrderCanceled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
                 "name": "_userAddress",
                 "type": "address"
             },
@@ -705,78 +495,86 @@ able_platform_contract_abi = [
         "type": "event"
     },
     {
-        "constant": false,
+        "anonymous": false,
         "inputs": [
             {
-                "name": "_from",
-                "type": "bytes32"
-            },
-            {
-                "name": "_to",
-                "type": "bytes32"
-            },
-            {
+                "indexed": false,
                 "name": "_token",
                 "type": "address"
             },
             {
-                "name": "_amount",
+                "indexed": false,
+                "name": "_priceInWei",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_orderKey",
                 "type": "uint256"
             }
         ],
-        "name": "transferFrom",
-        "outputs": [
-            {
-                "name": "isIndeed",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "BuyOrderCanceled",
+        "type": "event"
     },
     {
-        "constant": false,
+        "anonymous": false,
         "inputs": [
             {
-                "name": "_newOwner",
+                "indexed": false,
+                "name": "_token",
                 "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "_amountTokens",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_priceInWei",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_orderKey",
+                "type": "uint256"
             }
         ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "SellOrderFulfilled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "_token",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "_amountTokens",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_priceInWei",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_orderKey",
+                "type": "uint256"
+            }
+        ],
+        "name": "BuyOrderFulfilled",
+        "type": "event"
     },
     {
         "inputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "constructor"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_accountNumber",
-                "type": "bytes32"
-            },
-            {
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [
-            {
-                "name": "isIndeed",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "constant": false,

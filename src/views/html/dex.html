@@ -46,10 +46,11 @@
             check_session();
             get_order_book();
             get_marketorder_history();
-            get_myorder_history();
 
             setTimeout(function () {
                 get_my_order();
+                get_myorder_history();
+
             }, 3000);
 
             // 에이블 계좌 변경시 작동하는 함수

@@ -433,6 +433,7 @@ router.post('/add_order_history', function (req, res, next) {
     var token_amount            = req.param('token_amount');
     var token_priceOfWei            = req.param('token_priceOfWei');
 
+    // todo 날짜 역순으로 정렬하고, 최대 15개만 뿌려주기
     var insert_query = "INSERT INTO OrderHistory (ableAccount_number, order_type, token_address, token_amount,token_priceOfWei, reg_date ) VALUES ('" + ableAccount_number + "','" + order_type + "','" + token_address + "','" + token_amount  + "','" + token_priceOfWei + "',now())";
     console.log(insert_query)
     connection.query(insert_query, function (err, result) {
@@ -501,7 +502,7 @@ router.post('/get_marketorder_history', function (req, res, next) {
     var connection = create_connection();
 
     // todo id값의 역순대로 해줘야함
-    var select_query = "SELECT * FROM OrderHistory";
+    var select_query = "SELECT * FROM OrderHistory order by ohid DESC limit 15";
     console.log("get_marketorder_history : " + select_query);
 
     connection.query(select_query, function (err, rows, fields) {
@@ -518,6 +519,7 @@ router.post('/get_myorder_history', function (req, res, next) {
 
     var connection = create_connection();
 
+    // 가장 최근의 데이터가 위로 오게끔 역순으로 정렬 & 상위 15개의 데이터만 보여주기
     var select_query = "SELECT * FROM OrderHistory WHERE ableAccount_number = '" + req.param('ableAccount_number') + "'";
     console.log("get_myorder_history : " + select_query);
 
@@ -550,7 +552,9 @@ router.post('/get_chartdata', function (req, res, next) {
         "   FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' \n" +
         "   AND (reg_date > now() - interval 10 DAY + interval 30 DAY)\n" +
         " GROUP BY MID( reg_date, 1,10)\n";
-    }else if(time_base == '1'){
+    }
+
+    else if(time_base == '1'){
         var select_query = "SELECT MID( reg_date, 9,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +
         " , MIN(CONCAT(reg_date, token_priceOfWei)) AS dd\n" +
         " , now() - interval 10 DAY +  interval 30 DAY\n" +
@@ -560,7 +564,9 @@ router.post('/get_chartdata', function (req, res, next) {
         "   FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' \n" +
         "   AND (reg_date > now() - interval 10 DAY + interval 30 DAY)\n" +
         " GROUP BY MID( reg_date, 1,13)\n";
-    }else{
+    }
+
+    else{
         var select_query = "SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +
             " , MIN(CONCAT(reg_date, token_priceOfWei)) AS dd\n" +
             " , now() - interval 10 DAY +  interval 30 DAY\n" +
@@ -596,7 +602,8 @@ router.post('/get_chartdata', function (req, res, next) {
 
 });
 
-router.get('/insert_dummy_chartdata', function (req, res, next) {
+// 더미 데이터
+/*router.get('/insert_dummy_chartdata', function (req, res, next) {
 
     var connection = create_connection();
 
@@ -644,7 +651,7 @@ var price = parseInt(2000)-parseInt(i*1500)/2;
     }
     connection.end();
 
-});
+});*/
 
 
 

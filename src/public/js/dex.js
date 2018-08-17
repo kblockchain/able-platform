@@ -80,7 +80,8 @@ function buy_token(){
 
     var _accountNumber = $('#select_account').val(); // 간편 계좌 번호
     var _token = selected_coin_contract_address; // 토큰 컨트랙트 주소
-    var _priceInWei = web3.toWei(parseFloat($('#input_buy_priceInWei').val())); // 구매할 토큰 가격
+    // var _priceInWei = web3.toWei(parseFloat($('#input_buy_priceInWei').val())); // 구매할 토큰 가격
+    var _priceInWei = $('#input_buy_priceInWei').val(); // 구매할 토큰 가격
     // var _amount = web3.toWei(parseFloat($('#input_buy_amount').val())); // 구매할 토큰 양
     var _amount = $('#input_buy_amount').val(); // 구매할 토큰 양
 
@@ -193,7 +194,8 @@ function sell_token(){
 
     var _accountNumber = $('#select_account').val();
     var _token = selected_coin_contract_address;
-    var _priceInWei = web3.toWei(parseFloat($('#input_sell_priceInWei').val()));
+    // var _priceInWei = web3.toWei(parseFloat($('#input_sell_priceInWei').val()));
+    var _priceInWei = $('#input_sell_priceInWei').val(); // 구매할 토큰 가격
     // var _amount = web3.toWei(parseFloat($('#input_sell_amount').val()));
     var _amount = $('#input_sell_amount').val();
 
@@ -507,21 +509,21 @@ function get_marketorder_history() {
 
             for(let i=0; i<res.history_list.length; i++){
                 var his = res.history_list[i];
-                console.log("get_marketorder_history reg_date: " + his.reg_date);
-                console.log("get_marketorder_history order_type: " + his.order_type);
-                console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
-                console.log("get_marketorder_history token_amount: " + his.token_amount);
+                // console.log("get_marketorder_history reg_date: " + his.reg_date);
+                // console.log("get_marketorder_history order_type: " + his.order_type);
+                // console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
+                // console.log("get_marketorder_history token_amount: " + his.token_amount);
 
-                html += make_marketorde_history(his.reg_date, his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
+                html += make_marketorde_history(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
             }
 
-            console.log("html : " + html)
+            // console.log("html : " + html)
             $('#market_order_history').html(html);
 
             if (res.result == 200) {
 
             } else if (res.result == 204) {
-                console.log(res.message);
+                console.log("204 err: " + res.message);
             }
         }
     });
@@ -532,9 +534,9 @@ function make_marketorde_history(date, type, price, amount) {
     html = "<tr>\n" +
         "    <td>"+ date +"</td>\n" +
         "    <td>"+ type +"</td>\n" +
-        "    <td>"+ web3.fromWei(parseFloat(price)) +"</td>\n" +
-        "    <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
-        "    <td>"+ web3.fromWei(parseFloat(amount)) * web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "    <td>"+ price +"</td>\n" +
+        "    <td>"+ amount +"</td>\n" +
+        "    <td>"+ amount * price +"</td>\n" +
         "   </tr>";
 
     return html;
@@ -561,15 +563,15 @@ function get_myorder_history() {
 
             for(let i=0; i<res.history_list.length; i++){
                 var his = res.history_list[i];
-                console.log("get_marketorder_history reg_date: " + his.reg_date);
-                console.log("get_marketorder_history order_type: " + his.order_type);
-                console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
-                console.log("get_marketorder_history token_amount: " + his.token_amount);
+                // console.log("get_marketorder_history reg_date: " + his.reg_date);
+                // console.log("get_marketorder_history order_type: " + his.order_type);
+                // console.log("get_marketorder_history token_priceOfWei: " + his.token_priceOfWei);
+                // console.log("get_marketorder_history token_amount: " + his.token_amount);
 
-                html += make_myorder_history(his.reg_date, his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
+                html += make_myorder_history(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), his.order_type, web3.fromWei(parseFloat(his.token_priceOfWei)), web3.fromWei(parseFloat(his.token_amount)));
             }
 
-            console.log("html : " + html)
+            // console.log("html : " + html)
             $('#my_order_history').html(html);
 
             if (res.result == 200) {
@@ -586,9 +588,9 @@ function make_myorder_history(date, type, price, amount) {
     html = "<tr>\n" +
         "    <td>"+ date +"</td>\n" +
         "    <td>"+ type +"</td>\n" +
-        "    <td>"+ web3.fromWei(parseFloat(price)) +"</td>\n" +
-        "    <td>"+ web3.fromWei(parseFloat(amount)) +"</td>\n" +
-        "    <td>"+ web3.fromWei(parseFloat(amount)) * web3.fromWei(parseFloat(price)) +"</td>\n" +
+        "    <td>"+ price +"</td>\n" +
+        "    <td>"+ amount +"</td>\n" +
+        "    <td>"+ amount * price +"</td>\n" +
         "   </tr>";
 
     return html;
@@ -657,26 +659,6 @@ function drawChart() {
             }
         }
     });
-
-
-    // var data = google.visualization.arrayToDataTable([
-    //     ['Mon', 20, 28, 38, 45],
-    //     ['Tue', 31, 38, 55, 66],
-    //     ['Wed', 50, 55, 77, 80],
-    //     ['Thu', 77, 77, 66, 50],
-    //     ['Fri', 68, 66, 22, 15]
-    //     // Treat first row as data as well.
-    // ], true);
-    //
-    // var options = {
-    //     legend:'none'
-    // };
-    //
-    // var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-    //
-    // chart.draw(data, options);
-
-
 }
 
 function drawChart(hour) {
