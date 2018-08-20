@@ -43,7 +43,7 @@
 
         $(document).ready(function () {
             console.log("ready");
-            check_session();
+            // check_session();
             get_order_book();
             get_marketorder_history();
 
@@ -57,7 +57,6 @@
             $("#select_account").change(function () {
                 get_account_detail($('#select_account').val());
                 get_order_book();
-
                 get_my_order();
 
             });
@@ -252,8 +251,7 @@
 <!-- example template http://webapplayers.com/inspinia_admin-v2.8/tabs.html-->
 <div class="col-md-12">
     <div class="row">
-        <div class="col-sm-3"
-             style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
+        <div class="col-sm-3" style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
             <section>
                 <div class="tabs-container">
                     <ul class="nav nav-tabs" role="tablist">

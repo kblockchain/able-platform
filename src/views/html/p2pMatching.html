@@ -147,56 +147,110 @@
 </div>
 
 <div class="col-md-12" style=" max-height:100%">
-    <div class="row" style="height:1500px;">
-        <div class="col-sm-4"
-             style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
-            <section>
-                <h5 class="m-t-lg ">P2P List</h5>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>Coin</th>
-                        <th>Interest</th>
-                        <th>Vol</th>
-                        <th>CHG</th>
-                    </tr>
-                    <tr>
-                        <td>BIT</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>ETH</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>ABLE</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>EOS</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>TRON</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </section>
+    <div class="row">
+        <div class="col-sm-3" style="background-color: #FFFFFF; box-shadow: 3px 3px 5px #ccc; !important height:1500px;  padding-top: 150px;">
+
+            <section class="box-typical">
+                <header class="box-typical-header">
+                    <div class="tbl-row">
+                        <div class="tbl-cell tbl-cell-title">
+                            <h3>P2P Lists</h3>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="box-typical-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+
+                            <thead>
+                            <tr>
+                                <th>Token</th>
+                                <th></th>
+                                <th>Interest</th>
+                                <th>Vol</th>
+                                <th>CHG</th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody>
+
+                            <tr>
+                                <td class="table-photo">
+                                    <img src="../img/side_logo_bitcoin_on.png" height="10%">
+                                </td>
+                                <td>BIT</td>
+                                <td class="color-blue-grey-lighter">10%</td>
+                                <td class="color-blue-grey-lighter">1000</td>
+                                <td class="color-blue-grey-lighter">30%</td>
+                            </tr>
+
+                            <tr>
+                                <td class="table-photo">
+                                    <img src="../img/side_logo_ethereum_on.png" height="10%">
+                                </td>
+                                <td>ETH</td>
+                                <td class="color-blue-grey-lighter">10%</td>
+                                <td class="color-blue-grey-lighter">1000</td>
+                                <td class="color-blue-grey-lighter">30%</td>
+                            </tr>
+
+                            <tr>
+                                <td class="table-photo">
+                                    <img src="../img/side_logo_able_on.png" height="10%">
+                                </td>
+                                <td>ABLEX</td>
+                                <td class="color-blue-grey-lighter">10%</td>
+                                <td class="color-blue-grey-lighter">1000</td>
+                                <td class="color-blue-grey-lighter">30%</td>
+                            </tr>
+
+                            <tr>
+                                <td class="table-photo">
+                                    <img src="../img/side_logo_abledollar_on.png" height="10%">
+                                </td>
+                                <td>ABLED</td>
+                                <td class="color-blue-grey-lighter">10%</td>
+                                <td class="color-blue-grey-lighter">1000</td>
+                                <td class="color-blue-grey-lighter">30%</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!--.box-typical-body-->
+            </section><!--.box-typical-->
+
+
+            <div>
+
+                <label class="form-label input">Select Your Account</label>
+                <p class="form-control-static">
+                    <select class="form-control" id="select_account">
+                    </select>
+                </p>
+
+                <div class="box-typical box-typical-padding my-info2">
+                    <b style="font-size:25px;  font-weight: 900">My ABLE Token</b>
+                    <br><br>
+                    <span style="font-size: 15px; font-weight: 900">ABLE User</span><br><br>
+                    <div>
+                    <span class="my-info-label">User Address</spans><br>
+                    <span class="my-info-content" id="send_menu_user_address"></span><br><br>
+                    <span class="my-info-label">Account Number</spans><br>
+                    <span class="my-info-content" id="send_menu_account_number"></span><br><br>
+                    <span class="my-info-label">Account Type</spans><br>
+                    <span class="my-info-content" id="send_menu_account_type">Free Account</span><br><br>
+                        <div id="send_menu_token_list"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <style type="text/css">
 
+        <style type="text/css">
             .borrow {
                 background-image: linear-gradient(to right, rgba(136, 160, 252, 0.5), #4c6ce9);
 
@@ -228,7 +282,7 @@
             }
         </style>
 
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <div class="row" style="padding-top: 150px;">
                 <div class="col-sm-12">
 
