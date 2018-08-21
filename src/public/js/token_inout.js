@@ -419,10 +419,14 @@ function get_deposit_history (){
             var html = "";
             for(let i=0; i<res.history_list.length; i++){
                 var his = res.history_list[i];
-                console.log(i + " :: " +his.reg_date)
+
+                // console.log(i + " :: " +his.reg_date)
+
                 html += make_history_body(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), web3.toAscii(his.ableAccount_number), recognize_coin(his.token_address), web3.fromWei(parseFloat(his.token_amount)) , his.st_cd2);
             }
-            console.log("html : " + html)
+
+            // console.log("html : " + html)
+
             $('#history_body').html(html);
             if (res.result == 200) {
             } else if (res.result == 204) {
@@ -448,7 +452,9 @@ function get_withdraw_history (){
                 console.log(i + " :: " +his.reg_date)
                 html += make_history_body(his.reg_date.substr(0,10)+ " "+his.reg_date.substr(11,8), web3.toAscii(his.ableAccount_number), recognize_coin(his.token_address), web3.fromWei(parseFloat(his.token_amount)) , his.st_cd2);
             }
-            console.log("html : " + html)
+
+            // console.log("html : " + html)
+
             $('#history_body').html(html);
             if (res.result == 200) {
             } else if (res.result == 204) {

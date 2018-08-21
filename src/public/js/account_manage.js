@@ -62,13 +62,14 @@ async function get_accounts() {
 
                                 console.log("user account name : " + web3.toAscii(account_info[2]));
 
-                                console.log("user _userAddress :" + account_info[0]);
-                                console.log("user _userName_ :" + account_info[1]);
-                                console.log("user _accountNumber_: " + account_info[2]);
-                                console.log("user _accountInfo_: " + account_info[3]);
-                                console.log("user _accountType_" + account_info[4]);
-                                console.log("user _numToken_" + account_info[5]);
-                                nick_list.push(web3.toAscii(account_info[2])); // 닉네임 리스트에 넣는다. 닉베임은 계좌리스트를 만들때 필요한데 그 다음 과정인 상세정보에서 받아오기 때문에 전역변수에 넣어두고 후에 호출한다.
+                                // console.log("user _userAddress :" + account_info[0]);
+                                // console.log("user _userName_ :" + account_info[1]);
+                                // console.log("user _accountNumber_: " + account_info[2]);
+                                // console.log("user _accountInfo_: " + account_info[3]);
+                                // console.log("user _accountType_" + account_info[4]);
+                                // console.log("user _numToken_" + account_info[5]);
+
+                                nick_list.push(web3.toAscii(account_info[2])); // 닉네임 리스트에 넣는다. 닉네임은 계좌리스트를 만들때 필요한데 그 다음 과정인 상세정보에서 받아오기 때문에 전역변수에 넣어두고 후에 호출한다.
                                 account_list.push(account_info[2]);
 
 
@@ -348,7 +349,7 @@ function open_able_account() {
                             console.log(res.message);
                             $(location).attr('href', '/account_manage');
 
-                        } else if (res.result == 204) {
+                        } else {
                             alert("계좌 생성에 실패했습니다.");
                             $('.loading').hide();
                             console.log(res.message);

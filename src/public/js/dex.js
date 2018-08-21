@@ -80,10 +80,10 @@ function buy_token(){
 
     var _accountNumber = $('#select_account').val(); // 간편 계좌 번호
     var _token = selected_coin_contract_address; // 토큰 컨트랙트 주소
-    // var _priceInWei = web3.toWei(parseFloat($('#input_buy_priceInWei').val())); // 구매할 토큰 가격
-    var _priceInWei = $('#input_buy_priceInWei').val(); // 구매할 토큰 가격
-    // var _amount = web3.toWei(parseFloat($('#input_buy_amount').val())); // 구매할 토큰 양
-    var _amount = $('#input_buy_amount').val(); // 구매할 토큰 양
+    var _priceInWei = web3.toWei(parseFloat($('#input_buy_priceInWei').val())); // 구매할 토큰 가격
+    // var _priceInWei = $('#input_buy_priceInWei').val(); // 구매할 토큰 가격
+    var _amount = web3.toWei(parseFloat($('#input_buy_amount').val())); // 구매할 토큰 양
+    // var _amount = $('#input_buy_amount').val(); // 구매할 토큰 양
 
     console.log("account number : " + _accountNumber);
     console.log("_token : " + _token);
@@ -194,10 +194,10 @@ function sell_token(){
 
     var _accountNumber = $('#select_account').val();
     var _token = selected_coin_contract_address;
-    // var _priceInWei = web3.toWei(parseFloat($('#input_sell_priceInWei').val()));
-    var _priceInWei = $('#input_sell_priceInWei').val(); // 구매할 토큰 가격
-    // var _amount = web3.toWei(parseFloat($('#input_sell_amount').val()));
-    var _amount = $('#input_sell_amount').val();
+    var _priceInWei = web3.toWei(parseFloat($('#input_sell_priceInWei').val()));
+    // var _priceInWei = $('#input_sell_priceInWei').val(); // 구매할 토큰 가격
+    var _amount = web3.toWei(parseFloat($('#input_sell_amount').val()));
+    // var _amount = $('#input_sell_amount').val();
 
     console.log("account number : " + _accountNumber);
     console.log("_token : " + _token);
@@ -221,6 +221,31 @@ function sell_token(){
             console.log("buyToken err : " + err);
             return;
         }
+
+        $.ajax({
+            method: "GET",
+            url: "/insert_dummy_chartdata",
+            dataType: "json",
+            data: {
+                "ableAccount_number": _accountNumber,
+                "order_type": 'SELL',
+                "token_address": _token,
+                "token_amount": _amount,
+                // "token_priceOfWei" : _priceInWei
+            },
+            success: function (res) {
+
+                if (res.result == 200) {
+                    alert('완료되었습니다.');
+                    $(location).attr('href', '/dex');
+
+                } else{
+                    alert("에러가 발생 하였습니다.");
+                    $('.loading').hide();
+                    console.log(res.message);
+                }
+            }
+        });
 
         able_platform_Contract.LimitSellOrderCreated().watch((err,res) => {
 
@@ -283,7 +308,7 @@ function sell_token(){
                         alert('완료되었습니다.');
                         $(location).attr('href', '/dex');
 
-                    } else if (res.result == 204) {
+                    } else{
                         alert("에러가 발생 하였습니다.");
                         $('.loading').hide();
                         console.log(res.message);
@@ -638,10 +663,10 @@ function drawChart() {
                 }
                 console.log(arr)
                 var data = google.visualization.arrayToDataTable(arr, true);
-                console.log(data)
+
                 var options = {
                     legend:'none',
-                    bar: { groupWidth: '100%' }, // Remove space between bars.
+                    bar: { groupWidth: '10%' }, // Remove space between bars.
                     candlestick: {
                         fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
                         risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green

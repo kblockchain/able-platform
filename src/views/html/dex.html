@@ -43,15 +43,14 @@
 
         $(document).ready(function () {
             console.log("ready");
-            // check_session();
+            check_session();
             get_order_book();
             get_marketorder_history();
 
             setTimeout(function () {
                 get_my_order();
                 get_myorder_history();
-
-            }, 3000);
+            }, 5000);
 
             // 에이블 계좌 변경시 작동하는 함수
             $("#select_account").change(function () {

@@ -63,7 +63,7 @@ library SafeMath {
  */
 contract Ownable {
     address public owner;
-    
+
     event OwnershipRenounced(address indexed previousOwner);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -116,17 +116,17 @@ contract Ownable {
 
 /**
  * @title ERC20
- * @dev ERC20 Token 
+ * @dev ERC20 Token
  */
 contract ERC20 {
     string public name;
     string public symbol;
     uint8 public decimals;
-    uint256 public totalSupply; 
-    
+    uint256 public totalSupply;
+
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
-    
+
     function totalSupply() public view returns (uint);
     function balanceOf(address tokenOwner) public view returns (uint balance);
     function allowance(address tokenOwner, address spender) public view returns (uint remaining);
@@ -158,14 +158,14 @@ contract AblePlatform is Ownable {
         //AbleUser properties
         bytes32 userName;
     }
-        
+
     mapping(address => ableUser) private ableUsers;
     address[] private ableUserList;
 
     // ABLE free account
     struct ableAccount {
         uint ableAccountListPointer; // needed to delete a "ableAccount"
-        address ableUserKey; // ableAccount has exactly one "ableUser"   
+        address ableUserKey; // ableAccount has exactly one "ableUser"
 
         // ableAccount properties
         string accountInfo;
@@ -183,11 +183,11 @@ contract AblePlatform is Ownable {
         mapping(address => matchAccountOrder) matchAccountLoanOrders;
         mapping(address => matchAccountOrder) matchAccountBorrowOrders;
     }
-        
+
     mapping(bytes32 => ableAccount) private ableAccounts;
     bytes32[] private ableAccountList;
-    
-    // DEX order structure 
+
+    // DEX order structure
     //TODO: delete mapping accountOffers function is required.
     struct dexAccountOrder {
         // uint: interestInWei, uint offset.
@@ -206,10 +206,10 @@ contract AblePlatform is Ownable {
     struct dexOrderBook {
         uint higherPrice;
         uint lowerPrice;
-        
+
         // All Keys are Initialised by Default in Solidity
         mapping (uint => dexOffer) offers;
-        
+
         // Store in `offers_key` where we are in the Linked List
         uint offers_key;
 
@@ -236,7 +236,7 @@ contract AblePlatform is Ownable {
     // Dex token list
     mapping (address => dexToken) dexTokens;
 
-    // MATCH order structure 
+    // MATCH order structure
     //TODO: delete mapping accountOffers function is required.
     struct matchAccountOrder {
         // uint: interestInWei, uint offset.
@@ -255,10 +255,10 @@ contract AblePlatform is Ownable {
     struct matchOrderBook {
         uint higherInterest;
         uint lowerInterest;
-        
+
         // All Keys are Initialised by Default in Solidity
         mapping (uint => matchOffer) offers;
-        
+
         // Store in `offers_key` where we are in the Linked List
         uint offers_key;
 
@@ -284,8 +284,8 @@ contract AblePlatform is Ownable {
 
     // Dex token list
     mapping (address => matchToken) matchTokens;
-    
-    
+
+
     /* -------- Constructor -------- */
 
     /**
@@ -341,7 +341,7 @@ contract AblePlatform is Ownable {
     function getAbleUserCount() public view returns(uint ableUserCount) {
         return ableUserList.length;
     }
-    
+
     /**
      * @dev Function to get the number of AbleAccount
      * @return uint ableAccountCount.
@@ -349,7 +349,7 @@ contract AblePlatform is Ownable {
     function getAbleAccountCount() public view returns(uint ableAccountCount) {
         return ableAccountList.length;
     }
-    
+
     /**
      * @dev Function to check if _userAddress exist
      * @param _userAddress the address to check if it exist.
@@ -359,7 +359,7 @@ contract AblePlatform is Ownable {
         if(ableUserList.length==0) return false;
         return ableUserList[ableUsers[_userAddress].ableUserListPointer]==_userAddress;
     }
-    
+
     /**
      * @dev Function to check if _accountNumber exist
      * @param _accountNumber the bytes32 to check if it exist.
@@ -371,7 +371,7 @@ contract AblePlatform is Ownable {
     }
 
     /**
-     * @dev Function to get _userAddress using index 
+     * @dev Function to get _userAddress using index
      * @param _row the index to get _userAddress.
      * @return address the _userAddress.
      */
@@ -389,7 +389,7 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(_userAddress)) revert();
         return ableUsers[_userAddress].ableAccountKeys.length;
     }
-    
+
     /**
      * @dev Function to get _accountNumber using index of ableUsers included in _userAddress
      * @param _userAddress the address to get _accountNumber.
@@ -400,7 +400,7 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(_userAddress)) revert();
         return ableUsers[_userAddress].ableAccountKeys[_row];
     }
-    
+
     /**
      * @dev Function to get ableAccount properties using _accountNumber
      * @param _accountNumber the bytes32 to get ableAccount properties.
@@ -408,16 +408,16 @@ contract AblePlatform is Ownable {
      */
     function getAbleAccount(bytes32 _accountNumber) public view returns(address _userAddress_, bytes32 _userName_, bytes32 _accountNumber_, string _accountInfo_, string _accountType_, uint _numToken_) {
         if(!isAbleAccount(_accountNumber)) revert();
-        
+
         address owner = ableAccounts[_accountNumber].ableUserKey;
         bytes32 userName = ableUsers[owner].userName;
         string storage accountInfo = ableAccounts[_accountNumber].accountInfo;
         string storage accountType = ableAccounts[_accountNumber].accountType;
         uint numToken = ableAccounts[_accountNumber].tokenList.length;
-        
+
         return (owner, userName, _accountNumber, accountInfo, accountType, numToken);
     }
-    
+
     /**
      * @dev Function to get ableAccount properties using _accountNumber
      * @param _accountNumber the bytes32 to get ableAccount properties.
@@ -426,13 +426,13 @@ contract AblePlatform is Ownable {
      */
     function getAbleAccountTokenBalance(bytes32 _accountNumber, uint _row) public view returns(bytes32 _accountNumber_, address _tokenName_, uint _balance_) {
         if(!isAbleAccount(_accountNumber)) revert();
-        
+
         address _token = ableAccounts[_accountNumber].tokenList[_row];
         uint balance = ableAccounts[_accountNumber].token[_token];
-        
+
         return (_accountNumber, _token, balance);
     }
-    
+
     /**
      * @dev Function to get balanceOf _accountNumber
      * @param _accountNumber the bytes32 to get balance.
@@ -443,12 +443,12 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(msg.sender)) revert();
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
-        
+
         uint balance = ableAccounts[_accountNumber].token[_token];
-        
+
         return (_token, balance);
     }
-    
+
     /**
      * @dev Function to get the number of dexAccountBuyOrders
      * @return uint dexAccountOrderCount.
@@ -456,7 +456,7 @@ contract AblePlatform is Ownable {
     function getAccountBuyCount(bytes32 _accountNumber, address _token) public view returns(uint ableAccountCount) {
         return ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOfferList.length;
     }
-    
+
     /**
      * @dev Returns Account Buy Prices Array and Account Offer Offset Array for each of the O
      * @param _accountNumber the bytes32 to get buy oders.
@@ -468,14 +468,14 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(msg.sender)) revert();
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
-        
+
         uint priceInWei = ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOfferList[_row];
         uint offset = ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOffers[priceInWei];
         uint amount = dexTokens[_token].buyBook[priceInWei].offers[offset].amountTokens;
-        
+
         return (priceInWei, amount, offset);
     }
-    
+
     /**
      * @dev Function to get the number of dexAccountSellOrders
      * @return uint dexAccountOrderCount.
@@ -483,7 +483,7 @@ contract AblePlatform is Ownable {
     function getAccountSellCount(bytes32 _accountNumber, address _token) public view returns(uint ableAccountCount) {
         return ableAccounts[_accountNumber].dexAccountSellOrders[_token].accountOfferList.length;
     }
-    
+
     /**
      * @dev Returns Account Sell Prices Array and Account Offer Offset Array for each of the O
      * @param _accountNumber the bytes32 to get sell oders.
@@ -495,14 +495,14 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(msg.sender)) revert();
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
-        
+
         uint priceInWei = ableAccounts[_accountNumber].dexAccountSellOrders[_token].accountOfferList[_row];
         uint offset = ableAccounts[_accountNumber].dexAccountSellOrders[_token].accountOffers[priceInWei];
         uint amount = dexTokens[_token].sellBook[priceInWei].offers[offset].amountTokens;
-        
+
         return (priceInWei, amount, offset);
     }
-    
+
 
     /* -------- General banking account functions -------- */
 
@@ -515,11 +515,11 @@ contract AblePlatform is Ownable {
         if(isAbleUser(msg.sender)) revert(); // duplicate user prohibited
         ableUsers[msg.sender].ableUserListPointer = ableUserList.push(msg.sender)-1;
         ableUsers[msg.sender].userName = _userName;
-        
+
         emit AbleUserRegistered_Successful(msg.sender, _userName);
         return true;
     }
-    
+
     /**
      * @dev Function to open free ableAccount
      * @param _accountNumber the bytes32 to add new ableAccount.
@@ -529,7 +529,7 @@ contract AblePlatform is Ownable {
     function openAbleAccount(bytes32 _accountNumber, bytes32 _password) public returns (bool isIndeed) {
         if(!isAbleUser(msg.sender)) revert(); // require ableUser
         if(isAbleAccount(_accountNumber)) revert(); // duplicate account prohibited
-        
+
         ableAccounts[_accountNumber].ableAccountListPointer = ableAccountList.push(_accountNumber)-1;
         ableAccounts[_accountNumber].ableUserKey = msg.sender;
         ableAccounts[_accountNumber].password = _password;
@@ -545,7 +545,7 @@ contract AblePlatform is Ownable {
         ableAccounts[_accountNumber].token[ableDollarAddress] = 0;
         ableAccounts[_accountNumber].tokenCheck[ableDollarAddress] = ableAccounts[_accountNumber].tokenList.push(ableDollarAddress);
 
-        // We also maintain a list of "ableAccount" that refer to the "ableUser", so ... 
+        // We also maintain a list of "ableAccount" that refer to the "ableUser", so ...
         ableUsers[msg.sender].ableAccountKeyPointers[_accountNumber] = ableUsers[msg.sender].ableAccountKeys.push(_accountNumber)-1;
 
         emit AbleAccountOpened_Successful(msg.sender, _accountNumber, "Free");
@@ -554,7 +554,7 @@ contract AblePlatform is Ownable {
 
 
     /* -------- Deposit functions -------- */
-    
+
     /**
      * @dev Function to deposit ethereum to _accountNumber
      * @param _accountNumber the bytes32 to deposit.
@@ -565,13 +565,13 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(msg.sender)) revert();
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
-        
+
         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].add(msg.value);
-        
+
         emit AbleDeposit(address(0), msg.sender, msg.value, ableAccounts[_accountNumber].token[address(0)]);
         return true;
     }
-    
+
     /**
      * @dev Function to deposit token to _accountNumber
      * @param _accountNumber the bytes32 to deposit.
@@ -584,19 +584,19 @@ contract AblePlatform is Ownable {
         if(!isAbleUser(msg.sender)) revert();
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
-   
-        if(ableAccounts[_accountNumber].tokenCheck[_token]==0) 
+
+        if(ableAccounts[_accountNumber].tokenCheck[_token]==0)
         {
             ableAccounts[_accountNumber].tokenCheck[_token] = ableAccounts[_accountNumber].tokenList.push(_token);
         }
-        
+
         if(!ERC20(_token).transferFrom(msg.sender, this, _amount)) revert();
         ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].add(_amount);
-        
+
         emit AbleDeposit(_token, msg.sender, msg.value, ableAccounts[_accountNumber].token[_token]);
         return true;
     }
-    
+
 
     /* -------- Withdrawal / transfer functions -------- */
 
@@ -612,14 +612,14 @@ contract AblePlatform is Ownable {
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
         if(ableAccounts[_accountNumber].token[address(0)]<_amount) revert();
-        
+
         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].sub(_amount);
         if (!msg.sender.send(_amount)) revert();
-        
+
         emit AbleWithdraw(address(0), msg.sender, _amount, ableAccounts[_accountNumber].token[address(0)]);
         return true;
     }
-    
+
     /**
      * @dev Function to withdraw token from _accountNumber
      * @param _accountNumber the bytes32 to withdraw.
@@ -633,14 +633,14 @@ contract AblePlatform is Ownable {
         if(!isAbleAccount(_accountNumber)) revert();
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
         if(ableAccounts[_accountNumber].token[_token]<_amount) revert();
-        
+
         ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].sub(_amount);
         if(!ERC20(_token).transfer(msg.sender, _amount)) revert();
-        
+
         emit AbleWithdraw(_token, msg.sender, _amount, ableAccounts[_accountNumber].token[_token]);
         return true;
     }
-    
+
     /**
      * @dev Function to transfer ethereum/token from _from to _to
      * @param _from the bytes32 from.
@@ -654,8 +654,8 @@ contract AblePlatform is Ownable {
         if(!isAbleAccount(_from)&&!isAbleAccount(_to)) revert();
         if(ableAccounts[_from].ableUserKey!=msg.sender) revert();
         if(ableAccounts[_from].token[_token]<_amount) revert();
-        
-        if(ableAccounts[_to].tokenCheck[_token]==0) 
+
+        if(ableAccounts[_to].tokenCheck[_token]==0)
         {
             ableAccounts[_to].tokenCheck[_token] = ableAccounts[_to].tokenList.push(_token);
         }
@@ -667,11 +667,11 @@ contract AblePlatform is Ownable {
             ableAccounts[_to].token[_token] = ableAccounts[_to].token[_token].add(_amount);
         }
         emit AbleTransfer(_token, _from, _to, _amount, ableAccounts[_from].token[_token]);
-        
+
         return true;
     }
-    
-    
+
+
     /* -------- DEX function -------- */
     //TODO: change to index caller;
     ///////////////////////////////////
@@ -683,13 +683,13 @@ contract AblePlatform is Ownable {
      * @return uint[] _arrPricesBuy_, uint[] _arrVolumesBuy_.
      */
     function getBuyOrderBook(address _token) public view returns (uint[] _arrPricesBuy_, uint[] _arrVolumesBuy_) {
-        // Initialise New Memory Arrays with the Exact Amount of Buy Prices in the Buy Order Book (not a Dynamic Array) 
+        // Initialise New Memory Arrays with the Exact Amount of Buy Prices in the Buy Order Book (not a Dynamic Array)
         uint[] memory arrPricesBuy = new uint[](dexTokens[_token].buy_length);
         uint[] memory arrVolumesBuy = new uint[](dexTokens[_token].buy_length);
 
         // Example:
         // - Assume 3x Buy Offers (1x 100 Wei, 1x 200 Wei, 1x 300 Wei)
-        // - Start Counter at 0 with Lowest Buy Offer (i.e. 100 Wei) 
+        // - Start Counter at 0 with Lowest Buy Offer (i.e. 100 Wei)
         //   - `whilePrice` becomes 100 Wei
         //   - Add Price `whilePrice` of 100 Wei to Buy Prices Array for Counter 0
         //   - Obtain Volume at 100 Wei by Summing all Offers for 100 Wei in Buy Order Book
@@ -701,7 +701,7 @@ contract AblePlatform is Ownable {
         //   - Repeat
         //   - Break when Higher Price of 300 Wei is also 300 Wei
         // - Return Buy Prices Array and Buy Volumes Array
-        // 
+        //
         // So if Buy Offers are: 50 Tokens @ 100 Wei, 70 Tokens @ 200 Wei, and 30 Tokens @ 300 Wei, then have:
         //  - 3x Entries in Buy Prices Array (i.e. [ 100, 200, 300 ])
         //  - 3x Entries in Buy Volumes Array (i.e. [ 50, 70, 30 ] )
@@ -793,7 +793,7 @@ contract AblePlatform is Ownable {
         if(ableAccounts[_accountNumber].ableUserKey!=msg.sender) revert();
         if(ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOffers[_priceInWei]!=0) revert();
         //TODO: check minimum amount and minimum priceInWei.
-        
+
         uint totalAmountOfEtherNecessary = 0;
         uint amountOfTokensNecessary = _amount;
 
@@ -802,13 +802,13 @@ contract AblePlatform is Ownable {
         } else {
             // Execute Market Buy Order Immediately if:
             // - Existing Sell Limit Order exists that is less than or equal to the Buy Price Offered by the function caller
-    
+
             uint totalAmountOfEtherAvailable = 0;
             // 09 Unit Test: `whilePrice` initially 4 finney (i.e. 4000000000000000 Wei)
             uint whilePrice = dexTokens[_token].curSellPrice;
             // `offers_key` declaration initialises it to 0
             uint offers_key;
-    
+
             // 09 Unit Test: `priceInWei` initially 4 finney (i.e. 4000000000000000 Wei)
             while (whilePrice <= _priceInWei && amountOfTokensNecessary > 0) {
                 // 09 Unit Test: `offers_key` assigned to 1
@@ -819,29 +819,29 @@ contract AblePlatform is Ownable {
                 while (offers_key <= dexTokens[_token].sellBook[whilePrice].offers_length && amountOfTokensNecessary > 0) {
                     // 09 Unit Test: `volumeAtPriceFromAccount` assigned to 5
                     uint volumeAtPriceFromAccount = dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens;
-                        
+
                     // 5 <= 5
                     if (volumeAtPriceFromAccount <= amountOfTokensNecessary) {
                         // 20000000000000000 = 5 * 4000000000000000
                         totalAmountOfEtherAvailable = volumeAtPriceFromAccount.mul(whilePrice).div(10**18);
-        
+
                         // Overflow Check
                         // 09 Unit Test: `ableAccounts[_accountNumber]` is initially 3000000000000000000 (3 ETH)
                         require(ableAccounts[_accountNumber].token[address(0)] >= totalAmountOfEtherAvailable);
                         require(ableAccounts[_accountNumber].token[address(0)].sub(totalAmountOfEtherAvailable) <= ableAccounts[_accountNumber].token[address(0)]);
-        
+
                         // Decrease the Buyer's Account Balance of ETH by the amount the Sell Offer Order is willing to accept in exchange for Seller's tokens
                         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].sub(totalAmountOfEtherAvailable);
-        
+
                         // Overflow Checks
                         require(ableAccounts[_accountNumber].token[_token].add(volumeAtPriceFromAccount) >= ableAccounts[_accountNumber].token[_token]);
                         require(ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)].add(totalAmountOfEtherAvailable) >= ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)]);
-        
+
                         // Increase the Buyer's Account Balance of tokens by the amount the Sell Offer Order is willing to accept in exchange for the ETH
                         ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].add(volumeAtPriceFromAccount);
                         // Increase the Seller's Account Balance of ETH by the amount the Sell Offer Order Entry is willing to accept in exchange for Seller's tokens
                         ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)] = ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)].add(totalAmountOfEtherAvailable);
-                        
+
                         // Reset the amount of ETH offered by the Current Sell Order Entry to zero 0
                         dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens = 0;
                         dexTokens[_token].sellBook[whilePrice].offers_key++;
@@ -852,42 +852,42 @@ contract AblePlatform is Ownable {
                         ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].dexAccountSellOrders[_token].accountOfferList.length--;
 
                         emit BuyOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber, offers_key);
-        
+
                         amountOfTokensNecessary = amountOfTokensNecessary.sub(volumeAtPriceFromAccount);
-                    } 
+                    }
                     // 5 > 5
                     else {
                         require(dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens > amountOfTokensNecessary);
-        
+
                         totalAmountOfEtherNecessary = amountOfTokensNecessary.mul(whilePrice).div(10**18);
-        
+
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[address(0)] >= totalAmountOfEtherNecessary);
                         require(ableAccounts[_accountNumber].token[address(0)].sub(totalAmountOfEtherNecessary) <= ableAccounts[_accountNumber].token[address(0)]);
-        
+
                         // Decrease the Buyer's Account Balance of ETH by the amount the Sell Offer Order is willing to accept in exchange for Seller's tokens
                         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].sub(totalAmountOfEtherNecessary);
-        
+
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[_token].add(amountOfTokensNecessary) >= ableAccounts[_accountNumber].token[_token]);
                         require(ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)].add(totalAmountOfEtherNecessary) >= ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)]);
-        
+
                         // Increase the Buyer's Account Balance of tokens by the amount the Sell Offer Order is willing to accept in exchange for the ETH
                         ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].add(amountOfTokensNecessary);
                         // Increase the Seller's Account Balance of ETH by the amount the Sell Offer Order Entry is willing to accept in exchange for Seller's tokens
                         ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)] = ableAccounts[dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber].token[address(0)].add(totalAmountOfEtherNecessary);
-        
+
                         // Reset the amount of ETH offered by the Current Sell Order Entry to (amountTokens - amountOfTokensNecessary)
                         dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens = dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens.sub(amountOfTokensNecessary);
                         amountOfTokensNecessary = 0;
 
                         emit BuyOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].sellBook[whilePrice].offers[offers_key].accountNumber, offers_key);
                     }
-        
+
                     // offer of whilePrice is complete
                     if (offers_key == dexTokens[_token].sellBook[whilePrice].offers_length && dexTokens[_token].sellBook[whilePrice].offers[offers_key].amountTokens == 0) {
                         dexTokens[_token].sell_length--;
-                        // 
+                        //
                         if (whilePrice == dexTokens[_token].sellBook[whilePrice].higherPrice || dexTokens[_token].sellBook[whilePrice].higherPrice == 0) {
                             dexTokens[_token].curSellPrice = 0;
                         } else {
@@ -899,7 +899,7 @@ contract AblePlatform is Ownable {
                 }
                 whilePrice = dexTokens[_token].curSellPrice;
             }
-    
+
             if (amountOfTokensNecessary > 0) {
                 createBuyLimitOrderForTokensUnableToMatchWithSellOrderForBuyer(_accountNumber, _token, _priceInWei, amountOfTokensNecessary);
             }
@@ -933,11 +933,11 @@ contract AblePlatform is Ownable {
 
         // Add Buy Limit Order to Order Book
         addBuyOffer(_accountNumber, _token, _priceInWei, _amountOfTokensNecessary);
-        
+
         // DEX account buy order is added. Do not order same priceInWei in same time.
         ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOffers[_priceInWei] = dexTokens[_token].buyBook[_priceInWei].offers_length;
         ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOfferListPointer[_priceInWei] = ableAccounts[_accountNumber].dexAccountBuyOrders[_token].accountOfferList.push(_priceInWei)-1;
-        
+
         // Emit Event.
         emit LimitBuyOrderCreated(_token, _accountNumber, _amountOfTokensNecessary, _priceInWei, dexTokens[_token].buyBook[_priceInWei].offers_length);
     }
@@ -953,36 +953,36 @@ contract AblePlatform is Ownable {
      * @param _amount the uint to set buy volume.
      */
     function addBuyOffer(bytes32 _accountNumber, address _token, uint _priceInWei, uint _amount) internal {
-        // Offers Length in the Buy Order Book for the Buy Limit Offer Price Entry is increased 
+        // Offers Length in the Buy Order Book for the Buy Limit Offer Price Entry is increased
         dexTokens[_token].buyBook[_priceInWei].offers_length++;
 
         // Add Buy Offer to Buy Order Book under the Price Offered Entry for a Token Symbol
         dexTokens[_token].buyBook[_priceInWei].offers[dexTokens[_token].buyBook[_priceInWei].offers_length] = dexOffer(_amount, _accountNumber);
 
-        // Update Linked List if the Price Offered Entry does not already exist in the Order Book 
+        // Update Linked List if the Price Offered Entry does not already exist in the Order Book
         // - Next Price Entry - Update Lower Price value
         // - Previous Price Entry - Update Higher Price value
         //
-        // Note: If it is the First Offer at `priceInWei` in the Buy Order Book 
+        // Note: If it is the First Offer at `priceInWei` in the Buy Order Book
         // then must inspect Buy Order Book to determine where to Insert the First Offer in the Linked List
         if (dexTokens[_token].buyBook[_priceInWei].offers_length == 1) {
             dexTokens[_token].buyBook[_priceInWei].offers_key = 1;
             // New Buy Order Received. Increment Counter. Set later with getOrderBook array
             dexTokens[_token].buy_length++;
-    
+
             // Set Lower Buy Price and Higher Buy Price for the Token Symbol
             uint curBuyPrice = dexTokens[_token].curBuyPrice;
             uint lowestBuyPrice = dexTokens[_token].lowestBuyPrice;
-    
+
             // Case 1 & 2: New Buy Offer is the First Order Entered or Lowest Entry
             if (lowestBuyPrice == 0 || lowestBuyPrice > _priceInWei) {
                 // Case 1: First Entry. No Orders Exist `lowestBuyPrice == 0`. Insert New (First) Order. Linked List with Single Entry
                 if (curBuyPrice == 0) {
-                    // Set Current Buy Price to Buy Price of New (First) Order 
+                    // Set Current Buy Price to Buy Price of New (First) Order
                     dexTokens[_token].curBuyPrice = _priceInWei;
-                    // Set Buy Order Book Higher Price to Buy Price of New (First) Order 
+                    // Set Buy Order Book Higher Price to Buy Price of New (First) Order
                     dexTokens[_token].buyBook[_priceInWei].higherPrice = _priceInWei;
-                    // Set Buy Order Book Lower Price to 0 
+                    // Set Buy Order Book Lower Price to 0
                     dexTokens[_token].buyBook[_priceInWei].lowerPrice = 0;
                     // Case 2: New Buy Offer is the Lowest Entry (Less Than Lowest Existing Buy Price) `lowestBuyPrice > priceInWei`
                     } else {
@@ -1008,7 +1008,7 @@ contract AblePlatform is Ownable {
                 // Loop Until Find
                 while (curBuyPrice > 0 && !weFoundLocation) {
                     if (curBuyPrice < _priceInWei && dexTokens[_token].buyBook[curBuyPrice].higherPrice > _priceInWei) {
-                        // Set New Order Book Entry Higher and Lower Prices of Linked List 
+                        // Set New Order Book Entry Higher and Lower Prices of Linked List
                         dexTokens[_token].buyBook[_priceInWei].lowerPrice = curBuyPrice;
                         dexTokens[_token].buyBook[_priceInWei].higherPrice = dexTokens[_token].buyBook[curBuyPrice].higherPrice;
                         // Set Order Book's Higher Price Entry's Lower Price to the New Offer Current Price
@@ -1016,7 +1016,7 @@ contract AblePlatform is Ownable {
                         // Set Order Books's Lower Price Entry's Higher Price to the New Offer Current Price
                         dexTokens[_token].buyBook[curBuyPrice].higherPrice = _priceInWei;
                         // Found Location to Insert New Entry where:
-                        // - Higher Buy Prices > Offer Buy Price, and 
+                        // - Higher Buy Prices > Offer Buy Price, and
                         // - Offer Buy Price > Entry Price
                         weFoundLocation = true;
                     }
@@ -1057,11 +1057,11 @@ contract AblePlatform is Ownable {
         } else {
             // Execute Market Sell Order Immediately if:
             // - Existing Buy Limit Order exists that is greater than the Sell Price Offered by the function caller
-    
+
             // Start with the Highest Buy Price (since Seller wants to exchange their tokens with the highest bidder)
             uint whilePrice = dexTokens[_token].curBuyPrice;
             uint offers_key;
-            // Iterate through the Buy Book (Buy Offers Mapping) to Find "Highest" Buy Offer Prices 
+            // Iterate through the Buy Book (Buy Offers Mapping) to Find "Highest" Buy Offer Prices
             // (assign to Current Buy Price `whilePrice` each iteration) that are Higher than the Sell Offer
             // and whilst the Volume to find is not yet fulfilled.
             // Note: Since we are in the Sell Order `sellOrder` function we use the Buy Book
@@ -1074,91 +1074,91 @@ contract AblePlatform is Ownable {
                     // (i.e. Sell Order wants to sell more than Current Buy Order Entry requires)
                     // then we achieve Partial exchange from Sell Order to the Buy Order Entry and then
                     // move to Next Address with a Buy Order Entry at the Current Buy Price for the symbolName
-                    // i.e. Sell Order amount is for 1000 tokens but Current Buy Order is for 500 tokens at Current Buy Price 
+                    // i.e. Sell Order amount is for 1000 tokens but Current Buy Order is for 500 tokens at Current Buy Price
                     if (volumeAtPriceFromAccount <= amountOfTokensNecessary) {
-                        // Amount of Ether available to be exchanged in the Current Buy Book Offers Entry at the Current Buy Price 
+                        // Amount of Ether available to be exchanged in the Current Buy Book Offers Entry at the Current Buy Price
                         totalAmountOfEtherAvailable = volumeAtPriceFromAccount.mul(whilePrice).div(10**18);
-        
+
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[_token] >= volumeAtPriceFromAccount);
                         require(ableAccounts[_accountNumber].token[_token].sub(volumeAtPriceFromAccount) <= ableAccounts[_accountNumber].token[_token]);
-            
+
                         // Decrease the Seller's Account Balance of tokens by the amount the Buy Offer Order Entry is willing to accept in exchange for ETH
                         ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].sub(volumeAtPriceFromAccount);
-        
+
                         // Overflow Checks
-                        // - Check that fulfilling the Current Buy Order Entry by adding the amount of tokens sold by the Sell Offer does not overflow 
+                        // - Check that fulfilling the Current Buy Order Entry by adding the amount of tokens sold by the Sell Offer does not overflow
                         require(ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token].add(volumeAtPriceFromAccount) >= ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token]);
-                        // - Check that fulfilling the Current Buy Order Entry increases the Seller's ETH balance without overflowing 
+                        // - Check that fulfilling the Current Buy Order Entry increases the Seller's ETH balance without overflowing
                         require(ableAccounts[_accountNumber].token[address(0)].add(totalAmountOfEtherAvailable) >= ableAccounts[_accountNumber].token[address(0)]);
-        
+
                         // Increase the Buyer's Account Balance of tokens (for the matching Buy Order Entry) with the proportion tokens required from the Sell Order
                         // (given that the Buy Offer originator is offering less or equal to the volume of the Sell Offer)
                         ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token] = ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token].add(volumeAtPriceFromAccount);
                         // Increase the Seller's Account Balance of ETH with all the ETH offered by the Current Buy Order Entry (in exchange for the Seller's token offering)
                         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].add(totalAmountOfEtherAvailable);
-                        
+
                         // Reset the amount of ETH offered by the Current Buy Order Entry to zero 0
                         dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens = 0;
                         // Move up one element in the Buy Book Offers Mapping (i.e. to the Next Buy Offer at the Current Buy Order Price)
                         dexTokens[_token].buyBook[whilePrice].offers_key++;
-                                
+
                         // Reset Accout Buy Order OfferKey.
                         ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOffers[_priceInWei] = 0;
                         ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferListPointer[_priceInWei]] = ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList[ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList.length-1];
                         ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].dexAccountBuyOrders[_token].accountOfferList.length--;
-        
+
                         // Emit Event
                         emit SellOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber, offers_key);
-        
+
                         // Decrease the amount necessary to be sold from the Seller's Offer by the amount of of tokens just exchanged for ETH with the Buyer at the Current Buy Order Price
                         amountOfTokensNecessary = amountOfTokensNecessary.sub(volumeAtPriceFromAccount);
-        
-                    // Case when Sell Order Volume Only Partially fulfills the Current Buy Order Entry Volume 
+
+                    // Case when Sell Order Volume Only Partially fulfills the Current Buy Order Entry Volume
                     // (i.e. Sell Order wants to sell more than the Current Buy Order Entry needs)
                     // then we achieve Partial exchange from Sell Order to the Buy Order Entry and then exit
-                    // i.e. Sell Order amount is for 500 tokens and Current Buy Order is for 1000 tokens at Current Buy Price 
+                    // i.e. Sell Order amount is for 500 tokens and Current Buy Order is for 1000 tokens at Current Buy Price
                     } else {
-                        // Check that the equivalent value in tokens of the Buy Offer Order Entry is actually more than Sell Offer Volume 
+                        // Check that the equivalent value in tokens of the Buy Offer Order Entry is actually more than Sell Offer Volume
                         require(volumeAtPriceFromAccount.sub(amountOfTokensNecessary) > 0);
-        
+
                         // Calculate amount in ETH necessary to buy the Seller's tokens based on the Current Buy Price
                         totalAmountOfEtherNecessary = amountOfTokensNecessary.mul(whilePrice).div(10**18);
-        
+
                         // Overflow Check
                         require(ableAccounts[_accountNumber].token[_token] >= amountOfTokensNecessary);
                         require(ableAccounts[_accountNumber].token[_token].sub(amountOfTokensNecessary) <= ableAccounts[_accountNumber].token[_token]);
-        
+
                         // Decrease the Seller's Account Balance of tokens by amount they are offering since the Buy Offer Order Entry is willing to accept it all in exchange for ETH
                         ableAccounts[_accountNumber].token[_token] = ableAccounts[_accountNumber].token[_token].sub(amountOfTokensNecessary);
-        
+
                         // Overflow Check
                         require(ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token].add(amountOfTokensNecessary) >= ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token]);
                         require(ableAccounts[_accountNumber].token[address(0)].add(totalAmountOfEtherNecessary) >= ableAccounts[_accountNumber].token[address(0)]);
-        
+
                         // Increase the Seller's Account Balance of ETH with the equivalent ETH amount corresponding to that offered by the Current Buy Order Entry (in exchange for the Seller's token offering)
                         ableAccounts[_accountNumber].token[address(0)] = ableAccounts[_accountNumber].token[address(0)].add(totalAmountOfEtherNecessary);
                         // Increase the Buyer's Account Balance of tokens (for the matching Buy Order Entry) with all the tokens sold by the Sell Order
                         ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token] = ableAccounts[dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber].token[_token].add(amountOfTokensNecessary);
-        
+
                         // Decrease the Buy Offer Order Entry amount by the full amount necessary to be sold by the Sell Offer
                         dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens = dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens.sub(amountOfTokensNecessary);
-                        
+
                         // Emit Event
                         emit SellOrderFulfilled(_token, volumeAtPriceFromAccount, whilePrice, _accountNumber, dexTokens[_token].buyBook[whilePrice].offers[offers_key].accountNumber, offers_key);
-        
+
                         // Set the remaining amount necessary to be sold by the Sell Order to zero 0 since we have fulfilled the Sell Offer
                         amountOfTokensNecessary = 0;
                     }
-        
+
                     // Case when the Current Buy Offer is the last element in the list for the Current Buy Order Offer Price
                     // and when we have exhausted exchanging the Sell Order's amount with Offers at the Current Buy Offer Price
                     // then Move to the Next Highest Buy Order Offer Price in the Buy Book
                     if (offers_key == dexTokens[_token].buyBook[whilePrice].offers_length && dexTokens[_token].buyBook[whilePrice].offers[offers_key].amountTokens == 0) {
-                        // Decrease the quantity of Buy Order Prices since we used up the entire volume of all the Buy Offers at that price 
+                        // Decrease the quantity of Buy Order Prices since we used up the entire volume of all the Buy Offers at that price
                         dexTokens[_token].buy_length--;
                         if (whilePrice == dexTokens[_token].buyBook[whilePrice].lowerPrice || dexTokens[_token].buyBook[whilePrice].lowerPrice == 0) {
-                            // Case when no more Buy Book Offers to iterate through for the Current Buy Price (Last element of Linked List) 
+                            // Case when no more Buy Book Offers to iterate through for the Current Buy Price (Last element of Linked List)
                             // then set Current Buy Price to zero 0
                             dexTokens[_token].curBuyPrice = 0;
                         } else {
@@ -1178,8 +1178,8 @@ contract AblePlatform is Ownable {
                 // Move to the Next Lowest Buy Price to be Iterated over by setting the Current Buy Price `whilePrice`
                 whilePrice = dexTokens[_token].curBuyPrice;
             }
-    
-            // Case when unable to find a suitable Buy Order Offer to perform an exchange with the Seller's tokens 
+
+            // Case when unable to find a suitable Buy Order Offer to perform an exchange with the Seller's tokens
             if (amountOfTokensNecessary > 0) {
                 // Add a Sell Limit Order to the Sell Book since could not find a Market Order to exchange Seller's tokens immediately
                 createSellLimitOrderForTokensUnableToMatchWithBuyOrderForSeller(_accountNumber, _token, _priceInWei, amountOfTokensNecessary);
@@ -1234,26 +1234,26 @@ contract AblePlatform is Ownable {
      * @param _amount the uint to set sell volume.
      */
     function addSellOffer(bytes32 _accountNumber, address _token, uint _priceInWei, uint _amount) internal {
-        // Offers Length in the Sell Order Book for the Sell Limit Offer Price Entry is increased 
+        // Offers Length in the Sell Order Book for the Sell Limit Offer Price Entry is increased
         dexTokens[_token].sellBook[_priceInWei].offers_length++;
 
         // Add Sell Offer to Sell Order Book under the Price Offered Entry for a Token Symbol
         dexTokens[_token].sellBook[_priceInWei].offers[dexTokens[_token].sellBook[_priceInWei].offers_length] = dexOffer(_amount, _accountNumber);
 
-        // Update Linked List if the Price Offered Entry does not already exist in the Order Book 
+        // Update Linked List if the Price Offered Entry does not already exist in the Order Book
         // - Next Price Entry - Update Lower Price value
         // - Previous Price Entry - Update Higher Price value
         //
-        // Note: If it is the First Offer at `priceInWei` in the Sell Order Book 
+        // Note: If it is the First Offer at `priceInWei` in the Sell Order Book
         // then must inspect Sell Order Book to determine where to Insert the First Offer in the Linked List
         if (dexTokens[_token].sellBook[_priceInWei].offers_length == 1) {
             dexTokens[_token].sellBook[_priceInWei].offers_key = 1;
             dexTokens[_token].sell_length++;
-            
+
             uint curSellPrice = dexTokens[_token].curSellPrice;
             uint highestSellPrice = dexTokens[_token].highestSellPrice;
 
-            // Case 1 & 2: New Sell Offer is the First Order Entered or Highest Entry  
+            // Case 1 & 2: New Sell Offer is the First Order Entered or Highest Entry
             if (highestSellPrice == 0 || highestSellPrice < _priceInWei) {
                 // Case 1: First Entry. No Sell Orders Exist `highestSellPrice == 0`. Insert New (First) Order
                 if (curSellPrice == 0) {
@@ -1291,7 +1291,7 @@ contract AblePlatform is Ownable {
                         // Set Order Books's Lower Price Entry's Higher Price to the New Offer Current Price
                         dexTokens[_token].sellBook[sellPrice].higherPrice = _priceInWei;
                         // Found Location to Insert New Entry where:
-                        // - Lower Sell Prices < Offer Sell Price, and 
+                        // - Lower Sell Prices < Offer Sell Price, and
                         // - Offer Sell Price < Entry Price
                         weFoundLocation = true;
                     }

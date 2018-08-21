@@ -396,7 +396,7 @@ router.post('/get_deposit_history', function (req, res, next){
     var connection = create_connection();
     var user_address = req.session.ableUser_address;
 
-    var select_query = "SELECT A.* , if( st_cd = 'A02_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A02_20',st_cd ) AS st_cd2 FROM DepositHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')   WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC";
+    var select_query = "SELECT A.* , if( st_cd = 'A02_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A02_20',st_cd ) AS st_cd2 FROM DepositHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')   WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC LIMIT 10";
 
     console.log(select_query)
     connection.query(select_query, function (err, rows, fields) {
@@ -409,7 +409,7 @@ router.post('/get_withdraw_history', function (req, res, next){
     var connection = create_connection();
     var user_address = req.session.ableUser_address;
 
-    var select_query = "SELECT A.* , if( st_cd = 'A03_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A03_20',st_cd ) AS st_cd2 FROM  WithdrawHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC";
+    var select_query = "SELECT A.* , if( st_cd = 'A03_10' &&  date_add(A.reg_date,interval+1 day) < now() , 'A03_20',st_cd ) AS st_cd2 FROM  WithdrawHistory A left join AbleAccount B on B.ableAccount_number = RPAD(A.ableAccount_number, 66,'0')  WHERE B.ableUser_address  = '"+ user_address +"' ORDER BY reg_date DESC LIMIT 10";
 
     console.log(select_query)
     connection.query(select_query, function (err, rows, fields) {
@@ -603,7 +603,7 @@ router.post('/get_chartdata', function (req, res, next) {
 });
 
 // 더미 데이터
-/*router.get('/insert_dummy_chartdata', function (req, res, next) {
+router.get('/insert_dummy_chartdata', function (req, res, next) {
 
     var connection = create_connection();
 
@@ -651,7 +651,7 @@ var price = parseInt(2000)-parseInt(i*1500)/2;
     }
     connection.end();
 
-});*/
+});
 
 
 
