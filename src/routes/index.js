@@ -540,7 +540,12 @@ router.post('/get_myorder_history', function (req, res, next) {
 router.post('/get_chartdata', function (req, res, next) {
 
     var connection = create_connection();
-    var time_base = req.param("time_base")
+    var time_base = req.param("time_base");
+
+    // query
+    // SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가, MIN(CONCAT(reg_date, token_priceOfWei)) AS dd, now() - interval 10 DAY +  interval 30 DAY, CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가,
+    // CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가, MID( reg_date, 1,10) FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786'  AND (reg_date > now() - interval 10 DAY + interval 30 DAY) GROUP BY MID( reg_date, 1,10);
+
     // todo id값의 역순대로 해줘야함
     if(time_base == '24'){
         var select_query = "SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +

@@ -577,7 +577,7 @@ function get_myorder_history() {
 
     $.ajax({
         method: "POST",
-        url: "/get_marketorder_history",
+        url: "/get_myorder_history",
         dataType: "json",
         data: {
             "ableAccount_number": _accountNumber
@@ -647,21 +647,24 @@ function drawChart() {
                 // $(location).attr('href', '/dex');
 
                 var result_list = res.history_list;
-                var d = ""
+                var d = "";
                 var arr = [];
+
                 for(i=0;i<result_list.length;i++){
                     d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
                     if(i!=result_list.length-1){
                         d+=",";
                     }
                 }
-                for(i=0;i<result_list.length;i++){
+
+                for(i=0;i<result_list.length-1;i++){
 
                     var temp = [result_list[i].DATE,result_list[i].저가,result_list[i].시가,result_list[i].종가,result_list[i].고가];
                     arr.push(temp);
                     //d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
                 }
-                console.log(arr)
+
+                console.log(arr);
                 var data = google.visualization.arrayToDataTable(arr, true);
 
                 var options = {
@@ -674,7 +677,6 @@ function drawChart() {
                 };
 
                 var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
                 chart.draw(data, options);
 
             } else if (res.result == 204) {
