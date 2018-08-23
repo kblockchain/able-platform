@@ -23,21 +23,11 @@ router.get('/account_manage', function (req, res, next) {
 router.get('/dex', function (req, res, next) {
     res.render('html/dex.html');
 });
-
 router.get('/deposit_token', function (req, res, next) {
     res.render('html/deposit_token.html');
 });
-
 router.get('/withdraw_token', function (req, res, next) {
     res.render('html/withdraw_token.html');
-});
-
-router.get('/main', function (req, res, next) {
-    res.render('html/main.html');
-});
-
-router.get('/dummy', function (req, res, next) {
-    res.render('html/dummy.html');
 });
 
 /* ==========================================================================
