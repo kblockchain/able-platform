@@ -647,13 +647,13 @@ function drawChart() {
                 // $(location).attr('href', '/dex');
 
                 var result_list = res.history_list;
-                var d = "";
+                var data_arr = "";
                 var arr = [];
 
                 for(i=0;i<result_list.length;i++){
-                    d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
+                    data_arr += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
                     if(i!=result_list.length-1){
-                        d+=",";
+                        data_arr+=",";
                     }
                 }
 
@@ -661,7 +661,6 @@ function drawChart() {
 
                     var temp = [result_list[i].DATE,result_list[i].저가,result_list[i].시가,result_list[i].종가,result_list[i].고가];
                     arr.push(temp);
-                    //d += "['"+result_list[i].DATE+"', "+result_list[i].저가+", "+result_list[i].시가+", "+result_list[i].종가+", "+result_list[i].고가+"]";
                 }
 
                 console.log(arr);

@@ -534,49 +534,26 @@ router.post('/get_chartdata', function (req, res, next) {
 
     // query
     // SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가, MIN(CONCAT(reg_date, token_priceOfWei)) AS dd, now() - interval 10 DAY +  interval 30 DAY, CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가,
-    // CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가, MID( reg_date, 1,10) FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786'  AND (reg_date > now() - interval 10 DAY + interval 30 DAY) GROUP BY MID( reg_date, 1,10);
+    // CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가, MID( reg_date, 1,10) FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786'  AND (reg_date > now() - interval 10 DAY + interval 30 DAY) GROUP BY MID(reg_date, 1,10);
 
     // todo id값의 역순대로 해줘야함
     if(time_base == '24'){
-        var select_query = "SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +
-        " , MIN(CONCAT(reg_date, token_priceOfWei)) AS dd\n" +
-        " , now() - interval 10 DAY +  interval 30 DAY\n" +
-        ", CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가\n" +
-        " , CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가 ,\n" +
-        "MID( reg_date, 1,10)\n" +
-        "   FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' \n" +
-        "   AND (reg_date > now() - interval 10 DAY + interval 30 DAY)\n" +
-        " GROUP BY MID( reg_date, 1,10)\n";
+        var select_query = "SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가, CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가,\n" +
+            "CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가, MID( reg_date, 1,10) FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' GROUP BY MID(reg_date, 1,10);";
     }
 
     else if(time_base == '1'){
-        var select_query = "SELECT MID( reg_date, 9,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +
-        " , MIN(CONCAT(reg_date, token_priceOfWei)) AS dd\n" +
-        " , now() - interval 10 DAY +  interval 30 DAY\n" +
-        ", CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가\n" +
-        " , CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가 ,\n" +
-        "MID( reg_date, 1,13)\n" +
-        "   FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' \n" +
-        "   AND (reg_date > now() - interval 10 DAY + interval 30 DAY)\n" +
-        " GROUP BY MID( reg_date, 1,13)\n";
+        var select_query = "SELECT MID( reg_date, 9,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가 , CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가, CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가, \n" +
+            "MID( reg_date, 1,13) FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' GROUP BY MID( reg_date, 1,13);";
     }
 
-    else{
-        var select_query = "SELECT MID( reg_date, 6,5) AS DATE, MAX(CAST(token_priceOfWei AS DECIMAL)) AS 고가 , MIN(CAST(token_priceOfWei AS DECIMAL)) AS 저가\n" +
-            " , MIN(CONCAT(reg_date, token_priceOfWei)) AS dd\n" +
-            " , now() - interval 10 DAY +  interval 30 DAY\n" +
-            ", CAST(MID(MIN(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 시가\n" +
-            " , CAST(MID(MAX(CONCAT(reg_date, token_priceOfWei)),20, 10) AS DECIMAL) AS 종가 ,\n" +
-            "MID( reg_date, 1,10)\n" +
-            "   FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' \n" +
-            "   AND (reg_date > now() - interval 10 DAY + interval 30 DAY)\n" +
-            " GROUP BY MID( reg_date, 1,10)\n";
-    }
-    console.log("get_marketorder_history : " + select_query);
+    // else{
+    //     var select_query = "";
+    // }
+    // console.log("get_marketorder_history : " + select_query);
 
 
     // Treat first row as data as well.
-
     connection.query(select_query, function (err, rows, fields) {
         history_list = rows;
         // console.log(rows)
@@ -604,7 +581,6 @@ router.get('/insert_dummy_chartdata', function (req, res, next) {
 
     // todo id값의 역순대로 해줘야함
     for(i=15;i<30;i++) {
-var price = parseInt(2000)-parseInt(i*1500)/2;
         var select_query = "\n" +
             "INSERT INTO OrderHistory \n" +
             "(\n" +
@@ -620,9 +596,9 @@ var price = parseInt(2000)-parseInt(i*1500)/2;
             "'0x3132333132000000000000000000000000000000000000000000000000000000',\n" +
             "'SELL',\n" +
             "'0x295b3f39d7dacbc58329112064a14186f9fac786',\n" +
-            "'5',\n" +
-            +price+",\n" +
-            "date_add(now(), interval +"+i+" day)\n" +
+            "'3000000000000000000',\n" +
+            "'220000000000000000',\n" +
+            "now()\n" +
             "\n" +
             ") ";
         console.log("get_marketorder_history : " + select_query);

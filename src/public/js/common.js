@@ -203,7 +203,7 @@ function session_logout() {
         url: "/session_delete",
         dataType: "json",
         success: function (res) {
-            console.log("check_session : ㅁㄴㅇㅁㄴㅇ" + JSON.stringify(res));
+            console.log("check_session : " + JSON.stringify(res));
             console.log("session delete complete");
             $(location).attr('href', '/');
         }
