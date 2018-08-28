@@ -36,7 +36,7 @@
     <script>
         $(document).ready(function () {
             console.log("ready");
-            check_session();
+            // check_session();
 
         });
 
@@ -176,15 +176,15 @@
 
                             <tbody>
 
-                            <tr>
-                                <td class="table-photo">
-                                    <img src="../img/side_logo_bitcoin_on.png" height="10%">
-                                </td>
-                                <td>BIT</td>
-                                <td class="color-blue-grey-lighter">10%</td>
-                                <td class="color-blue-grey-lighter">1000</td>
-                                <td class="color-blue-grey-lighter">30%</td>
-                            </tr>
+                            <!--<tr>-->
+                                <!--<td class="table-photo">-->
+                                    <!--<img src="../img/side_logo_bitcoin_on.png" height="10%">-->
+                                <!--</td>-->
+                                <!--<td>BIT</td>-->
+                                <!--<td class="color-blue-grey-lighter">10%</td>-->
+                                <!--<td class="color-blue-grey-lighter">1000</td>-->
+                                <!--<td class="color-blue-grey-lighter">30%</td>-->
+                            <!--</tr>-->
 
                             <tr>
                                 <td class="table-photo">
@@ -205,17 +205,6 @@
                                 <td class="color-blue-grey-lighter">1000</td>
                                 <td class="color-blue-grey-lighter">30%</td>
                             </tr>
-
-                            <tr>
-                                <td class="table-photo">
-                                    <img src="../img/side_logo_abledollar_on.png" height="10%">
-                                </td>
-                                <td>ABLED</td>
-                                <td class="color-blue-grey-lighter">10%</td>
-                                <td class="color-blue-grey-lighter">1000</td>
-                                <td class="color-blue-grey-lighter">30%</td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -376,20 +365,62 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg ">Lend</h5>
+                        <h5 class="m-t-lg ">Borrow</h5>
                         <form>
-                            <div class="form-group">
+                             <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Interest Rate</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                        <input type="number" class="form-control" placeholder=""
+                                               id="input_sell_priceInWei" min="0"></p>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="sell_amount">
                                 <label class="form-label" style="padding-left: 14px">Amount</label>
                                 <div class="col-sm-12">
                                     <p class="form-control-static">
-                                        <input type="text" class="form-control" placeholder=""></p>
+                                        <input type="number" class="form-control" placeholder="" id="input_sell_amount"
+                                               pattern="[0-9]{10}" min="0"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="col-sm-12" align="center">
+                                    <!--<a href="#" style="width:24%" class="btn btn-rounded btn-default">25%</a>-->
+                                    <!--<a href="#" style="width:24%" class="btn btn-rounded btn-default">50%</a>-->
+                                    <!--<a href="#" style="width:24%" class="btn btn-rounded btn-default">75%</a>-->
+                                    <!--<a href="#" style="width:24%" class="btn btn-rounded btn-default">100%</a>-->
+
+                                    <button type="button" class="btn btn-inline" title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover title">
+                                        Popover on left
+                                    </button>
+
+
+                                    <button type="button" class="btn btn-inline" title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover title">
+                                        Popover on left
+                                    </button>
+
+
+                                    <button type="button" style="width:23%" class="btn btn-inline" title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover title">
+                                        Popover on left
+                                    </button>
+
+
+                                    <button type="button" style="width:23%" class="btn btn-inline" title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover title">
+                                        Popover on left
+                                    </button>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" style="padding-left: 14px">Total</label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static" id="sell_total">0 ETH</p>
                                 </div>
                             </div>
 
@@ -405,7 +436,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="box-typical box-typical-padding">
-                        <h5 class="m-t-lg ">Borrow</h5>
+                        <h5 class="m-t-lg ">Lend</h5>
                         <form>
                             <div class="form-group">
                                 <label class="form-label" style="padding-left: 14px">Interest Rate</label>

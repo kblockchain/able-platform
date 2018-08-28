@@ -385,8 +385,6 @@ function withdraw_token() {
                 console.log("able coin 출금 확인 result : " + res);
                 $(location).attr('href', '/withdraw_token');
 
-
-                //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
                 // var token = result.args.token;
                 // var userAddress = result.args.userAddress;
                 // var amount = result.args.amount;

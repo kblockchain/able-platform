@@ -556,17 +556,6 @@ router.post('/get_chartdata', function (req, res, next) {
     // Treat first row as data as well.
     connection.query(select_query, function (err, rows, fields) {
         history_list = rows;
-        // console.log(rows)
-        // var json = JSON.parse(rows);
-        // console.log(JSON.stringify(rows)
-        //
-        // )
-        // console.log("///////////////////// "+json.length)
-        // var data = "[";
-        // for (i=0;i<rows.length();i++){
-        //     data += "["+rows[i].DATE + "]"
-        // }
-
         res.json({result: '200', history_list: rows, message: '정상적으로 조회 되었습니다.'});
     });
 
@@ -575,6 +564,7 @@ router.post('/get_chartdata', function (req, res, next) {
 });
 
 // 더미 데이터
+/*
 router.get('/insert_dummy_chartdata', function (req, res, next) {
 
     var connection = create_connection();
@@ -603,7 +593,6 @@ router.get('/insert_dummy_chartdata', function (req, res, next) {
             ") ";
         console.log("get_marketorder_history : " + select_query);
 
-
         // Treat first row as data as well.
 
         connection.query(select_query, function (err, rows, fields) {
@@ -621,8 +610,8 @@ router.get('/insert_dummy_chartdata', function (req, res, next) {
         });
     }
     connection.end();
-
 });
+*/
 
 
 
