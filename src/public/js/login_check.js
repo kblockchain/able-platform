@@ -18,10 +18,6 @@ $(function () {
 
 });
 
-/**************************************************************************************************************************************/
-
-
-
 /**
  * @dev Function to make connection of metamask.
  * 메타마스크 불러오기 확인
@@ -112,10 +108,6 @@ function metakmask_check() {
     // },3000);
 }
 
-
-/**************************************************************************************************************************************/
-
-
 /**
  * @dev Function to open modal error message.
  * @param masage about error.
@@ -157,8 +149,6 @@ function user_register() {
         alert('이름을 입력해주세요');
         return;
     }
-
-    // console.log("가입하고자 하는 닉네임: " + user_name);
 
     // 1. An ASCII string to be converted to HEX
     // 2. The number of bytes the returned HEX string should have.
@@ -225,12 +215,7 @@ function user_register() {
             });
         }
     });
-
-
-
 }
-
-/**************************************************************************************************************************************/
 
 /**
  * @dev Function to open free ableAccount
@@ -274,30 +259,20 @@ function is_ableuser() {
 
                         $('#btn_login').html('<span>' + user_address.substring(0, 8) + '.....' + user_address.substring(34, 42) + '</span>');
                         $('#btn_login').addClass('site-header-address');
-
-
                     }
-
                 });
-
             });
-
-
         }
 
         // ableUser가 아닌 경우
         else if (result == false) {
 
             // console.log("able 유저가 아닙니다.");
-
-            //document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
-
+            // document.getElementById('output_check_ableuser').innerHTML ="able 유저가 아닙니다.";
             //  modal로 회원가입 모달 띄워주기
             // 닉네임 입력받고 해당 닉네임으로 회원가입 진행하기
             open_regist_modal();
-
         }
-
     });
 
 }

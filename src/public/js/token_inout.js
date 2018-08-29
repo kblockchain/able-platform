@@ -21,7 +21,6 @@ function check_approve() {
      * @param _spender The address authorized to spend
      * @param _value the max amount they can spend
      */
-
     if(select_coin == "t001") {
 
         alert("eth을 보낼 때는 승인이 필요없습니다.");
@@ -31,48 +30,20 @@ function check_approve() {
     }
 
     else if(select_coin == "t002") {
-
         able_coin_Contract.approve(able_platform_contract_address, input_num_token, function (err, result) {
-
             if (err) {
                 console.log("err : " + err);
             }
-
-            // // event listener
-            // // check AbleOpenAccount success or fail
-            // able_coin_contract.allowance().watch((err, result) => {
-            //     // if approve fail
-            //     if (err) {
-            //         console.log("****************승인실패*****************")
-            //
-            //     }
-            // });
-
         });
     }
 
     else if(select_coin == "t003") {
-
         able_dollar_Contract.approve(able_platform_contract_address, input_num_token, function (err, result) {
-
             if (err) {
                 console.log("err : " + err);
             }
-
-            // // event listener
-            // // check AbleOpenAccount success or fail
-            // able_coin_contract.allowance().watch((err, result) => {
-            //     // if approve fail
-            //     if (err) {
-            //         console.log("****************승인실패*****************")
-            //
-            //     }
-            // });
-
         });
     }
-
-
 }
 
 
@@ -81,7 +52,6 @@ function check_approve() {
  */
 function deposit_token() {
     select_coin=$("#select_coin option:selected").val();
-
 
     input_account_number = $('#input_my_account_number').val();
     input_num_token = web3.toWei(parseFloat($('#input_num_token').val())); // 보내고자 하는 에이블 토큰 갯수 (eth -> wei)
@@ -94,7 +64,6 @@ function deposit_token() {
     if(select_coin == "t001") {
 
         input_num_token = $('#input_num_token').val(); // 보내고자 하는 에이블 토큰 갯수 (eth -> wei)
-
 
         able_platform_Contract.deposit.sendTransaction(input_account_number, {
             from: user_address, // 보내는 사람의 주소 (메타마스크 로그인 주소)
@@ -307,7 +276,6 @@ function withdraw_token() {
                 console.log("eth 출금 확인 result : " + res);
                 $(location).attr('href', '/withdraw_token');
 
-                //todo token 이라는 변수가 다른 함수와 겹쳐셔 이벤트값 불러오기가 안됨.
                 // var token = result.args.token;
                 // var userAddress = result.args.userAddress;
                 // var amount = result.args.amount;

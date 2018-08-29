@@ -547,12 +547,6 @@ router.post('/get_chartdata', function (req, res, next) {
             "MID( reg_date, 1,13) FROM mydb.OrderHistory A WHERE token_address = '0x295b3f39d7dacbc58329112064a14186f9fac786' GROUP BY MID( reg_date, 1,13);";
     }
 
-    // else{
-    //     var select_query = "";
-    // }
-    // console.log("get_marketorder_history : " + select_query);
-
-
     // Treat first row as data as well.
     connection.query(select_query, function (err, rows, fields) {
         history_list = rows;
