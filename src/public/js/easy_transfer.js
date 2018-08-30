@@ -83,7 +83,6 @@ function transfer_token_execute(){
                 return;
             }
             else{
-
                 $.ajax({
                     method: "POST",
                     url: "/update_transfer_history",
@@ -92,9 +91,7 @@ function transfer_token_execute(){
                         "insertId": insertId
                     },
                     success: function (res) {
-
                         console.log(res);
-
                         if (res.result == 200) {
                             alert('완료되었습니다.');
                             $(location).attr('href', '/send');

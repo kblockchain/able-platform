@@ -98,8 +98,6 @@ router.post('/open_new_account', function (req, res, next) {
             res.json({result: '500', message: '오류가 발생되었습니다.'});
         }
     });
-
-
 });
 
 /* ==========================================================================

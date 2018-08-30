@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee01a965-d3f8-4168-a28c-b33becaab3ee" name="Default" comment="Merge branch 'master' of https://github.com/kblockchain/able-platform&#10;&#10;# Please enter a commit message to explain why this merge is necessary,&#10;# especially if it merges an updated upstream into a topic branch.&#10;#&#10;# Lines starting with '#' will be ignored, and an empty message aborts&#10;# the commit.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/public/js/dummy.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/public/js/login_check.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/js/login_check.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/public/js/token_inout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/js/token_inout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/js/easy_transfer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/js/easy_transfer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/app_session.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/main_server.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/html/dex.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/html/dex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/html/dummy.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/html/p2pMatching.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/html/p2pMatching.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,38 +20,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="dex.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/public/js/dex.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="704">
-                  <caret line="304" column="41" lean-forward="true" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="login_check.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/public/js/login_check.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="811">
-                  <caret line="257" column="51" lean-forward="true" selection-start-line="257" selection-start-column="51" selection-end-line="257" selection-end-column="51" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="common.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/public/js/common.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2496">
-                  <caret line="156" column="71" selection-start-line="156" selection-start-column="71" selection-end-line="156" selection-end-column="71" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="p2pMatching.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="p2pMatching.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/views/html/p2pMatching.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1004">
-                  <caret line="469" column="6" selection-start-line="469" selection-start-column="6" selection-end-line="469" selection-end-column="6" />
+                <state relative-caret-position="538">
+                  <caret line="386" column="52" lean-forward="true" selection-start-line="386" selection-start-column="52" selection-end-line="386" selection-end-column="52" />
                   <folding>
                     <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -70,11 +36,27 @@
                     <element signature="n#style#0;n#span#0;n#div#20;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#label#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#label#0;n#div#3;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#button#2;n#div#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#button#3;n#div#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#label#0;n#div#4;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#button#0;n#div#3;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="web-forms.rnc" pinned="false" current-in-tab="false">
+            <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/html5/web-forms.rnc">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="413">
+                  <caret line="467" column="22" selection-start-line="467" selection-start-column="22" selection-end-line="467" selection-end-column="22" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/public/css/main.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="161">
+                  <caret line="8079" column="5" selection-start-line="8079" selection-start-column="5" selection-end-line="8079" selection-end-column="5" />
                 </state>
               </provider>
             </entry>
@@ -83,20 +65,25 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="easy_transfer.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="easy_transfer.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/public/js/easy_transfer.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2096">
-                  <caret line="131" column="111" selection-start-line="131" selection-start-column="111" selection-end-line="131" selection-end-column="111" />
+                <state relative-caret-position="309">
+                  <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
+                  <folding>
+                    <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/routes/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="16">
-                  <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+                <state relative-caret-position="331">
+                  <caret line="48" column="42" lean-forward="true" selection-start-line="48" selection-start-column="42" selection-end-line="48" selection-end-column="42" />
                 </state>
               </provider>
             </entry>
@@ -195,7 +182,6 @@
         <option value="$PROJECT_DIR$/src/views/html/dummy.html" />
         <option value="$PROJECT_DIR$/src/public/js/dummy.js" />
         <option value="$PROJECT_DIR$/src/views/html/send.html" />
-        <option value="$PROJECT_DIR$/src/public/js/easy_transfer.js" />
         <option value="$PROJECT_DIR$/contracts/AblePlatform.sol" />
         <option value="$PROJECT_DIR$/src/public/js/contract_address.js" />
         <option value="$PROJECT_DIR$/src/public/js/account_manage.js" />
@@ -203,10 +189,11 @@
         <option value="$PROJECT_DIR$/src/public/js/dex.js" />
         <option value="$PROJECT_DIR$/src/public/css/main.css" />
         <option value="$PROJECT_DIR$/src/public/js/token_inout.js" />
-        <option value="$PROJECT_DIR$/src/routes/index.js" />
-        <option value="$PROJECT_DIR$/src/views/html/p2pMatching.html" />
         <option value="$PROJECT_DIR$/src/views/html/dex.html" />
         <option value="$PROJECT_DIR$/src/public/js/login_check.js" />
+        <option value="$PROJECT_DIR$/src/views/html/p2pMatching.html" />
+        <option value="$PROJECT_DIR$/src/routes/index.js" />
+        <option value="$PROJECT_DIR$/src/public/js/easy_transfer.js" />
       </list>
     </option>
   </component>
@@ -378,7 +365,7 @@
       <workItem from="1533026795076" duration="20858000" />
       <workItem from="1533517983465" duration="11915000" />
       <workItem from="1535330161950" duration="2424000" />
-      <workItem from="1535420611074" duration="5947000" />
+      <workItem from="1535420611074" duration="7697000" />
     </task>
     <task id="LOCAL-00001" summary="move file directory">
       <created>1529398791773</created>
@@ -447,7 +434,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="240403000" />
+    <option name="totallyTimeSpent" value="242153000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1680" y="23" width="2560" height="1362" extended-state="6" />
@@ -541,7 +528,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/web/views/html/dummy.html" />
     <entry file="file://$PROJECT_DIR$/src/web/views/html/main.html" />
     <entry file="file://$PROJECT_DIR$/src/web/public/js/easy_transfer.js" />
     <entry file="file://$PROJECT_DIR$/src/web/public/js/dummy.js" />
@@ -639,13 +625,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/public/js/easy_transfer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2096">
-          <caret line="131" column="111" selection-start-line="131" selection-start-column="111" selection-end-line="131" selection-end-column="111" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/html/deposit_token.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
@@ -689,7 +668,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/common.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2496">
+        <state relative-caret-position="1186">
           <caret line="156" column="71" selection-start-line="156" selection-start-column="71" selection-end-line="156" selection-end-column="71" />
         </state>
       </provider>
@@ -710,13 +689,6 @@
             <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/public/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7903" lean-forward="true" selection-start-line="7903" selection-end-line="7903" />
         </state>
       </provider>
     </entry>
@@ -751,43 +723,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/html/p2pMatching.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1004">
-          <caret line="469" column="6" selection-start-line="469" selection-start-column="6" selection-end-line="469" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#14;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#17;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#20;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#3;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#2;n#div#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#3;n#div#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#4;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#3;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/public/js/dex.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="304" column="41" lean-forward="true" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/dummy.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -802,10 +737,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/public/js/dex.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="304" column="41" lean-forward="true" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/login_check.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="811">
-          <caret line="257" column="51" lean-forward="true" selection-start-line="257" selection-start-column="51" selection-end-line="257" selection-end-column="51" />
+        <state relative-caret-position="626">
+          <caret line="265" lean-forward="true" selection-start-line="265" selection-end-line="265" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/public/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="8079" column="5" selection-start-line="8079" selection-start-column="5" selection-end-line="8079" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/html5/web-forms.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="467" column="22" selection-start-line="467" selection-start-column="22" selection-end-line="467" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="48" column="42" lean-forward="true" selection-start-line="48" selection-start-column="42" selection-end-line="48" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/public/js/easy_transfer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#td#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/html/p2pMatching.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="386" column="52" lean-forward="true" selection-start-line="386" selection-start-column="52" selection-end-line="386" selection-end-column="52" />
+          <folding>
+            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#14;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#17;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#20;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#3;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#4;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#3;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
