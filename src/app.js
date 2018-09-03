@@ -10,6 +10,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
+
 var usersRouter = require('./routes/users');
 
 var app = express();
